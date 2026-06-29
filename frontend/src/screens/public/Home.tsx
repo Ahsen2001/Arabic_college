@@ -1,0 +1,250 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../../api';
+import { ArrowRight, ChevronLeft, ChevronRight, Bell, Calendar, Award, BookMarked, Users } from 'lucide-react';
+
+interface Announcement {
+  id: number;
+  title: string;
+  content: string;
+  date: string;
+}
+
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+}
+
+const Home: React.FC = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const slides = [
+    {
+      title: 'Excellence in Islamic Sharia Jurisprudence',
+      description: 'Preserving classical legal traditions with rigorous scientific analysis and contemporary contexts.',
+      image: '/assets/hero_sharia.png',
+      cta: 'View Programs',
+      link: '/programs',
+    },
+    {
+      title: 'Arabic Linguistics & Classical Literature',
+      description: 'Explore the depths of grammar, morphology, syntax, and rhetoric of classical Arabic.',
+      image: '/assets/hero_linguistics.png',
+      cta: 'Explore Faculty',
+      link: '/teachers',
+    },
+    {
+      title: 'Hadith Sciences Research Center',
+      description: 'Academic cataloging and critiquing narration chains using advanced scientific methodology.',
+      image: '/assets/college_campus.png',
+      cta: 'Admissions Open',
+      link: '/admissions',
+    },
+  ];
+
+  useEffect(() => {
+    const fetchNewsEvents = async () => {
+      try {
+        const response = await api.get('/public/news-events');
+        setAnnouncements(response.data.data.announcements);
+        setEvents(response.data.data.events);
+      } catch (error) {
+        console.error("Failed to load public website news/events. Falling back to static placeholders.", error);
+        // Placeholders in case API is offline
+        setAnnouncements([
+          {
+            id: 1,
+            title: 'Fall Semester 2026 Admissions Open',
+            content: 'Applications are now being accepted for all degree tracks.',
+            date: '2026-06-25',
+          },
+          {
+            id: 2,
+            title: 'Digital Library Services Active',
+            content: 'Search references, renew borrows, and access catalog assets online.',
+            date: '2026-06-28',
+          }
+        ]);
+        setEvents([
+          {
+            id: 1,
+            title: 'Arabic Calligraphy Masterclass',
+            description: 'A workshop covering Thuluth and Naskh scripts.',
+            date: '2026-07-10',
+            time: '10:00 AM - 01:00 PM',
+            location: 'Main Academic Hall B',
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsEvents();
+  }, []);
+
+  // Automatic slider interval
+  useEffect(() => {
+    const slideInterval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(slideInterval);
+  }, [slides.length]);
+
+  const prevSlide = () => {
+    setActiveSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setActiveSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  return (
+    <div className="home-page">
+      {/* Hero Slider Section */}
+      <section className="hero-slider-section">
+        <div className="slider-wrapper">
+          {slides.map((slide, idx) => (
+            <div
+              key={idx}
+              className={`slide-item ${idx === activeSlide ? 'active' : ''}`}
+              style={{ backgroundImage: `linear-gradient(rgba(9, 13, 22, 0.75), rgba(9, 13, 22, 0.85)), url(${slide.image})` }}
+            >
+              <div className="slide-content">
+                <h2>{slide.title}</h2>
+                <p>{slide.description}</p>
+                <Link to={slide.link} className="btn btn-primary">
+                  {slide.cta} <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Slide Controls */}
+        <button className="slider-arrow arrow-left" onClick={prevSlide} aria-label="Previous slide">
+          <ChevronLeft size={24} />
+        </button>
+        <button className="slider-arrow arrow-right" onClick={nextSlide} aria-label="Next slide">
+          <ChevronRight size={24} />
+        </button>
+
+        {/* Slide Dots */}
+        <div className="slider-dots">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              className={`dot-item ${idx === activeSlide ? 'active' : ''}`}
+              onClick={() => setActiveSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* College Highlights Quick Stats */}
+      <section className="highlights-section">
+        <div className="section-container grid-3">
+          <div className="stat-card">
+            <Award size={36} className="stat-icon" />
+            <h3>Qualified Faculty</h3>
+            <p>Taught by renowned Sheikhs holding doctorate titles from international centers.</p>
+          </div>
+          <div className="stat-card">
+            <BookMarked size={36} className="stat-icon" />
+            <h3>Academic Excellence</h3>
+            <p>Accredited Bachelor tracks merging classical Islamic roots with modern metrics.</p>
+          </div>
+          <div className="stat-card">
+            <Users size={36} className="stat-icon" />
+            <h3>Rich Student Life</h3>
+            <p>Diverse student body sharing campus housing, research grants, and library catalogs.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Announcements and Events Section */}
+      <section className="news-events-section">
+        <div className="section-container">
+          <div className="news-events-grid">
+            {/* Announcements */}
+            <div className="announcements-column">
+              <div className="column-title">
+                <Bell className="title-icon" />
+                <h3>Latest Announcements</h3>
+              </div>
+              <div className="announcements-list">
+                {loading ? (
+                  <div className="spinner-center"><div className="spinner-mini"></div> Loading...</div>
+                ) : announcements.length > 0 ? (
+                  announcements.map((ann) => (
+                    <div key={ann.id} className="news-card">
+                      <span className="card-date">{ann.date}</span>
+                      <h4>{ann.title}</h4>
+                      <p>{ann.content}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="no-data">No announcements at this time.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Events */}
+            <div className="events-column">
+              <div className="column-title">
+                <Calendar className="title-icon" />
+                <h3>Upcoming Events</h3>
+              </div>
+              <div className="events-list">
+                {loading ? (
+                  <div className="spinner-center"><div className="spinner-mini"></div> Loading...</div>
+                ) : events.length > 0 ? (
+                  events.map((evt) => (
+                    <div key={evt.id} className="event-card">
+                      <div className="event-badge">
+                        <span className="event-day">{new Date(evt.date).getDate()}</span>
+                        <span className="event-month">
+                          {new Date(evt.date).toLocaleString('default', { month: 'short' })}
+                        </span>
+                      </div>
+                      <div className="event-details">
+                        <h4>{evt.title}</h4>
+                        <p className="event-desc">{evt.description}</p>
+                        <p className="event-meta">
+                          <span>{evt.time}</span> | <span>{evt.location}</span>
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="no-data">No upcoming events scheduled.</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Admissions Call to Action */}
+      <section className="cta-admissions-section">
+        <div className="cta-container">
+          <h2>Apply for Admissions 2026/2027</h2>
+          <p>Join the next generation of scholars. Public registration portals are open. Complete your online registration form today.</p>
+          <Link to="/register" className="btn btn-primary btn-lg">
+            Start Application Online <ArrowRight size={18} />
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Home;

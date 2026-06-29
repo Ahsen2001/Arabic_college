@@ -1,22 +1,60 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute, GuestRoute } from './components/guards';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import ForgotPassword from './screens/ForgotPassword';
 import VerifyOtp from './screens/VerifyOtp';
 import ResetPassword from './screens/ResetPassword';
 import Dashboard from './screens/Dashboard';
+import Home from './screens/public/Home';
+import About from './screens/public/About';
+import Programs from './screens/public/Programs';
+import Admissions from './screens/public/Admissions';
+import Teachers from './screens/public/Teachers';
+import News from './screens/public/News';
+import Gallery from './screens/public/Gallery';
+import Downloads from './screens/public/Downloads';
+import FAQ from './screens/public/FAQ';
+import Contact from './screens/public/Contact';
 import './App.css';
+
+const PublicLayout: React.FC = () => {
+  return (
+    <div className="public-layout-wrapper">
+      <Navbar />
+      <div className="public-layout-content">
+        <Outlet />
+      </div>
+      <Footer />
+    </div>
+  );
+};
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Guest Only Routes */}
+          {/* Public Website Pages inside Shared Layout */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/programs" element={<Programs />} />
+            <Route path="/admissions" element={<Admissions />} />
+            <Route path="/teachers" element={<Teachers />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/downloads" element={<Downloads />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/contact" element={<Contact />} />
+          </Route>
+
+          {/* Guest Only Portal Authentication Routes */}
           <Route element={<GuestRoute />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -25,9 +63,9 @@ const App: React.FC = () => {
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
 
-          {/* Secure Protected Routes */}
+          {/* Secure Protected Portal Route */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Route>
 
           {/* Wildcard Fallback */}

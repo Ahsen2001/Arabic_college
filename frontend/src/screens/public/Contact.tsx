@@ -1,0 +1,175 @@
+import React, { useState } from 'react';
+import api from '../../api';
+import toast from 'react-hot-toast';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
+
+const Contact: React.FC = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!name || !email || !subject || !message) {
+      toast.error('Please fill out all fields.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    const toastId = toast.loading('Submitting query...');
+
+    try {
+      const response = await api.post('/public/contact', {
+        name,
+        email,
+        subject,
+        message,
+      });
+
+      toast.success(response.data.message || 'Query submitted successfully!', { id: toastId });
+      setName('');
+      setEmail('');
+      setSubject('');
+      setMessage('');
+    } catch (error: any) {
+      const responseData = error.response?.data;
+      const errorMsg = responseData?.message || 'Submission failed. Please check validation rules.';
+      toast.error(errorMsg, { id: toastId });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="public-subpage contact-page">
+      <header className="page-header">
+        <div className="header-container">
+          <h1>Contact Us</h1>
+          <p>Get in touch with the Arabic College administration team</p>
+        </div>
+      </header>
+
+      <section className="page-content">
+        <div className="section-container">
+          <div className="contact-split-layout">
+            {/* Info panel */}
+            <div className="contact-info-panel">
+              <h2>Contact Information</h2>
+              <p>For immediate registrar help, syllabus questions, or general campus guidance, reach out to us directly:</p>
+
+              <div className="contact-info-cards">
+                <div className="info-item-card">
+                  <Phone className="info-icon" />
+                  <div>
+                    <h4>Registrar Office Phone</h4>
+                    <p>+966 11 123 4567</p>
+                  </div>
+                </div>
+                <div className="info-item-card">
+                  <Mail className="info-icon" />
+                  <div>
+                    <h4>General Email Queries</h4>
+                    <p>info@arabiccollege.edu</p>
+                  </div>
+                </div>
+                <div className="info-item-card">
+                  <MapPin className="info-icon" />
+                  <div>
+                    <h4>Academic Campus Address</h4>
+                    <p>Academic Campus, Riyadh, Saudi Arabia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Form panel */}
+            <div className="contact-form-panel">
+              <h2>Send a Query Message</h2>
+              <form onSubmit={handleSubmit} className="auth-form contact-form">
+                <div className="input-group">
+                  <label htmlFor="name">Your Name</label>
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="Ahmad"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={isSubmitting}
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="ahmad@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isSubmitting}
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="subject">Subject</label>
+                  <input
+                    id="subject"
+                    type="text"
+                    placeholder="Admission criteria question"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    disabled={isSubmitting}
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="message">Your Message</label>
+                  <textarea
+                    id="message"
+                    rows={5}
+                    placeholder="Enter your message details here..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    disabled={isSubmitting}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      background: 'rgba(15, 23, 42, 0.6)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '10px',
+                      color: 'white',
+                      fontSize: '14px',
+                      outline: 'none',
+                      resize: 'vertical',
+                    }}
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <span className="btn-loading">
+                      <span className="spinner-mini"></span> Submitting...
+                    </span>
+                  ) : (
+                    <>
+                      <Send size={16} /> Submit Query
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Contact;
