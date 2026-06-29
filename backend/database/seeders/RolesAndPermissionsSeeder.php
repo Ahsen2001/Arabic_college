@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UserRole;
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -17,67 +15,79 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run(): void
     {
         // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Define permissions
+        // 1. Create Permissions
         $permissions = [
-            'view-users',
-            'create-users',
-            'edit-users',
-            'delete-users',
-            'view-courses',
-            'manage-courses',
-            'view-students',
-            'manage-students',
-            'view-reports',
-            'export-reports',
+            // User management
+            'view users', 'create users', 'edit users', 'delete users',
+            // Academic administration
+            'manage departments', 'manage programs', 'manage subjects', 'manage courses',
+            // Academic operations
+            'view academic records', 'edit academic records',
+            'mark student attendance', 'view student attendance',
+            'grade examinations', 'view exam results',
+            // Research
+            'manage research', 'view research',
+            // Library
+            'manage catalog', 'issue books', 'view library logs',
+            // Finance
+            'manage invoices', 'view financial records', 'manage financial transactions',
+            // Admissions
+            'view applications', 'process applications',
+            // General utilities
+            'manage settings', 'manage backups', 'view audit logs'
         ];
 
-        foreach ($permissions as $permission) {
-            Permission::findOrCreate($permission, 'web');
+        foreach ($permissions as $permissionName) {
+            Permission::findOrCreate($permissionName, 'web');
         }
 
-        // Create roles and assign existing permissions
-        $adminRole = Role::findOrCreate(UserRole::ADMIN->value, 'web');
-        $adminRole->givePermissionTo(Permission::all());
+        // 2. Create Roles and Assign Permissions
+        
+        // Super Admin (has all permissions)
+        $superAdmin = Role::findOrCreate('Super Admin', 'web');
+        $superAdmin->givePermissionTo(Permission::all());
 
-        Role::findOrCreate(UserRole::ACADEMIC_REGISTRY->value, 'web')
-            ->givePermissionTo([
-                'view-courses',
-                'manage-courses',
-                'view-students',
-                'manage-students',
-                'view-reports',
-            ]);
+        // Registrar (manages students, applications, programs)
+        $registrar = Role::findOrCreate('Registrar', 'web');
+        $registrar->givePermissionTo([
+            'view users', 'create users', 'edit users',
+            'manage programs', 'view academic records',
+            'view applications', 'process applications'
+        ]);
 
-        Role::findOrCreate(UserRole::TEACHER->value, 'web')
-            ->givePermissionTo([
-                'view-courses',
-                'view-students',
-                'view-reports',
-            ]);
+        // Accountant (manages fees, invoices, payments)
+        $accountant = Role::findOrCreate('Accountant', 'web');
+        $accountant->givePermissionTo([
+            'view users', 'manage invoices', 'view financial records', 'manage financial transactions'
+        ]);
 
-        Role::findOrCreate(UserRole::STUDENT->value, 'web')
-            ->givePermissionTo([
-                'view-courses',
-            ]);
+        // Librarian (manages catalog, book borrowing)
+        $librarian = Role::findOrCreate('Librarian', 'web');
+        $librarian->givePermissionTo([
+            'view users', 'manage catalog', 'issue books', 'view library logs'
+        ]);
 
-        Role::findOrCreate(UserRole::PARENT->value, 'web');
-        Role::findOrCreate(UserRole::ACCOUNTANT->value, 'web');
+        // Teacher (teaches courses, grades exams, registers attendance)
+        $teacher = Role::findOrCreate('Teacher', 'web');
+        $teacher->givePermissionTo([
+            'view users', 'view academic records',
+            'mark student attendance', 'view student attendance',
+            'grade examinations', 'view exam results',
+            'view research'
+        ]);
 
-        // Create Default Admin User
-        $adminEmail = 'admin@acms.edu';
-        $adminUser = User::where('email', $adminEmail)->first();
+        // Student (views grades, invoices, registers for courses)
+        $student = Role::findOrCreate('Student', 'web');
+        $student->givePermissionTo([
+            'view student attendance', 'view exam results', 'view financial records'
+        ]);
 
-        if (!$adminUser) {
-            $adminUser = User::create([
-                'name' => 'مدير النظام العربي',
-                'email' => $adminEmail,
-                'password' => Hash::make('password123'),
-                'email_verified_at' => now(),
-            ]);
-
-            $adminUser->assignRole(UserRole::ADMIN->value);
-        }
+        // Applicant (views admission status, uploads documents)
+        $applicant = Role::findOrCreate('Applicant', 'web');
+        $applicant->givePermissionTo([
+            'view applications'
+        ]);
     }
 }
