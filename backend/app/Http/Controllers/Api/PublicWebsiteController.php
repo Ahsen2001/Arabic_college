@@ -170,7 +170,8 @@ class PublicWebsiteController extends Controller
     {
         $keys = [
             'college_name', 'college_abbreviation', 'college_address', 'college_phone', 'college_email', 'college_logo',
-            'cms_home_hero', 'cms_about_content', 'cms_faq_list', 'cms_gallery_images', 'cms_news_bulletins', 'admission_status'
+            'cms_home_hero', 'cms_about_content', 'cms_faq_list', 'cms_gallery_images', 'cms_news_bulletins', 'admission_status',
+            'cms_footer_desc'
         ];
 
         $settings = \App\Models\Setting::whereIn('key', $keys)->get()->mapWithKeys(function ($setting) {

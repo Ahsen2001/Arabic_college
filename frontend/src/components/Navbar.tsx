@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { Menu, X, BookOpen, User, Sun, Moon } from 'lucide-react';
+import api from '../api';
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [logo, setLogo] = useState<string | null>(null);
+  const [abbreviation, setAbbreviation] = useState('Arabic College');
 
   const { isLightTheme, toggleTheme } = useTheme();
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    api.get('/public/cms').then(res => {
+      const data = res.data.data;
+      if (data.college_logo) {
+        setLogo(data.college_logo.startsWith('http') ? data.college_logo : `http://localhost:8000${data.college_logo}`);
+      }
+      if (data.college_abbreviation) {
+        setAbbreviation(data.college_abbreviation);
+      }
+    }).catch(err => {
+      console.error('Navbar failed to load branding:', err);
+    });
+  }, []);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -33,8 +50,12 @@ const Navbar: React.FC = () => {
     <nav className="public-navbar">
       <div className="nav-container">
         <Link to="/" className="navbar-logo">
-          <BookOpen className="logo-icon" />
-          <span>Arabic College</span>
+          {logo ? (
+            <img src={logo} alt="Logo" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+          ) : (
+            <BookOpen className="logo-icon" />
+          )}
+          <span>{abbreviation}</span>
         </Link>
 
         {/* Desktop Links */}

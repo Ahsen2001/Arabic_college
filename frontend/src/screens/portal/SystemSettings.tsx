@@ -140,6 +140,8 @@ const SystemSettings: React.FC = () => {
   const [years, setYears] = useState<AcademicYear[]>([]);
   const [backups, setBackups] = useState<BackupRecord[]>([]);
   const [activeYear, setActiveYear] = useState('');
+  const [ayStart, setAyStart] = useState('');
+  const [ayEnd, setAyEnd] = useState('');
 
   useEffect(() => { load(); }, []);
 
@@ -151,7 +153,11 @@ const SystemSettings: React.FC = () => {
       setYears(r.data.academic_years || []);
       setBackups(r.data.backups || []);
       const ay = (r.data.academic_years || []).find((y: AcademicYear) => y.is_active);
-      if (ay) setActiveYear(ay.id.toString());
+      if (ay) {
+        setActiveYear(ay.id.toString());
+        setAyStart(ay.start_date || '');
+        setAyEnd(ay.end_date || '');
+      }
     } catch { toast.error('Failed to load settings.'); }
     finally { setLoading(false); }
   };
@@ -172,7 +178,12 @@ const SystemSettings: React.FC = () => {
     e.preventDefault(); setSaving(true);
     const tid = toast.loading('Saving...');
     try {
-      await api.post('/admin/settings', { settings: s, active_academic_year_id: activeYear ? parseInt(activeYear) : null });
+      await api.post('/admin/settings', {
+        settings: s,
+        active_academic_year_id: activeYear ? parseInt(activeYear) : null,
+        academic_year_start_date: ayStart || null,
+        academic_year_end_date: ayEnd || null,
+      });
       toast.success('Settings saved!', { id: tid }); load();
     } catch { toast.error('Save failed.', { id: tid }); }
     finally { setSaving(false); }
@@ -287,10 +298,10 @@ const SystemSettings: React.FC = () => {
                   <div style={{ width: 34, height: 34, borderRadius: 8, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: active ? 'rgba(99,102,241,.3)' : 'rgba(255,255,255,.05)', transition: 'all .2s' }}>
                     <t.icon size={15} style={{ color: active ? '#818cf8' : 'var(--text-secondary)' }} />
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: active ? '#e0e7ff' : 'var(--text-secondary)' }}>{t.label}</div>
-                    <div style={{ fontSize: 11, color: active ? '#a5b4fc' : 'rgba(148,163,184,.6)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.desc}</div>
-                  </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: active ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{t.label}</div>
+                      <div style={{ fontSize: 11, color: active ? 'var(--text-primary)' : 'rgba(148,163,184,.6)', opacity: active ? 0.8 : 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.desc}</div>
+                    </div>
                   {active && <ChevronRight size={14} style={{ color: '#818cf8', flexShrink: 0 }} />}
                 </button>
               );
@@ -298,7 +309,7 @@ const SystemSettings: React.FC = () => {
           </div>
 
           {/* Quick stats */}
-          <div style={{ marginTop: 16, background: 'rgba(17,24,39,.7)', borderRadius: 14, border: '1px solid rgba(255,255,255,.07)', padding: 16 }}>
+          <div style={{ marginTop: 16, background: 'var(--bg-card)', borderRadius: 14, border: '1px solid var(--border-glass)', padding: 16 }}>
             <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-secondary)', marginBottom: 12 }}>Quick Overview</p>
             {[
               { label: 'Academic Years', val: years.length },
@@ -387,19 +398,24 @@ const SystemSettings: React.FC = () => {
           {tab === 'academic' && (
             <div style={card}>
               <SecHead icon={Calendar} title="Academic Year & Admissions Gate" desc="Select the active semester and control public registration access" />
-              <Hr label="Select Active Year" />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 12, marginBottom: 28 }}>
-                {years.map(yr => {
-                  const sel = activeYear === yr.id.toString();
-                  return (
-                    <div key={yr.id} onClick={() => setActiveYear(yr.id.toString())} style={{ padding: 16, borderRadius: 12, border: sel ? '2px solid rgba(99,102,241,.7)' : '1px solid rgba(255,255,255,.08)', background: sel ? 'rgba(99,102,241,.12)' : 'rgba(255,255,255,.02)', cursor: 'pointer', transition: 'all .2s', position: 'relative' }}>
-                      {sel && <div style={{ position: 'absolute', top: 10, right: 10, width: 20, height: 20, borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CheckCircle size={12} style={{ color: 'white' }} /></div>}
-                      <div style={{ fontSize: 13, fontWeight: 700, color: sel ? '#e0e7ff' : 'var(--text-primary)', marginBottom: 6 }}>{yr.name}</div>
-                      {yr.is_active && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20, background: 'rgba(16,185,129,.15)', color: '#34d399' }}>Active</span>}
-                    </div>
-                  );
-                })}
-                {years.length === 0 && <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 24, color: 'var(--text-secondary)', fontSize: 13 }}>No academic years found</div>}
+              <Hr label="Active Year & Calendar Setup" />
+              <SField label="Active Academic Year" value={activeYear} onChange={e => {
+                const targetId = e.target.value;
+                setActiveYear(targetId);
+                const yr = years.find(y => y.id.toString() === targetId);
+                if (yr) {
+                  setAyStart(yr.start_date || '');
+                  setAyEnd(yr.end_date || '');
+                }
+              }} required>
+                <option value="">Select Active Year</option>
+                {years.map(yr => (
+                  <option key={yr.id} value={yr.id.toString()}>{yr.name} {yr.is_active ? '(Active)' : ''}</option>
+                ))}
+              </SField>
+              <div style={{ ...g2, marginTop: 16, marginBottom: 20 }}>
+                <IField label="Manual Calendar Start Date" type="date" value={ayStart} onChange={e => setAyStart(e.target.value)} required />
+                <IField label="Manual Calendar End Date" type="date" value={ayEnd} onChange={e => setAyEnd(e.target.value)} required />
               </div>
               <Hr label="Admissions Gate" />
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', background: s.admission_status === 'open' ? 'rgba(16,185,129,.07)' : 'rgba(239,68,68,.07)', border: s.admission_status === 'open' ? '1px solid rgba(16,185,129,.25)' : '1px solid rgba(239,68,68,.2)', borderRadius: 12 }}>
@@ -536,6 +552,19 @@ const SystemSettings: React.FC = () => {
                 </div>
               </div>
 
+              <div style={{ background: 'rgba(255,255,255,.025)', borderRadius: 14, border: '1px solid rgba(255,255,255,.07)', overflow: 'hidden' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,.06)', background: 'rgba(99,102,241,.06)' }}>
+                  <Globe size={16} style={{ color: '#818cf8' }} /><span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text-primary)' }}>Header & Footer Global Branding</span>
+                </div>
+                <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  <div style={g2}>
+                    <IField label="Header Brand Abbreviation" value={s.college_abbreviation || ''} onChange={e => upd('college_abbreviation', e.target.value)} required />
+                    <IField label="System Brand Name" value={s.college_name || ''} onChange={e => upd('college_name', e.target.value)} required />
+                  </div>
+                  <TField label="Footer Description" rows={2} value={s.cms_footer_desc || ''} onChange={e => upd('cms_footer_desc', e.target.value)} placeholder="Short institution summary printed in the public website footer." />
+                </div>
+              </div>
+
               <CmsSection icon={Layers} title="FAQ Items" count={faqs.length} onAdd={addFaq} addLabel="Add FAQ">
                 {faqs.length === 0 && <div style={{ textAlign: 'center', padding: 20, color: 'var(--text-secondary)', fontSize: 13 }}>No FAQ items yet.</div>}
                 {faqs.map((f, i) => (
@@ -609,7 +638,7 @@ const SystemSettings: React.FC = () => {
                   <p style={{ color: 'var(--text-secondary)', fontSize: 12 }}>Click Create New Backup to generate your first archive</p>
                 </div>
               ) : (
-                <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,.07)' }}>
+                <div style={{ borderRadius: 12, overflowX: 'auto', border: '1px solid var(--border-glass)' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
                       <tr style={{ background: 'rgba(99,102,241,.1)', borderBottom: '1px solid rgba(255,255,255,.08)' }}>

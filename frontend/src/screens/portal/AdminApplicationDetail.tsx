@@ -398,7 +398,7 @@ const AdminApplicationDetail: React.FC = () => {
                 </div>
                 <div className="input-group">
                   <label>Interviewer Notes (Optional)</label>
-                  <textarea rows={3} value={interviewRemarks} onChange={(e) => setInterviewRemarks(e.target.value)} style={{ padding: '12px', background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '10px', color: 'white', outline: 'none' }} />
+                  <textarea rows={3} value={interviewRemarks} onChange={(e) => setInterviewRemarks(e.target.value)} style={{ padding: '12px', background: 'var(--bg-primary)', border: '1px solid var(--border-glass)', borderRadius: '10px', color: 'var(--text-primary)', outline: 'none' }} />
                 </div>
                 <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
                   <button type="submit" className="btn btn-primary" style={{ flex: '1' }}>Confirm Schedule</button>

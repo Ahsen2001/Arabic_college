@@ -31,7 +31,7 @@ class SendInterviewScheduleMail extends Mailable
     /**
      * Get the message envelope.
      */
-    public function getEnvelope(): Envelope
+    public function envelope(): Envelope
     {
         return new Envelope(
             subject: 'Arabic College Admission - Interview Scheduled',
@@ -41,7 +41,7 @@ class SendInterviewScheduleMail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function getContent(): Content
+    public function content(): Content
     {
         return new Content(
             view: 'emails.interview_schedule',

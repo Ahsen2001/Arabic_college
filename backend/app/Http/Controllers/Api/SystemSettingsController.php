@@ -67,7 +67,17 @@ class SystemSettingsController extends Controller
         if ($request->has('active_academic_year_id')) {
             $activeYearId = $request->input('active_academic_year_id');
             AcademicYear::query()->update(['is_active' => false]);
-            AcademicYear::where('id', $activeYearId)->update(['is_active' => true]);
+            $ay = AcademicYear::find($activeYearId);
+            if ($ay) {
+                $ay->is_active = true;
+                if ($request->has('academic_year_start_date')) {
+                    $ay->start_date = $request->input('academic_year_start_date');
+                }
+                if ($request->has('academic_year_end_date')) {
+                    $ay->end_date = $request->input('academic_year_end_date');
+                }
+                $ay->save();
+            }
         }
 
         return response()->json(['message' => 'Settings updated successfully.']);

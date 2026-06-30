@@ -29,7 +29,7 @@ class SendOfferLetterMail extends Mailable
     /**
      * Get the message envelope.
      */
-    public function getEnvelope(): Envelope
+    public function envelope(): Envelope
     {
         return new Envelope(
             subject: 'Congratulations! Admission Offer from Arabic College',
@@ -39,7 +39,7 @@ class SendOfferLetterMail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function getContent(): Content
+    public function content(): Content
     {
         return new Content(
             view: 'emails.offer_letter',
