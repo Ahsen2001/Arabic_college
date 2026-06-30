@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../api';
 import toast from 'react-hot-toast';
-import { Mail, Phone, MapPin, Send, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Clock, User, HelpCircle, CheckCircle } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [name, setName] = useState('');
@@ -9,6 +9,8 @@ const Contact: React.FC = () => {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +32,8 @@ const Contact: React.FC = () => {
       });
 
       toast.success(response.data.message || 'Query submitted successfully!', { id: toastId });
+      setSubmittedEmail(email);
+      setSubmittedSuccess(true);
       setName('');
       setEmail('');
       setSubject('');
@@ -110,83 +114,121 @@ const Contact: React.FC = () => {
 
             {/* Form panel */}
             <div className="contact-form-panel">
-              <h2>Send a Query Message</h2>
-              <form onSubmit={handleSubmit} className="auth-form contact-form">
-                <div className="input-group">
-                  <label htmlFor="name">Your Name</label>
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Ahmad"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    disabled={isSubmitting}
-                    required
-                  />
+              {submittedSuccess ? (
+                <div className="dashboard-card text-center" style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', animation: 'fadeIn 0.3s ease-out' }}>
+                  <CheckCircle size={48} style={{ color: 'var(--success)' }} />
+                  <h3 style={{ fontWeight: '700' }}>Message Submitted!</h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: '1.5', maxWidth: '360px', margin: '0 auto', textAlign: 'center' }}>
+                    Thank you. We have successfully received your query parameters. Our registrar administration team will review and reply to <strong>{submittedEmail}</strong> shortly.
+                  </p>
+                  <button 
+                    onClick={() => setSubmittedSuccess(false)} 
+                    className="btn btn-outline btn-sm"
+                    style={{ marginTop: '10px' }}
+                  >
+                    Send Another Message
+                  </button>
                 </div>
+              ) : (
+                <>
+                  <h2>Send a Query Message</h2>
+                  <form onSubmit={handleSubmit} className="auth-form contact-form">
+                    <div className="input-group">
+                      <label htmlFor="name">Your Name</label>
+                      <div className="input-wrapper">
+                        <User className="input-icon" size={16} />
+                        <input
+                          id="name"
+                          type="text"
+                          placeholder="Enter your name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          disabled={isSubmitting}
+                          required
+                          style={{ paddingLeft: '44px' }}
+                        />
+                      </div>
+                    </div>
 
-                <div className="input-group">
-                  <label htmlFor="email">Email Address</label>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="ahmad@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
+                    <div className="input-group">
+                      <label htmlFor="email">Email Address</label>
+                      <div className="input-wrapper">
+                        <Mail className="input-icon" size={16} />
+                        <input
+                          id="email"
+                          type="email"
+                          placeholder="ahmad@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          disabled={isSubmitting}
+                          required
+                          style={{ paddingLeft: '44px' }}
+                        />
+                      </div>
+                    </div>
 
-                <div className="input-group">
-                  <label htmlFor="subject">Subject</label>
-                  <input
-                    id="subject"
-                    type="text"
-                    placeholder="Admission criteria question"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    disabled={isSubmitting}
-                    required
-                  />
-                </div>
+                    <div className="input-group">
+                      <label htmlFor="subject">Subject Topic</label>
+                      <div className="input-wrapper">
+                        <HelpCircle className="input-icon" size={16} />
+                        <input
+                          id="subject"
+                          type="text"
+                          placeholder="e.g. Placement exam criteria"
+                          value={subject}
+                          onChange={(e) => setSubject(e.target.value)}
+                          disabled={isSubmitting}
+                          required
+                          style={{ paddingLeft: '44px' }}
+                        />
+                      </div>
+                    </div>
 
-                <div className="input-group">
-                  <label htmlFor="message">Your Message</label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    placeholder="Enter your message details here..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    disabled={isSubmitting}
-                    required
-                    style={{
-                      width: '100%',
-                      padding: '12px',
-                      background: 'rgba(15, 23, 42, 0.6)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: '10px',
-                      color: 'white',
-                      fontSize: '14px',
-                      outline: 'none',
-                      resize: 'vertical',
-                    }}
-                  />
-                </div>
+                    <div className="input-group">
+                      <label htmlFor="message">Your Message</label>
+                      <div style={{ position: 'relative' }}>
+                        <textarea
+                          id="message"
+                          rows={5}
+                          maxLength={1000}
+                          placeholder="Type your message guidelines here..."
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          disabled={isSubmitting}
+                          required
+                          style={{
+                            width: '100%',
+                            padding: '12px 14px',
+                            background: 'rgba(15, 23, 42, 0.6)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            borderRadius: '12px',
+                            color: 'white',
+                            fontSize: '14px',
+                            outline: 'none',
+                            resize: 'vertical',
+                            transition: 'all 0.3s'
+                          }}
+                        />
+                        <div style={{ textAlign: 'right', fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                          {message.length} / 1000 characters
+                        </div>
+                      </div>
+                    </div>
 
-                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <span className="btn-loading">
-                      <span className="spinner-mini"></span> Submitting...
-                    </span>
-                  ) : (
-                    <>
-                      <Send size={16} /> Submit Query
-                    </>
-                  )}
-                </button>
-              </form>
+                    <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ width: '100%', marginTop: '10px' }}>
+                      {isSubmitting ? (
+                        <span className="btn-loading" style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+                          <span className="spinner-mini"></span> Submitting Query...
+                        </span>
+                      ) : (
+                        <>
+                          <Send size={16} /> Submit Query Message
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </div>
