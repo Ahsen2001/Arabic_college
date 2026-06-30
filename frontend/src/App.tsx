@@ -57,6 +57,8 @@ import OutstandingDues from './screens/portal/OutstandingDues';
 import ScholarshipsManager from './screens/portal/ScholarshipsManager';
 import LibraryDashboard from './screens/portal/LibraryDashboard';
 import LibraryCirculation from './screens/portal/LibraryCirculation';
+import ResearchDashboard from './screens/portal/ResearchDashboard';
+import ResearchDetail from './screens/portal/ResearchDetail';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -141,6 +143,8 @@ const App: React.FC = () => {
             <Route path="/admin/finance-discounts" element={<ScholarshipsManager />} />
             <Route path="/admin/library" element={<LibraryDashboard />} />
             <Route path="/admin/library-circulation" element={<LibraryCirculation />} />
+            <Route path="/admin/research" element={<ResearchDashboard />} />
+            <Route path="/admin/research/:id" element={<ResearchDetail />} />
           </Route>
 
           {/* Wildcard Fallback */}

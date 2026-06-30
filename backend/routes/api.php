@@ -21,6 +21,8 @@ use App\Http\Controllers\Api\ExaminationManagementController;
 use App\Http\Controllers\Api\TimetableManagementController;
 use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\LibraryManagementController;
+use App\Http\Controllers\Api\ResearchManagementController;
+
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -231,5 +233,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/library/borrows', [LibraryManagementController::class, 'getActiveBorrows']);
     Route::post('/library/categories', [LibraryManagementController::class, 'storeCategory']);
     Route::get('/library/analytics', [LibraryManagementController::class, 'getAnalytics']);
+
+    // Research Paper Management
+    Route::get('/research/supervisors', [ResearchManagementController::class, 'getSupervisors']);
+    Route::get('/research/categories', [ResearchManagementController::class, 'getCategories']);
+    Route::get('/research/papers', [ResearchManagementController::class, 'getPapers']);
+    Route::get('/research/papers/{id}', [ResearchManagementController::class, 'getPaper']);
+    Route::post('/research/papers', [ResearchManagementController::class, 'storePaper']);
+    Route::post('/research/papers/{id}/version', [ResearchManagementController::class, 'uploadNewVersion']);
+    Route::post('/research/papers/{id}/submit', [ResearchManagementController::class, 'submitPaper']);
+    Route::post('/research/papers/{id}/workflow', [ResearchManagementController::class, 'processWorkflow']);
+    Route::get('/research/versions/{versionId}/preview', [ResearchManagementController::class, 'previewVersion']);
+    Route::get('/research/versions/{versionId}/download', [ResearchManagementController::class, 'downloadVersion']);
 });
+
 
