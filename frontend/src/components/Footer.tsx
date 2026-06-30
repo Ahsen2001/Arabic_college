@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
             <ul className="contact-list">
               <li>
                 <MapPin size={16} className="contact-icon" />
-                <span>Academic Campus, Riyadh, Saudi Arabia</span>
+                <span>Ibnu Abbas Arabic College, Galle, Sri Lanka</span>
               </li>
               <li>
                 <Mail size={16} className="contact-icon" />
@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Phone size={16} className="contact-icon" />
-                <span>+966 11 123 4567</span>
+                <span>+94 75460 3008</span>
               </li>
               <li>
                 <Clock size={16} className="contact-icon" />
