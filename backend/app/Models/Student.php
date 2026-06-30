@@ -22,6 +22,10 @@ class Student extends Model
         'admission_date',
     ];
 
+    protected $casts = [
+        'admission_date' => 'date',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -2528,7 +2528,182 @@ body::after {
     grid-template-columns: 1fr;
   }
   .portal-sidebar {
-    display: none; /* simple toggle or fallback layout for mobile */
+    display: none;
   }
 }
+
+/* Global Select Dropdown Standard Style */
+select {
+  background-color: #0f172a !important; /* solid Slate-900 background to avoid dark options issue */
+  color: #f8fafc !important; /* slate-50 text color */
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  font-size: 13.5px !important;
+  outline: none !important;
+  width: 100%;
+  transition: all 0.25s ease;
+}
+
+select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px var(--primary-glow) !important;
+}
+
+select option {
+  background-color: #1e293b !important; /* solid Slate-800 background */
+  color: #f8fafc !important; /* white text options */
+  padding: 12px !important;
+  font-size: 13.5px !important;
+}
+
+/* Premium Light Theme Class Overrides */
+body.light-theme {
+  --bg-primary: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --border-glass: rgba(15, 23, 42, 0.08);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-glow: rgba(79, 70, 229, 0.15);
+}
+
+body.light-theme::before {
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.15) 0%, transparent 70%);
+}
+
+body.light-theme::after {
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.15) 0%, transparent 70%);
+}
+
+body.light-theme .portal-sidebar {
+  background: rgba(255, 255, 255, 0.9);
+  border-right: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .portal-sidebar-logo {
+  color: #0f172a;
+}
+
+body.light-theme .portal-sidebar-user {
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+body.light-theme .portal-sidebar-user-name {
+  color: #0f172a;
+}
+
+body.light-theme .portal-sidebar-heading {
+  color: #94a3b8;
+}
+
+body.light-theme .portal-sidebar-item {
+  color: #475569;
+}
+
+body.light-theme .portal-sidebar-item:hover {
+  color: #0f172a;
+  background: rgba(15, 23, 42, 0.04);
+}
+
+body.light-theme .portal-sidebar-item.active {
+  color: white;
+  background: var(--primary);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+body.light-theme select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(15, 23, 42, 0.15) !important;
+}
+
+body.light-theme select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+body.light-theme input, 
+body.light-theme textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(15, 23, 42, 0.15) !important;
+}
+
+body.light-theme input:focus,
+body.light-theme textarea:focus,
+body.light-theme select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+}
+
+body.light-theme label,
+body.light-theme .input-group label {
+  color: #334155 !important;
+}
+
+body.light-theme h1, 
+body.light-theme h2, 
+body.light-theme h3, 
+body.light-theme h4, 
+body.light-theme h5 {
+  color: #0f172a !important;
+}
+
+body.light-theme p,
+body.light-theme .card-desc {
+  color: #475569 !important;
+}
+
+body.light-theme .stat-card,
+body.light-theme .dashboard-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03) !important;
+}
+
+body.light-theme .stat-value {
+  color: #0f172a !important;
+}
+
+body.light-theme .stat-label {
+  color: #64748b !important;
+}
+
+body.light-theme table {
+  background: #ffffff !important;
+}
+
+body.light-theme table th {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  border-bottom: 2px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-theme table td {
+  color: #334155 !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-theme table tr:hover td {
+  background-color: #f8fafc !important;
+}
+
+body.light-theme .btn-outline {
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  color: #334155;
+}
+
+body.light-theme .btn-outline:hover {
+  background: rgba(15, 23, 42, 0.03);
+}
+
+body.light-theme .badge-role {
+  background: rgba(79, 70, 229, 0.08);
+  color: #4f46e5;
+  border: 1px solid rgba(79, 70, 229, 0.15);
+}
+
 

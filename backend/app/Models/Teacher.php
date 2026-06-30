@@ -22,6 +22,10 @@ class Teacher extends Model
         'joining_date',
     ];
 
+    protected $casts = [
+        'joining_date' => 'date',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -6,7 +6,7 @@ import {
   LayoutDashboard, ClipboardCheck, Users, GraduationCap, 
   GitBranch, BookOpen, Layers, Calendar, CreditCard, 
   Bookmark, FileText, FileSignature, LogOut, ShieldAlert,
-  ClipboardList
+  ClipboardList, Sun, Moon
 } from 'lucide-react';
 
 const PortalLayout: React.FC = () => {
@@ -14,6 +14,32 @@ const PortalLayout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  // Theme support state
+  const [isLightTheme, setIsLightTheme] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    const isLight = saved === 'light';
+    if (isLight) {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+    return isLight;
+  });
+
+  const toggleTheme = () => {
+    setIsLightTheme(prev => {
+      const newVal = !prev;
+      if (newVal) {
+        document.body.classList.add('light-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-theme');
+        localStorage.setItem('theme', 'dark');
+      }
+      return newVal;
+    });
+  };
 
   if (!user) return null;
 
@@ -87,9 +113,19 @@ const PortalLayout: React.FC = () => {
     <div className="portal-layout-container">
       {/* Sidebar navigation */}
       <aside className="portal-sidebar no-print">
-        <div className="portal-sidebar-logo">
-          <BookOpen className="logo-icon" size={20} />
-          <span>Sharia Portal</span>
+        <div className="portal-sidebar-logo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <BookOpen className="logo-icon" size={20} />
+            <span>Sharia Portal</span>
+          </div>
+          <button 
+            onClick={toggleTheme} 
+            className="btn-theme-toggle" 
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            title="Toggle Light/Dark Theme"
+          >
+            {isLightTheme ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
         </div>
 
         {/* User Card */}
