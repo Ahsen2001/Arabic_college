@@ -51,6 +51,10 @@ import RecheckRequestsManager from './screens/portal/RecheckRequestsManager';
 import CohortRanksDashboard from './screens/portal/CohortRanksDashboard';
 import TimetableBuilder from './screens/portal/TimetableBuilder';
 import TimetableCalendarView from './screens/portal/TimetableCalendarView';
+import FinanceDashboard from './screens/portal/FinanceDashboard';
+import InvoiceManager from './screens/portal/InvoiceManager';
+import OutstandingDues from './screens/portal/OutstandingDues';
+import ScholarshipsManager from './screens/portal/ScholarshipsManager';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -128,6 +132,11 @@ const App: React.FC = () => {
             <Route path="/admin/exam-ranks" element={<CohortRanksDashboard />} />
             <Route path="/admin/timetable" element={<TimetableBuilder />} />
             <Route path="/portal/timetable-calendar" element={<TimetableCalendarView />} />
+            <Route path="/admin/finance" element={<FinanceDashboard />} />
+            <Route path="/admin/finance-invoices" element={<InvoiceManager />} />
+            <Route path="/admin/finance-outstanding" element={<OutstandingDues />} />
+            <Route path="/admin/finance-scholarships" element={<ScholarshipsManager />} />
+            <Route path="/admin/finance-discounts" element={<ScholarshipsManager />} />
           </Route>
 
           {/* Wildcard Fallback */}

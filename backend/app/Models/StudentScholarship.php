@@ -10,16 +10,24 @@ class StudentScholarship extends Model
 {
     use HasFactory;
 
+    protected $table = 'student_scholarships';
+
     protected $fillable = [
-        'student_id',
-        'scholarship_name',
-        'discount_percentage',
-        'award_date',
-        'status',
+        'student_id', 'scholarship_id', 'awarded_date', 'expiry_date', 'status', 'notes',
+    ];
+
+    protected $casts = [
+        'awarded_date' => 'date',
+        'expiry_date'  => 'date',
     ];
 
     public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function scholarship(): BelongsTo
+    {
+        return $this->belongsTo(Scholarship::class);
     }
 }

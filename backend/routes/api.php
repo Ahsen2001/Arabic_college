@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\HifzMemorizationController;
 use App\Http\Controllers\Api\AttendanceManagementController;
 use App\Http\Controllers\Api\ExaminationManagementController;
 use App\Http\Controllers\Api\TimetableManagementController;
+use App\Http\Controllers\Api\FinanceController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -188,4 +189,33 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/timetable/slots/{slotId}/update', [TimetableManagementController::class, 'updateSlot']);
     Route::delete('/timetable/slots/{slotId}', [TimetableManagementController::class, 'deleteSlot']);
     Route::get('/timetable/analytics', [TimetableManagementController::class, 'getAnalytics']);
+
+    // Finance Module
+    Route::get('/finance/lookups', [FinanceController::class, 'getLookups']);
+    Route::get('/finance/fee-types', [FinanceController::class, 'getFeeTypes']);
+    Route::post('/finance/fee-types', [FinanceController::class, 'storeFeeType']);
+    Route::post('/finance/fee-types/{id}/update', [FinanceController::class, 'updateFeeType']);
+
+    Route::get('/finance/invoices', [FinanceController::class, 'getInvoices']);
+    Route::get('/finance/invoices/{id}', [FinanceController::class, 'getInvoice']);
+    Route::post('/finance/invoices', [FinanceController::class, 'createInvoice']);
+    Route::post('/finance/invoices/{id}/issue', [FinanceController::class, 'issueInvoice']);
+    Route::post('/finance/invoices/{id}/discount', [FinanceController::class, 'applyDiscount']);
+
+    Route::post('/finance/payments', [FinanceController::class, 'recordPayment']);
+    Route::get('/finance/transactions', [FinanceController::class, 'getTransactions']);
+
+    Route::post('/finance/installments', [FinanceController::class, 'createInstallmentPlan']);
+    Route::post('/finance/installments/{id}/pay', [FinanceController::class, 'payInstallment']);
+
+    Route::get('/finance/scholarships', [FinanceController::class, 'getScholarships']);
+    Route::post('/finance/scholarships', [FinanceController::class, 'storeScholarship']);
+    Route::post('/finance/scholarships/award', [FinanceController::class, 'awardScholarship']);
+    Route::get('/finance/scholarships/student/{studentId}', [FinanceController::class, 'getStudentScholarships']);
+
+    Route::get('/finance/discounts', [FinanceController::class, 'getDiscounts']);
+    Route::post('/finance/discounts', [FinanceController::class, 'storeDiscount']);
+
+    Route::get('/finance/outstanding', [FinanceController::class, 'getOutstanding']);
+    Route::get('/finance/analytics', [FinanceController::class, 'getAnalytics']);
 });
