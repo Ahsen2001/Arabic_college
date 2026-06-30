@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\AdminTeacherController;
 use App\Http\Controllers\Api\AdminStaffController;
 use App\Http\Controllers\Api\AdminAcademicStructureController;
 use App\Http\Controllers\Api\ShareeaAcademicController;
+use App\Http\Controllers\Api\HifzMemorizationController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -140,4 +141,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/shareea/students/{studentId}/graduate', [ShareeaAcademicController::class, 'graduateStudent']);
 
     Route::get('/shareea/analytics', [ShareeaAcademicController::class, 'getAnalytics']);
+
+    // Hifz Memorization Module
+    Route::post('/hifz/logs', [HifzMemorizationController::class, 'logDaily']);
+    Route::post('/hifz/assessments', [HifzMemorizationController::class, 'logAssessment']);
+    Route::post('/hifz/milestones', [HifzMemorizationController::class, 'logMilestone']);
+    Route::get('/hifz/student/{studentId}/progress', [HifzMemorizationController::class, 'getProgress']);
+    Route::get('/hifz/reports', [HifzMemorizationController::class, 'getReports']);
 });

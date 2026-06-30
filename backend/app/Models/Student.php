@@ -91,4 +91,24 @@ class Student extends Model
     {
         return $this->hasMany(AssignmentSubmission::class);
     }
+
+    public function hifzProgress(): HasOne
+    {
+        return $this->hasOne(StudentHifzProgress::class);
+    }
+
+    public function hifzDailyLogs(): HasMany
+    {
+        return $this->hasMany(HifzDailyLog::class);
+    }
+
+    public function hifzAssessments(): HasMany
+    {
+        return $this->hasMany(HifzAssessment::class);
+    }
+
+    public function hifzMilestones(): HasMany
+    {
+        return $this->hasMany(HifzMilestone::class);
+    }
 }

@@ -37,6 +37,10 @@ import AdminAcademicDashboard from './screens/portal/AdminAcademicDashboard';
 import TeacherGradebookAttendance from './screens/portal/TeacherGradebookAttendance';
 import StudentTranscriptView from './screens/portal/StudentTranscriptView';
 import AdminPromotionGraduation from './screens/portal/AdminPromotionGraduation';
+import TeacherHifzDashboard from './screens/portal/TeacherHifzDashboard';
+import StudentHifzDashboard from './screens/portal/StudentHifzDashboard';
+import HifzKhatmCertificate from './screens/portal/HifzKhatmCertificate';
+import AdminHifzReports from './screens/portal/AdminHifzReports';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -99,6 +103,11 @@ const App: React.FC = () => {
             <Route path="/portal/student-transcript" element={<StudentTranscriptView />} />
             <Route path="/portal/student-transcript/:studentId" element={<StudentTranscriptView />} />
             <Route path="/admin/student-promotion" element={<AdminPromotionGraduation />} />
+            <Route path="/portal/teacher-hifz" element={<TeacherHifzDashboard />} />
+            <Route path="/portal/student-hifz" element={<StudentHifzDashboard />} />
+            <Route path="/portal/student-hifz/:studentId" element={<StudentHifzDashboard />} />
+            <Route path="/portal/hifz-certificate/:studentId" element={<HifzKhatmCertificate />} />
+            <Route path="/admin/hifz-reports" element={<AdminHifzReports />} />
           </Route>
 
           {/* Wildcard Fallback */}
