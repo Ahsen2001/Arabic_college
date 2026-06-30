@@ -342,9 +342,10 @@ export const AdminAuditLogs: React.FC = () => {
         }}>
           {/* Search Box */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Search Logs</label>
+            <label htmlFor="search-logs" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Search Logs</label>
             <div style={{ position: 'relative' }}>
               <input
+                id="search-logs"
                 type="text"
                 placeholder="User name, email, IP..."
                 value={search}
@@ -366,8 +367,9 @@ export const AdminAuditLogs: React.FC = () => {
 
           {/* Action Filter */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Action Type</label>
+            <label htmlFor="action-type" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Action Type</label>
             <select
+              id="action-type"
               value={action}
               onChange={(e) => setAction(e.target.value)}
               style={{
@@ -395,9 +397,10 @@ export const AdminAuditLogs: React.FC = () => {
 
           {/* Date From */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>From Date</label>
+            <label htmlFor="date-from" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>From Date</label>
             <div style={{ position: 'relative' }}>
               <input
+                id="date-from"
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
@@ -417,9 +420,10 @@ export const AdminAuditLogs: React.FC = () => {
 
           {/* Date To */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>To Date</label>
+            <label htmlFor="date-to" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>To Date</label>
             <div style={{ position: 'relative' }}>
               <input
+                id="date-to"
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
@@ -675,6 +679,8 @@ export const AdminAuditLogs: React.FC = () => {
               <button
                 disabled={page <= 1}
                 onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                title="Previous Page"
+                aria-label="Previous Page"
                 style={{
                   background: page <= 1 ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)',
                   border: '1px solid var(--border-glass)',
@@ -695,6 +701,8 @@ export const AdminAuditLogs: React.FC = () => {
               <button
                 disabled={page >= pagination.last_page}
                 onClick={() => setPage(prev => Math.min(prev + 1, pagination.last_page))}
+                title="Next Page"
+                aria-label="Next Page"
                 style={{
                   background: page >= pagination.last_page ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)',
                   border: '1px solid var(--border-glass)',
@@ -763,6 +771,8 @@ export const AdminAuditLogs: React.FC = () => {
               </div>
               <button 
                 onClick={() => setSelectedLog(null)}
+                title="Close"
+                aria-label="Close details modal"
                 style={{
                   background: 'none',
                   border: 'none',

@@ -193,6 +193,8 @@ const AdminGlobalSearch: React.FC = () => {
               {inputVal && (
                 <button
                   type="button"
+                  title="Clear search"
+                  aria-label="Clear search"
                   onClick={handleClear}
                   style={{
                     position: 'absolute',
@@ -421,6 +423,8 @@ const AdminGlobalSearch: React.FC = () => {
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginTop: '24px' }}>
                     <button
                       type="button"
+                      title="Previous page"
+                      aria-label="Previous page"
                       disabled={currentPage === 1}
                       onClick={() => handlePageChange(currentPage - 1)}
                       style={{
@@ -469,6 +473,8 @@ const AdminGlobalSearch: React.FC = () => {
 
                     <button
                       type="button"
+                      title="Next page"
+                      aria-label="Next page"
                       disabled={currentPage === paginatedResults.last_page}
                       onClick={() => handlePageChange(currentPage + 1)}
                       style={{

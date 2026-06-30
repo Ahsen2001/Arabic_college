@@ -389,16 +389,40 @@ const AdminApplicationDetail: React.FC = () => {
               </div>
               <form onSubmit={handleScheduleInterview} className="auth-form">
                 <div className="input-group">
-                  <label>Examination/Interview Date</label>
-                  <input type="date" value={interviewDate} onChange={(e) => setInterviewDate(e.target.value)} required />
+                  <label htmlFor="interview-date">Examination/Interview Date</label>
+                  <input
+                    id="interview-date"
+                    type="date"
+                    value={interviewDate}
+                    onChange={(e) => setInterviewDate(e.target.value)}
+                    required
+                    title="Examination/Interview Date"
+                    placeholder="Select interview date"
+                  />
                 </div>
                 <div className="input-group">
-                  <label>Examination/Interview Time</label>
-                  <input type="time" value={interviewTime} onChange={(e) => setInterviewTime(e.target.value)} required />
+                  <label htmlFor="interview-time">Examination/Interview Time</label>
+                  <input
+                    id="interview-time"
+                    type="time"
+                    value={interviewTime}
+                    onChange={(e) => setInterviewTime(e.target.value)}
+                    required
+                    title="Examination/Interview Time"
+                    placeholder="Select interview time"
+                  />
                 </div>
                 <div className="input-group">
-                  <label>Interviewer Notes (Optional)</label>
-                  <textarea rows={3} value={interviewRemarks} onChange={(e) => setInterviewRemarks(e.target.value)} style={{ padding: '12px', background: 'var(--bg-primary)', border: '1px solid var(--border-glass)', borderRadius: '10px', color: 'var(--text-primary)', outline: 'none' }} />
+                  <label htmlFor="interview-remarks">Interviewer Notes (Optional)</label>
+                  <textarea
+                    id="interview-remarks"
+                    rows={3}
+                    value={interviewRemarks}
+                    onChange={(e) => setInterviewRemarks(e.target.value)}
+                    style={{ padding: '12px', background: 'var(--bg-primary)', border: '1px solid var(--border-glass)', borderRadius: '10px', color: 'var(--text-primary)', outline: 'none' }}
+                    title="Interviewer Notes"
+                    placeholder="Enter interviewer notes"
+                  />
                 </div>
                 <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
                   <button type="submit" className="btn btn-primary" style={{ flex: '1' }}>Confirm Schedule</button>

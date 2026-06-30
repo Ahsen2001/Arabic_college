@@ -243,6 +243,7 @@ body::after {
   cursor: pointer;
   font-size: 13px;
   color: var(--text-secondary);
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -428,6 +429,7 @@ body::after {
 .loader-card {
   text-align: center;
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-glass);
   padding: 30px 45px;
@@ -460,6 +462,7 @@ body::after {
 
 .dashboard-nav {
   background: rgba(17, 24, 39, 0.7);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-glass);
   position: sticky;
@@ -518,6 +521,7 @@ body::after {
 
 .dashboard-card {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border-glass);
   border-radius: 16px;
@@ -766,6 +770,7 @@ body::after {
   left: 0;
   width: 100%;
   background: rgba(9, 13, 22, 0.95);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-glass);
   z-index: 999;
@@ -2104,6 +2109,7 @@ body::after {
 
 .wizard-container {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-glass);
   border-radius: 20px;
