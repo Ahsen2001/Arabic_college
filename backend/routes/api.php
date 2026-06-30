@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\LibraryManagementController;
 use App\Http\Controllers\Api\ResearchManagementController;
 use App\Http\Controllers\Api\DocumentManagementController;
+use App\Http\Controllers\Api\CommunicationController;
 
 
 
@@ -258,6 +259,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/document/templates/{id}', [DocumentManagementController::class, 'deleteTemplate']);
     Route::post('/document/generate', [DocumentManagementController::class, 'generateDocument']);
     Route::post('/document/download-pdf', [DocumentManagementController::class, 'downloadPdf']);
+
+    // Communication Center
+    Route::get('/communication/announcements', [CommunicationController::class, 'indexAnnouncements']);
+    Route::post('/communication/announcements', [CommunicationController::class, 'storeAnnouncement']);
+    Route::delete('/communication/announcements/{id}', [CommunicationController::class, 'destroyAnnouncement']);
+
+    Route::get('/communication/email-templates', [CommunicationController::class, 'indexTemplates']);
+    Route::post('/communication/email-templates', [CommunicationController::class, 'storeTemplate']);
+
+    Route::get('/communication/email-logs', [CommunicationController::class, 'indexEmailLogs']);
+    Route::post('/communication/emails/send-bulk', [CommunicationController::class, 'sendBulkEmail']);
+    Route::post('/communication/emails/process-queue', [CommunicationController::class, 'processQueue']);
+
+    Route::get('/communication/calendar', [CommunicationController::class, 'indexCalendar']);
+    Route::post('/communication/calendar', [CommunicationController::class, 'storeCalendar']);
+    Route::delete('/communication/calendar/{id}', [CommunicationController::class, 'destroyCalendar']);
+
+    Route::post('/communication/sms/test', [CommunicationController::class, 'testSmsGateway']);
 });
 
 

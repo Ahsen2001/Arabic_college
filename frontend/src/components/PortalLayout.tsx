@@ -6,7 +6,7 @@ import {
   LayoutDashboard, ClipboardCheck, Users, GraduationCap, 
   GitBranch, BookOpen, Layers, Calendar, CreditCard, 
   Bookmark, FileText, FileSignature, LogOut, ShieldAlert,
-  ClipboardList, Sun, Moon
+  ClipboardList, Sun, Moon, Megaphone
 } from 'lucide-react';
 
 const PortalLayout: React.FC = () => {
@@ -105,6 +105,8 @@ const PortalLayout: React.FC = () => {
         { name: 'Library Registry', path: '/admin/library', icon: Bookmark, permission: 'issue books' },
         { name: 'Research Desk', path: '/admin/research', icon: FileText, permission: 'view research' },
         { name: 'Document Vault', path: '/admin/documents', icon: FileSignature, permission: 'manage settings' },
+        { name: 'Communication Desk', path: '/admin/communication', icon: Megaphone, permission: 'manage settings' },
+        { name: 'Academic Calendar', path: '/portal/calendar', icon: Calendar, permission: null },
       ]
     }
   ];

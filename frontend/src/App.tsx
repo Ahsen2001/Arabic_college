@@ -61,6 +61,8 @@ import ResearchDashboard from './screens/portal/ResearchDashboard';
 import ResearchDetail from './screens/portal/ResearchDetail';
 import DocumentGenerator from './screens/portal/DocumentGenerator';
 import DocumentVerify from './screens/portal/DocumentVerify';
+import CommunicationDashboard from './screens/portal/CommunicationDashboard';
+import { AcademicCalendarView } from './screens/portal/AcademicCalendarView';
 import PortalLayout from './components/PortalLayout';
 import './App.css';
 
@@ -152,6 +154,8 @@ const App: React.FC = () => {
               <Route path="/admin/research" element={<ResearchDashboard />} />
               <Route path="/admin/research/:id" element={<ResearchDetail />} />
               <Route path="/admin/documents" element={<DocumentGenerator />} />
+              <Route path="/admin/communication" element={<CommunicationDashboard />} />
+              <Route path="/portal/calendar" element={<AcademicCalendarView />} />
             </Route>
           </Route>
 
