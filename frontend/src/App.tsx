@@ -24,6 +24,9 @@ import Contact from './screens/public/Contact';
 import ApplicantAdmissions from './screens/portal/ApplicantAdmissions';
 import AdminAdmissionsList from './screens/portal/AdminAdmissionsList';
 import AdminApplicationDetail from './screens/portal/AdminApplicationDetail';
+import AdminStudentSearch from './screens/portal/AdminStudentSearch';
+import AdminStudentDetail from './screens/portal/AdminStudentDetail';
+import StudentDashboardView from './screens/portal/StudentDashboardView';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -72,6 +75,9 @@ const App: React.FC = () => {
             <Route path="/portal/admissions" element={<ApplicantAdmissions />} />
             <Route path="/admin/admissions" element={<AdminAdmissionsList />} />
             <Route path="/admin/admissions/:id" element={<AdminApplicationDetail />} />
+            <Route path="/admin/students" element={<AdminStudentSearch />} />
+            <Route path="/admin/students/:id" element={<AdminStudentDetail />} />
+            <Route path="/portal/student-dashboard" element={<StudentDashboardView />} />
           </Route>
 
           {/* Wildcard Fallback */}

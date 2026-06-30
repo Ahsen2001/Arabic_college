@@ -2355,6 +2355,21 @@ body::after {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+
+  /* Printable ID Card format */
+  .printable-id-card-layout {
+    display: block !important;
+    page-break-after: always;
+  }
+}
+
+/* ID Card Styles on Screen */
+.idcard-double-sided-grid {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 /* Responsiveness adjustments for Public website */

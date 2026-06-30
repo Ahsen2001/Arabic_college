@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PublicWebsiteController;
 use App\Http\Controllers\Api\AdmissionsController;
 use App\Http\Controllers\Api\AdminAdmissionsController;
+use App\Http\Controllers\Api\AdminStudentController;
+use App\Http\Controllers\Api\StudentDashboardController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -50,4 +52,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/applications/{id}/select', [AdminAdmissionsController::class, 'select']);
     Route::post('/admin/applications/{id}/enroll', [AdminAdmissionsController::class, 'enroll']);
     Route::post('/admin/applications/bulk-email', [AdminAdmissionsController::class, 'bulkEmail']);
+
+    // Student Information System (Admin & Registrar operations)
+    Route::get('/admin/students', [AdminStudentController::class, 'index']);
+    Route::get('/admin/students/export', [AdminStudentController::class, 'export']);
+    Route::post('/admin/students/import', [AdminStudentController::class, 'import']);
+    Route::get('/admin/students/{id}', [AdminStudentController::class, 'show']);
+    Route::post('/admin/students/{id}/profile', [AdminStudentController::class, 'updateProfile']);
+    Route::post('/admin/students/{id}/guardian', [AdminStudentController::class, 'updateGuardian']);
+    Route::post('/admin/students/{id}/emergency', [AdminStudentController::class, 'updateEmergency']);
+    Route::post('/admin/students/{id}/education', [AdminStudentController::class, 'updateEducation']);
+    Route::post('/admin/students/{id}/medical', [AdminStudentController::class, 'updateMedical']);
+    Route::post('/admin/students/{id}/scholarship', [AdminStudentController::class, 'updateScholarship']);
+
+    // Student Portal Dashboard Operations
+    Route::get('/student/dashboard', [StudentDashboardController::class, 'dashboard']);
+    Route::get('/student/timeline', [StudentDashboardController::class, 'timeline']);
 });

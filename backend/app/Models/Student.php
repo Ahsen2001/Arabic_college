@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
 {
@@ -59,5 +60,30 @@ class Student extends Model
     public function semesterGpas(): HasMany
     {
         return $this->hasMany(StudentSemesterGpa::class);
+    }
+
+    public function guardian(): HasOne
+    {
+        return $this->hasOne(StudentGuardian::class);
+    }
+
+    public function emergencyContacts(): HasMany
+    {
+        return $this->hasMany(StudentEmergencyContact::class);
+    }
+
+    public function educationHistories(): HasMany
+    {
+        return $this->hasMany(StudentEducationHistory::class);
+    }
+
+    public function medicalRecord(): HasOne
+    {
+        return $this->hasOne(StudentMedicalRecord::class);
+    }
+
+    public function scholarships(): HasMany
+    {
+        return $this->hasMany(StudentScholarship::class);
     }
 }
