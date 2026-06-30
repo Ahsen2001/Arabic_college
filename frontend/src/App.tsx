@@ -33,6 +33,10 @@ import AdminStaffDossier from './screens/portal/AdminStaffDossier';
 import AdminAcademicStructure from './screens/portal/AdminAcademicStructure';
 import AdminSubjectCurriculum from './screens/portal/AdminSubjectCurriculum';
 import AdminCourseAllocation from './screens/portal/AdminCourseAllocation';
+import AdminAcademicDashboard from './screens/portal/AdminAcademicDashboard';
+import TeacherGradebookAttendance from './screens/portal/TeacherGradebookAttendance';
+import StudentTranscriptView from './screens/portal/StudentTranscriptView';
+import AdminPromotionGraduation from './screens/portal/AdminPromotionGraduation';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -90,6 +94,11 @@ const App: React.FC = () => {
             <Route path="/admin/academic-structure" element={<AdminAcademicStructure />} />
             <Route path="/admin/subjects-curriculum" element={<AdminSubjectCurriculum />} />
             <Route path="/admin/course-allocation" element={<AdminCourseAllocation />} />
+            <Route path="/admin/academic-analytics" element={<AdminAcademicDashboard />} />
+            <Route path="/portal/teacher-gradebook" element={<TeacherGradebookAttendance />} />
+            <Route path="/portal/student-transcript" element={<StudentTranscriptView />} />
+            <Route path="/portal/student-transcript/:studentId" element={<StudentTranscriptView />} />
+            <Route path="/admin/student-promotion" element={<AdminPromotionGraduation />} />
           </Route>
 
           {/* Wildcard Fallback */}

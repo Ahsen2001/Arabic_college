@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\StudentDashboardController;
 use App\Http\Controllers\Api\AdminTeacherController;
 use App\Http\Controllers\Api\AdminStaffController;
 use App\Http\Controllers\Api\AdminAcademicStructureController;
+use App\Http\Controllers\Api\ShareeaAcademicController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -121,4 +122,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/academic/courses', [AdminAcademicStructureController::class, 'getCourses']);
     Route::post('/admin/academic/courses', [AdminAcademicStructureController::class, 'storeCourse']);
     Route::post('/admin/academic/courses/{id}/update', [AdminAcademicStructureController::class, 'updateCourse']);
+
+    // Shareea Academic Module
+    Route::get('/shareea/courses/{courseId}/attendance', [ShareeaAcademicController::class, 'getAttendance']);
+    Route::post('/shareea/courses/{courseId}/attendance', [ShareeaAcademicController::class, 'markAttendance']);
+
+    Route::get('/shareea/courses/{courseId}/assignments', [ShareeaAcademicController::class, 'getAssignments']);
+    Route::post('/shareea/courses/{courseId}/assignments', [ShareeaAcademicController::class, 'storeAssignment']);
+    Route::get('/shareea/assignments/{assignmentId}/submissions', [ShareeaAcademicController::class, 'getSubmissions']);
+    Route::post('/shareea/assignments/{assignmentId}/grade', [ShareeaAcademicController::class, 'gradeSubmission']);
+
+    Route::get('/shareea/courses/{courseId}/gradebook', [ShareeaAcademicController::class, 'getGradebook']);
+    Route::post('/shareea/courses/{courseId}/gradebook', [ShareeaAcademicController::class, 'saveGradebook']);
+
+    Route::get('/shareea/students/{studentId}/transcript', [ShareeaAcademicController::class, 'getTranscript']);
+    Route::post('/shareea/students/{studentId}/promote', [ShareeaAcademicController::class, 'promoteStudent']);
+    Route::post('/shareea/students/{studentId}/graduate', [ShareeaAcademicController::class, 'graduateStudent']);
+
+    Route::get('/shareea/analytics', [ShareeaAcademicController::class, 'getAnalytics']);
 });
