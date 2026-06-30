@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../api';
 import toast from 'react-hot-toast';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Clock } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [name, setName] = useState('');
@@ -82,6 +82,29 @@ const Contact: React.FC = () => {
                     <p>Academic Campus, Riyadh, Saudi Arabia</p>
                   </div>
                 </div>
+              </div>
+
+              {/* Operational Hours */}
+              <div className="operational-hours-card">
+                <div className="operational-hours-title">
+                  <Clock size={16} />
+                  <span>Campus Operational Hours</span>
+                </div>
+                <div className="operational-hours-list">
+                  <div className="operational-hours-row">
+                    <span>Sunday - Thursday:</span>
+                    <span>8:00 AM - 4:00 PM</span>
+                  </div>
+                  <div className="operational-hours-row">
+                    <span>Friday - Saturday:</span>
+                    <span style={{ color: 'var(--error)' }}>Closed</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Riyadh Campus Vector Map Illustration */}
+              <div className="contact-campus-map-card">
+                <img src="/assets/college_campus_map.png" alt="Riyadh Campus Location Map Illustration" />
               </div>
             </div>
 

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Menu, X, BookOpen, User } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { Menu, X, BookOpen, User, Sun, Moon } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
+  const { isLightTheme, toggleTheme } = useTheme();
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const navLinks = [
@@ -55,12 +57,29 @@ const Navbar: React.FC = () => {
               Portal Login
             </Link>
           )}
+          <button 
+            onClick={toggleTheme} 
+            className="btn btn-outline btn-sm"
+            style={{ padding: '8px', marginLeft: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            title="Toggle Light/Dark Theme"
+          >
+            {isLightTheme ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <button onClick={toggleMenu} className="nav-toggle-mobile" aria-label="Toggle menu">
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Actions Container */}
+        <div className="mobile-actions-container">
+          <button 
+            onClick={toggleTheme} 
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            title="Toggle Light/Dark Theme"
+          >
+            {isLightTheme ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button onClick={toggleMenu} className="nav-toggle-mobile" aria-label="Toggle menu">
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer */}

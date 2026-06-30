@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import toast from 'react-hot-toast';
 import { 
   LayoutDashboard, ClipboardCheck, Users, GraduationCap, 
@@ -15,31 +16,7 @@ const PortalLayout: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // Theme support state
-  const [isLightTheme, setIsLightTheme] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    const isLight = saved === 'light';
-    if (isLight) {
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-    }
-    return isLight;
-  });
-
-  const toggleTheme = () => {
-    setIsLightTheme(prev => {
-      const newVal = !prev;
-      if (newVal) {
-        document.body.classList.add('light-theme');
-        localStorage.setItem('theme', 'light');
-      } else {
-        document.body.classList.remove('light-theme');
-        localStorage.setItem('theme', 'dark');
-      }
-      return newVal;
-    });
-  };
+  const { isLightTheme, toggleTheme } = useTheme();
 
   if (!user) return null;
 

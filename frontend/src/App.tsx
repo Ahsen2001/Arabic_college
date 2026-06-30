@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { ProtectedRoute, GuestRoute } from './components/guards';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -80,8 +81,9 @@ const PublicLayout: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <Router>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
         <Routes>
           {/* Public Website Pages inside Shared Layout */}
           <Route element={<PublicLayout />}>
@@ -176,7 +178,8 @@ const App: React.FC = () => {
           },
         }}
       />
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 
