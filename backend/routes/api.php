@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\AttendanceManagementController;
 use App\Http\Controllers\Api\ExaminationManagementController;
 use App\Http\Controllers\Api\TimetableManagementController;
 use App\Http\Controllers\Api\FinanceController;
+use App\Http\Controllers\Api\LibraryManagementController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -218,4 +219,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/finance/outstanding', [FinanceController::class, 'getOutstanding']);
     Route::get('/finance/analytics', [FinanceController::class, 'getAnalytics']);
+
+    // Library Management
+    Route::get('/library/lookups', [LibraryManagementController::class, 'getLookups']);
+    Route::get('/library/books', [LibraryManagementController::class, 'getBooks']);
+    Route::post('/library/books', [LibraryManagementController::class, 'storeBook']);
+    Route::post('/library/books/{id}/update', [LibraryManagementController::class, 'updateBook']);
+    Route::delete('/library/books/{id}', [LibraryManagementController::class, 'deleteBook']);
+    Route::post('/library/borrow', [LibraryManagementController::class, 'borrowBook']);
+    Route::post('/library/return', [LibraryManagementController::class, 'returnBook']);
+    Route::get('/library/borrows', [LibraryManagementController::class, 'getActiveBorrows']);
+    Route::post('/library/categories', [LibraryManagementController::class, 'storeCategory']);
+    Route::get('/library/analytics', [LibraryManagementController::class, 'getAnalytics']);
 });
+

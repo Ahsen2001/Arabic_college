@@ -41,6 +41,11 @@ class LibraryBorrow extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(BorrowStatus::class, 'status_id');
+    }
+
     public function issuedBy(): BelongsTo
     {
         return $this->belongsTo(Staff::class, 'issued_by_staff_id');

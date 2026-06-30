@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Book extends Model
 {
@@ -17,11 +18,17 @@ class Book extends Model
         'authors',
         'publisher',
         'isbn',
+        'barcode',
         'publication_year',
         'total_copies',
         'available_copies',
         'shelf_location',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(BookCategory::class, 'category_id');
+    }
 
     public function borrows(): HasMany
     {

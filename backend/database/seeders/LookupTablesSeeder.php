@@ -15,8 +15,12 @@ class LookupTablesSeeder extends Seeder
         // Simple insert helper
         $seedSimpleLookup = function (string $table, array $items) {
             foreach ($items as $index => $item) {
+                $targetId = $index + 1;
+                // Avoid unique constraint violation: if this name exists on another ID, remove it first
+                DB::table($table)->where('name', $item)->where('id', '!=', $targetId)->delete();
+                
                 DB::table($table)->updateOrInsert(
-                    ['id' => $index + 1],
+                    ['id' => $targetId],
                     ['name' => $item, 'created_at' => now(), 'updated_at' => now()]
                 );
             }
@@ -86,8 +90,11 @@ class LookupTablesSeeder extends Seeder
             ['name' => 'General Science & Languages', 'code' => 'GEN-SCI'],
         ];
         foreach ($categories as $index => $cat) {
+            $targetId = $index + 1;
+            DB::table('book_categories')->where('code', $cat['code'])->where('id', '!=', $targetId)->delete();
+            DB::table('book_categories')->where('name', $cat['name'])->where('id', '!=', $targetId)->delete();
             DB::table('book_categories')->updateOrInsert(
-                ['id' => $index + 1],
+                ['id' => $targetId],
                 array_merge($cat, ['created_at' => now(), 'updated_at' => now()])
             );
         }
