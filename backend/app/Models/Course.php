@@ -50,4 +50,9 @@ class Course extends Model
     {
         return $this->hasMany(Examination::class);
     }
+
+    public function timetableAllocations(): HasMany
+    {
+        return $this->hasMany(TimetableAllocation::class);
+    }
 }

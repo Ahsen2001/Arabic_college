@@ -11,6 +11,9 @@ use App\Http\Controllers\Api\AdminAdmissionsController;
 use App\Http\Controllers\Api\AdminStudentController;
 use App\Http\Controllers\Api\StudentDashboardController;
 
+use App\Http\Controllers\Api\AdminTeacherController;
+use App\Http\Controllers\Api\AdminStaffController;
+
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -68,4 +71,25 @@ Route::middleware('auth:sanctum')->group(function () {
     // Student Portal Dashboard Operations
     Route::get('/student/dashboard', [StudentDashboardController::class, 'dashboard']);
     Route::get('/student/timeline', [StudentDashboardController::class, 'timeline']);
+
+    // Teacher & Staff Management
+    Route::get('/admin/teachers', [AdminTeacherController::class, 'index']);
+    Route::post('/admin/teachers', [AdminTeacherController::class, 'store']);
+    Route::get('/admin/teachers/{id}', [AdminTeacherController::class, 'show']);
+    Route::post('/admin/teachers/{id}/update', [AdminTeacherController::class, 'update']);
+    Route::post('/admin/teachers/{id}/qualifications', [AdminTeacherController::class, 'updateQualifications']);
+    Route::post('/admin/teachers/{id}/experience', [AdminTeacherController::class, 'updateExperience']);
+    Route::post('/admin/teachers/{id}/timetable', [AdminTeacherController::class, 'allocateTimetable']);
+    Route::get('/admin/teachers/{id}/leaves', [AdminTeacherController::class, 'leaveIndex']);
+    Route::post('/admin/teachers/{id}/leaves', [AdminTeacherController::class, 'leaveStore']);
+    Route::post('/admin/leaves/{leaveId}/action', [AdminTeacherController::class, 'leaveAction']);
+
+    Route::get('/admin/staff', [AdminStaffController::class, 'index']);
+    Route::post('/admin/staff', [AdminStaffController::class, 'store']);
+    Route::get('/admin/staff/{id}', [AdminStaffController::class, 'show']);
+    Route::post('/admin/staff/{id}/update', [AdminStaffController::class, 'update']);
+    Route::post('/admin/staff/{id}/qualifications', [AdminStaffController::class, 'updateQualifications']);
+    Route::post('/admin/staff/{id}/experience', [AdminStaffController::class, 'updateExperience']);
+    Route::get('/admin/staff/{id}/leaves', [AdminStaffController::class, 'leaveIndex']);
+    Route::post('/admin/staff/{id}/leaves', [AdminStaffController::class, 'leaveStore']);
 });
