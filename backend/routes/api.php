@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\StudentDashboardController;
 
 use App\Http\Controllers\Api\AdminTeacherController;
 use App\Http\Controllers\Api\AdminStaffController;
+use App\Http\Controllers\Api\AdminAcademicStructureController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -92,4 +93,32 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/staff/{id}/experience', [AdminStaffController::class, 'updateExperience']);
     Route::get('/admin/staff/{id}/leaves', [AdminStaffController::class, 'leaveIndex']);
     Route::post('/admin/staff/{id}/leaves', [AdminStaffController::class, 'leaveStore']);
+
+    // Academic Structure Management
+    Route::get('/admin/academic/departments', [AdminAcademicStructureController::class, 'getDepartments']);
+    Route::post('/admin/academic/departments', [AdminAcademicStructureController::class, 'storeDepartment']);
+    Route::post('/admin/academic/departments/{id}/update', [AdminAcademicStructureController::class, 'updateDepartment']);
+
+    Route::get('/admin/academic/programs', [AdminAcademicStructureController::class, 'getPrograms']);
+    Route::post('/admin/academic/programs', [AdminAcademicStructureController::class, 'storeProgram']);
+    Route::post('/admin/academic/programs/{id}/update', [AdminAcademicStructureController::class, 'updateProgram']);
+
+    Route::get('/admin/academic/years', [AdminAcademicStructureController::class, 'getAcademicYears']);
+    Route::post('/admin/academic/years', [AdminAcademicStructureController::class, 'storeAcademicYear']);
+    Route::post('/admin/academic/years/{id}/update', [AdminAcademicStructureController::class, 'updateAcademicYear']);
+
+    Route::get('/admin/academic/semesters', [AdminAcademicStructureController::class, 'getSemesters']);
+    Route::post('/admin/academic/semesters', [AdminAcademicStructureController::class, 'storeSemester']);
+    Route::post('/admin/academic/semesters/{id}/update', [AdminAcademicStructureController::class, 'updateSemester']);
+
+    Route::get('/admin/academic/subjects', [AdminAcademicStructureController::class, 'getSubjects']);
+    Route::post('/admin/academic/subjects', [AdminAcademicStructureController::class, 'storeSubject']);
+    Route::post('/admin/academic/subjects/{id}/update', [AdminAcademicStructureController::class, 'updateSubject']);
+
+    Route::get('/admin/academic/programs/{id}/curriculum', [AdminAcademicStructureController::class, 'getCurriculum']);
+    Route::post('/admin/academic/programs/{id}/curriculum', [AdminAcademicStructureController::class, 'syncCurriculum']);
+
+    Route::get('/admin/academic/courses', [AdminAcademicStructureController::class, 'getCourses']);
+    Route::post('/admin/academic/courses', [AdminAcademicStructureController::class, 'storeCourse']);
+    Route::post('/admin/academic/courses/{id}/update', [AdminAcademicStructureController::class, 'updateCourse']);
 });

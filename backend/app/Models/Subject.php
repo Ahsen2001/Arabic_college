@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 class Subject extends Model
 {
     use HasFactory, SoftDeletes;
@@ -29,5 +31,15 @@ class Subject extends Model
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function prerequisites(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_prerequisites', 'subject_id', 'prerequisite_subject_id');
+    }
+
+    public function prerequisiteFor(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'subject_prerequisites', 'prerequisite_subject_id', 'subject_id');
     }
 }
