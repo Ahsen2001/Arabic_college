@@ -45,6 +45,10 @@ import AdminAttendanceAnalytics from './screens/portal/AdminAttendanceAnalytics'
 import AttendanceRosterManager from './screens/portal/AttendanceRosterManager';
 import LeaveRequestsManager from './screens/portal/LeaveRequestsManager';
 import AttendancePDFRoster from './screens/portal/AttendancePDFRoster';
+import ExamSchedulesManager from './screens/portal/ExamSchedulesManager';
+import MarksEntryLedger from './screens/portal/MarksEntryLedger';
+import RecheckRequestsManager from './screens/portal/RecheckRequestsManager';
+import CohortRanksDashboard from './screens/portal/CohortRanksDashboard';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -116,6 +120,10 @@ const App: React.FC = () => {
             <Route path="/admin/attendance-roster" element={<AttendanceRosterManager />} />
             <Route path="/portal/leave-requests" element={<LeaveRequestsManager />} />
             <Route path="/portal/attendance-report" element={<AttendancePDFRoster />} />
+            <Route path="/admin/exam-schedules" element={<ExamSchedulesManager />} />
+            <Route path="/portal/marks-entry" element={<MarksEntryLedger />} />
+            <Route path="/portal/exam-rechecks" element={<RecheckRequestsManager />} />
+            <Route path="/admin/exam-ranks" element={<CohortRanksDashboard />} />
           </Route>
 
           {/* Wildcard Fallback */}

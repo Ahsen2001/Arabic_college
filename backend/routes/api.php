@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\AdminAcademicStructureController;
 use App\Http\Controllers\Api\ShareeaAcademicController;
 use App\Http\Controllers\Api\HifzMemorizationController;
 use App\Http\Controllers\Api\AttendanceManagementController;
+use App\Http\Controllers\Api\ExaminationManagementController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -164,4 +165,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/attendance/leaves/{leaveId}/action', [AttendanceManagementController::class, 'approveLeaveRequest']);
 
     Route::get('/attendance/analytics', [AttendanceManagementController::class, 'getAttendanceAnalytics']);
+
+    // Examination Management
+    Route::get('/exams/schedules', [ExaminationManagementController::class, 'getSchedules']);
+    Route::post('/exams/schedules', [ExaminationManagementController::class, 'storeSchedule']);
+    Route::get('/exams/{examId}/marks', [ExaminationManagementController::class, 'getMarks']);
+    Route::post('/exams/{examId}/marks', [ExaminationManagementController::class, 'saveMarks']);
+    Route::post('/exams/{examId}/publish', [ExaminationManagementController::class, 'publishResults']);
+    Route::get('/exams/ranks', [ExaminationManagementController::class, 'getRankings']);
+    Route::get('/exams/recheck', [ExaminationManagementController::class, 'getRecheckRequests']);
+    Route::post('/exams/results/{resultId}/recheck', [ExaminationManagementController::class, 'fileRecheckRequest']);
+    Route::post('/exams/recheck/{recheckId}/action', [ExaminationManagementController::class, 'actionRecheckRequest']);
+    Route::get('/exams/analytics', [ExaminationManagementController::class, 'getAnalytics']);
 });

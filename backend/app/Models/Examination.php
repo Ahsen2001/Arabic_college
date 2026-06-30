@@ -19,12 +19,14 @@ class Examination extends Model
         'exam_date',
         'max_marks',
         'weightage_percentage',
+        'is_published',
     ];
 
     protected $casts = [
         'exam_date' => 'date',
         'max_marks' => 'decimal:2',
         'weightage_percentage' => 'decimal:2',
+        'is_published' => 'boolean',
     ];
 
     public function course(): BelongsTo
@@ -35,5 +37,10 @@ class Examination extends Model
     public function results(): HasMany
     {
         return $this->hasMany(ExamResult::class);
+    }
+
+    public function recheckRequests(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(ExamRecheckRequest::class, ExamResult::class);
     }
 }
