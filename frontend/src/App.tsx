@@ -49,6 +49,8 @@ import ExamSchedulesManager from './screens/portal/ExamSchedulesManager';
 import MarksEntryLedger from './screens/portal/MarksEntryLedger';
 import RecheckRequestsManager from './screens/portal/RecheckRequestsManager';
 import CohortRanksDashboard from './screens/portal/CohortRanksDashboard';
+import TimetableBuilder from './screens/portal/TimetableBuilder';
+import TimetableCalendarView from './screens/portal/TimetableCalendarView';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -124,6 +126,8 @@ const App: React.FC = () => {
             <Route path="/portal/marks-entry" element={<MarksEntryLedger />} />
             <Route path="/portal/exam-rechecks" element={<RecheckRequestsManager />} />
             <Route path="/admin/exam-ranks" element={<CohortRanksDashboard />} />
+            <Route path="/admin/timetable" element={<TimetableBuilder />} />
+            <Route path="/portal/timetable-calendar" element={<TimetableCalendarView />} />
           </Route>
 
           {/* Wildcard Fallback */}

@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\ShareeaAcademicController;
 use App\Http\Controllers\Api\HifzMemorizationController;
 use App\Http\Controllers\Api\AttendanceManagementController;
 use App\Http\Controllers\Api\ExaminationManagementController;
+use App\Http\Controllers\Api\TimetableManagementController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -177,4 +178,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/exams/results/{resultId}/recheck', [ExaminationManagementController::class, 'fileRecheckRequest']);
     Route::post('/exams/recheck/{recheckId}/action', [ExaminationManagementController::class, 'actionRecheckRequest']);
     Route::get('/exams/analytics', [ExaminationManagementController::class, 'getAnalytics']);
+
+    // Timetable Management
+    Route::get('/timetable/rooms', [TimetableManagementController::class, 'getRooms']);
+    Route::post('/timetable/rooms', [TimetableManagementController::class, 'storeRoom']);
+    Route::post('/timetable/rooms/{roomId}/update', [TimetableManagementController::class, 'updateRoom']);
+    Route::get('/timetable/slots', [TimetableManagementController::class, 'getSlots']);
+    Route::post('/timetable/slots', [TimetableManagementController::class, 'storeSlot']);
+    Route::post('/timetable/slots/{slotId}/update', [TimetableManagementController::class, 'updateSlot']);
+    Route::delete('/timetable/slots/{slotId}', [TimetableManagementController::class, 'deleteSlot']);
+    Route::get('/timetable/analytics', [TimetableManagementController::class, 'getAnalytics']);
 });
