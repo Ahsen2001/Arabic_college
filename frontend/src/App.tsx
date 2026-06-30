@@ -59,6 +59,8 @@ import LibraryDashboard from './screens/portal/LibraryDashboard';
 import LibraryCirculation from './screens/portal/LibraryCirculation';
 import ResearchDashboard from './screens/portal/ResearchDashboard';
 import ResearchDetail from './screens/portal/ResearchDetail';
+import DocumentGenerator from './screens/portal/DocumentGenerator';
+import DocumentVerify from './screens/portal/DocumentVerify';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -90,6 +92,8 @@ const App: React.FC = () => {
             <Route path="/downloads" element={<Downloads />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/verify-document" element={<DocumentVerify />} />
+            <Route path="/verify-document/:token" element={<DocumentVerify />} />
           </Route>
 
           {/* Guest Only Portal Authentication Routes */}
@@ -145,6 +149,7 @@ const App: React.FC = () => {
             <Route path="/admin/library-circulation" element={<LibraryCirculation />} />
             <Route path="/admin/research" element={<ResearchDashboard />} />
             <Route path="/admin/research/:id" element={<ResearchDetail />} />
+            <Route path="/admin/documents" element={<DocumentGenerator />} />
           </Route>
 
           {/* Wildcard Fallback */}

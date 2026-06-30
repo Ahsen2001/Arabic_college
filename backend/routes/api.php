@@ -22,6 +22,8 @@ use App\Http\Controllers\Api\TimetableManagementController;
 use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\LibraryManagementController;
 use App\Http\Controllers\Api\ResearchManagementController;
+use App\Http\Controllers\Api\DocumentManagementController;
+
 
 
 // Public routes
@@ -40,6 +42,9 @@ Route::prefix('public')->group(function () {
     Route::get('/downloads', [PublicWebsiteController::class, 'downloads']);
     Route::post('/contact', [PublicWebsiteController::class, 'contact']);
 });
+
+Route::get('/verify-document/{token}', [DocumentManagementController::class, 'verifyDocument']);
+
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -245,6 +250,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/research/papers/{id}/workflow', [ResearchManagementController::class, 'processWorkflow']);
     Route::get('/research/versions/{versionId}/preview', [ResearchManagementController::class, 'previewVersion']);
     Route::get('/research/versions/{versionId}/download', [ResearchManagementController::class, 'downloadVersion']);
+
+    // Document Management
+    Route::get('/document/templates', [DocumentManagementController::class, 'getTemplates']);
+    Route::post('/document/templates', [DocumentManagementController::class, 'storeTemplate']);
+    Route::post('/document/templates/{id}/update', [DocumentManagementController::class, 'updateTemplate']);
+    Route::delete('/document/templates/{id}', [DocumentManagementController::class, 'deleteTemplate']);
+    Route::post('/document/generate', [DocumentManagementController::class, 'generateDocument']);
+    Route::post('/document/download-pdf', [DocumentManagementController::class, 'downloadPdf']);
 });
+
 
 
