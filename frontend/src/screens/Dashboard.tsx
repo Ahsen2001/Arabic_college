@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { User, Shield, Key, Calendar } from 'lucide-react';
+import { User, Shield, Calendar } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();

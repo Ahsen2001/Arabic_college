@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../api';
 import toast from 'react-hot-toast';
 import { 
-  History, Search, Filter, Calendar, User, Eye, RefreshCw, X,
-  ChevronLeft, ChevronRight, Globe, Laptop, ArrowRight, ShieldAlert,
+  History, Search, Filter, Eye, RefreshCw, X,
+  ChevronLeft, ChevronRight, Globe, Laptop, ShieldAlert,
   ArrowDownToLine, LogIn, LogOut, Plus, Edit2, Trash2, KeyRound
 } from 'lucide-react';
 

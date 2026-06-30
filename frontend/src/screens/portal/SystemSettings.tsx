@@ -11,7 +11,7 @@ import {
   RefreshCw, Lock
 } from 'lucide-react';
 
-interface AcademicYear { id: number; name: string; is_active: boolean; }
+interface AcademicYear { id: number; name: string; is_active: boolean; start_date?: string; end_date?: string; }
 interface BackupRecord { id: number; file_name: string; file_size_bytes: number; backup_status_id: number; initiated_by_user_id: number; created_at: string; initiator?: { name: string; email: string }; }
 interface SlideItem { title: string; description: string; image: string; cta: string; link: string; }
 interface ValueItem { title: string; desc: string; }

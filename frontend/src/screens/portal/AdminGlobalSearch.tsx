@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import api from '../../api';
 import toast from 'react-hot-toast';
 import {
@@ -58,7 +58,6 @@ const CATEGORIES: { type: SearchType; label: string; icon: React.FC<any>; color:
 
 const AdminGlobalSearch: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   // Search input state
   const queryFromUrl = searchParams.get('q') || '';
