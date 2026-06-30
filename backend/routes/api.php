@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AdminAdmissionsController;
 use App\Http\Controllers\Api\AdminStudentController;
 use App\Http\Controllers\Api\StudentDashboardController;
 use App\Http\Controllers\Api\AuditLogController;
+use App\Http\Controllers\Api\GlobalSearchController;
 
 use App\Http\Controllers\Api\AdminTeacherController;
 use App\Http\Controllers\Api\AdminStaffController;
@@ -52,6 +53,7 @@ Route::get('/verify-document/{token}', [DocumentManagementController::class, 've
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/admin/search/global', [GlobalSearchController::class, 'search']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AuthController::class, 'profile']);
     

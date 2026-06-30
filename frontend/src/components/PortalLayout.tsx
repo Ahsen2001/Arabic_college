@@ -7,7 +7,7 @@ import {
   LayoutDashboard, ClipboardCheck, Users, GraduationCap, 
   GitBranch, BookOpen, Layers, Calendar, CreditCard, 
   Bookmark, FileText, FileSignature, LogOut, ShieldAlert,
-  ClipboardList, Sun, Moon, Megaphone, Settings, History
+  ClipboardList, Sun, Moon, Megaphone, Settings, History, Search
 } from 'lucide-react';
 
 const PortalLayout: React.FC = () => {
@@ -15,6 +15,7 @@ const PortalLayout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [sidebarSearch, setSidebarSearch] = useState('');
 
   const { isLightTheme, toggleTheme } = useTheme();
 
@@ -86,6 +87,7 @@ const PortalLayout: React.FC = () => {
         { name: 'Academic Calendar', path: '/portal/calendar', icon: Calendar, permission: null },
         { name: 'System Settings', path: '/admin/settings', icon: Settings, permission: 'manage settings' },
         { name: 'Audit Logs', path: '/admin/audit-logs', icon: History, permission: 'view audit logs' },
+        { name: 'Global Search', path: '/admin/search', icon: Search, permission: null },
       ]
     }
   ];
@@ -113,6 +115,35 @@ const PortalLayout: React.FC = () => {
         <div className="portal-sidebar-user">
           <div className="portal-sidebar-user-name">{user.name}</div>
           <div className="portal-sidebar-user-role">{user.roles?.[0] ?? 'Academic Account'}</div>
+        </div>
+
+        {/* Quick Search */}
+        <div style={{ padding: '0 16px', marginBottom: '16px' }}>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            if (sidebarSearch.trim()) {
+              navigate(`/admin/search?q=${encodeURIComponent(sidebarSearch)}`);
+              setSidebarSearch('');
+            }
+          }} style={{ position: 'relative' }}>
+            <input
+              type="text"
+              placeholder="Quick search..."
+              value={sidebarSearch}
+              onChange={(e) => setSidebarSearch(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '8px 10px 8px 30px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border-glass)',
+                borderRadius: '8px',
+                color: 'var(--text-primary)',
+                fontSize: '12px',
+                outline: 'none',
+              }}
+            />
+            <Search size={12} style={{ position: 'absolute', left: '10px', top: '12px', color: 'var(--text-secondary)' }} />
+          </form>
         </div>
 
         {/* Dynamic menu items */}
