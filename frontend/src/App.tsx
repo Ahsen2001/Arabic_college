@@ -61,6 +61,7 @@ import ResearchDashboard from './screens/portal/ResearchDashboard';
 import ResearchDetail from './screens/portal/ResearchDetail';
 import DocumentGenerator from './screens/portal/DocumentGenerator';
 import DocumentVerify from './screens/portal/DocumentVerify';
+import PortalLayout from './components/PortalLayout';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -107,49 +108,51 @@ const App: React.FC = () => {
 
           {/* Secure Protected Portal Route */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/portal/admissions" element={<ApplicantAdmissions />} />
-            <Route path="/admin/admissions" element={<AdminAdmissionsList />} />
-            <Route path="/admin/admissions/:id" element={<AdminApplicationDetail />} />
-            <Route path="/admin/students" element={<AdminStudentSearch />} />
-            <Route path="/admin/students/:id" element={<AdminStudentDetail />} />
-            <Route path="/portal/student-dashboard" element={<StudentDashboardView />} />
-            <Route path="/admin/teachers-staff" element={<AdminTeacherStaffList />} />
-            <Route path="/admin/teachers/:id" element={<AdminTeacherDossier />} />
-            <Route path="/admin/staff/:id" element={<AdminStaffDossier />} />
-            <Route path="/admin/academic-structure" element={<AdminAcademicStructure />} />
-            <Route path="/admin/subjects-curriculum" element={<AdminSubjectCurriculum />} />
-            <Route path="/admin/course-allocation" element={<AdminCourseAllocation />} />
-            <Route path="/admin/academic-analytics" element={<AdminAcademicDashboard />} />
-            <Route path="/portal/teacher-gradebook" element={<TeacherGradebookAttendance />} />
-            <Route path="/portal/student-transcript" element={<StudentTranscriptView />} />
-            <Route path="/portal/student-transcript/:studentId" element={<StudentTranscriptView />} />
-            <Route path="/admin/student-promotion" element={<AdminPromotionGraduation />} />
-            <Route path="/portal/teacher-hifz" element={<TeacherHifzDashboard />} />
-            <Route path="/portal/student-hifz" element={<StudentHifzDashboard />} />
-            <Route path="/portal/student-hifz/:studentId" element={<StudentHifzDashboard />} />
-            <Route path="/portal/hifz-certificate/:studentId" element={<HifzKhatmCertificate />} />
-            <Route path="/admin/hifz-reports" element={<AdminHifzReports />} />
-            <Route path="/admin/attendance-analytics" element={<AdminAttendanceAnalytics />} />
-            <Route path="/admin/attendance-roster" element={<AttendanceRosterManager />} />
-            <Route path="/portal/leave-requests" element={<LeaveRequestsManager />} />
-            <Route path="/portal/attendance-report" element={<AttendancePDFRoster />} />
-            <Route path="/admin/exam-schedules" element={<ExamSchedulesManager />} />
-            <Route path="/portal/marks-entry" element={<MarksEntryLedger />} />
-            <Route path="/portal/exam-rechecks" element={<RecheckRequestsManager />} />
-            <Route path="/admin/exam-ranks" element={<CohortRanksDashboard />} />
-            <Route path="/admin/timetable" element={<TimetableBuilder />} />
-            <Route path="/portal/timetable-calendar" element={<TimetableCalendarView />} />
-            <Route path="/admin/finance" element={<FinanceDashboard />} />
-            <Route path="/admin/finance-invoices" element={<InvoiceManager />} />
-            <Route path="/admin/finance-outstanding" element={<OutstandingDues />} />
-            <Route path="/admin/finance-scholarships" element={<ScholarshipsManager />} />
-            <Route path="/admin/finance-discounts" element={<ScholarshipsManager />} />
-            <Route path="/admin/library" element={<LibraryDashboard />} />
-            <Route path="/admin/library-circulation" element={<LibraryCirculation />} />
-            <Route path="/admin/research" element={<ResearchDashboard />} />
-            <Route path="/admin/research/:id" element={<ResearchDetail />} />
-            <Route path="/admin/documents" element={<DocumentGenerator />} />
+            <Route element={<PortalLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/portal/admissions" element={<ApplicantAdmissions />} />
+              <Route path="/admin/admissions" element={<AdminAdmissionsList />} />
+              <Route path="/admin/admissions/:id" element={<AdminApplicationDetail />} />
+              <Route path="/admin/students" element={<AdminStudentSearch />} />
+              <Route path="/admin/students/:id" element={<AdminStudentDetail />} />
+              <Route path="/portal/student-dashboard" element={<StudentDashboardView />} />
+              <Route path="/admin/teachers-staff" element={<AdminTeacherStaffList />} />
+              <Route path="/admin/teachers/:id" element={<AdminTeacherDossier />} />
+              <Route path="/admin/staff/:id" element={<AdminStaffDossier />} />
+              <Route path="/admin/academic-structure" element={<AdminAcademicStructure />} />
+              <Route path="/admin/subjects-curriculum" element={<AdminSubjectCurriculum />} />
+              <Route path="/admin/course-allocation" element={<AdminCourseAllocation />} />
+              <Route path="/admin/academic-analytics" element={<AdminAcademicDashboard />} />
+              <Route path="/portal/teacher-gradebook" element={<TeacherGradebookAttendance />} />
+              <Route path="/portal/student-transcript" element={<StudentTranscriptView />} />
+              <Route path="/portal/student-transcript/:studentId" element={<StudentTranscriptView />} />
+              <Route path="/admin/student-promotion" element={<AdminPromotionGraduation />} />
+              <Route path="/portal/teacher-hifz" element={<TeacherHifzDashboard />} />
+              <Route path="/portal/student-hifz" element={<StudentHifzDashboard />} />
+              <Route path="/portal/student-hifz/:studentId" element={<StudentHifzDashboard />} />
+              <Route path="/portal/hifz-certificate/:studentId" element={<HifzKhatmCertificate />} />
+              <Route path="/admin/hifz-reports" element={<AdminHifzReports />} />
+              <Route path="/admin/attendance-analytics" element={<AdminAttendanceAnalytics />} />
+              <Route path="/admin/attendance-roster" element={<AttendanceRosterManager />} />
+              <Route path="/portal/leave-requests" element={<LeaveRequestsManager />} />
+              <Route path="/portal/attendance-report" element={<AttendancePDFRoster />} />
+              <Route path="/admin/exam-schedules" element={<ExamSchedulesManager />} />
+              <Route path="/portal/marks-entry" element={<MarksEntryLedger />} />
+              <Route path="/portal/exam-rechecks" element={<RecheckRequestsManager />} />
+              <Route path="/admin/exam-ranks" element={<CohortRanksDashboard />} />
+              <Route path="/admin/timetable" element={<TimetableBuilder />} />
+              <Route path="/portal/timetable-calendar" element={<TimetableCalendarView />} />
+              <Route path="/admin/finance" element={<FinanceDashboard />} />
+              <Route path="/admin/finance-invoices" element={<InvoiceManager />} />
+              <Route path="/admin/finance-outstanding" element={<OutstandingDues />} />
+              <Route path="/admin/finance-scholarships" element={<ScholarshipsManager />} />
+              <Route path="/admin/finance-discounts" element={<ScholarshipsManager />} />
+              <Route path="/admin/library" element={<LibraryDashboard />} />
+              <Route path="/admin/library-circulation" element={<LibraryCirculation />} />
+              <Route path="/admin/research" element={<ResearchDashboard />} />
+              <Route path="/admin/research/:id" element={<ResearchDetail />} />
+              <Route path="/admin/documents" element={<DocumentGenerator />} />
+            </Route>
           </Route>
 
           {/* Wildcard Fallback */}

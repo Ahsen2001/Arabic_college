@@ -1,42 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import toast from 'react-hot-toast';
-import { LogOut, User, Shield, Key, Calendar } from 'lucide-react';
+import { User, Shield, Key, Calendar } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
-  const { user, logout } = useAuth();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
-
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    const toastId = toast.loading('Logging out...');
-    try {
-      await logout();
-      toast.success('Successfully logged out.', { id: toastId });
-    } catch (error) {
-      toast.error('Logout request failed. Cleaning up session...', { id: toastId });
-    } finally {
-      setIsLoggingOut(false);
-    }
-  };
+  const { user } = useAuth();
 
   if (!user) return null;
 
   return (
     <div className="dashboard-wrapper">
-      <nav className="dashboard-nav">
-        <div className="nav-container">
-          <span className="brand-logo">Arabic College Portal</span>
-          <button
-            onClick={handleLogout}
-            className="btn btn-outline btn-sm"
-            disabled={isLoggingOut}
-          >
-            <LogOut size={16} /> Logout
-          </button>
-        </div>
-      </nav>
-
       <main className="dashboard-content">
         <header className="dashboard-header">
           <h1>Welcome, {user.name}</h1>
