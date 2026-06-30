@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import toast from 'react-hot-toast';
 import { Mail, Phone, MapPin, Send, Clock, User, HelpCircle, CheckCircle } from 'lucide-react';
@@ -11,6 +11,25 @@ const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState('');
+
+  const [contactInfo, setContactInfo] = useState({
+    phone: '+966 11 123 4567',
+    email: 'info@arabiccollege.edu',
+    address: 'Academic Campus, Riyadh, Saudi Arabia',
+  });
+
+  useEffect(() => {
+    api.get('/public/cms').then(res => {
+      const data = res.data.data;
+      setContactInfo({
+        phone: data.college_phone || '+966 11 123 4567',
+        email: data.college_email || 'info@arabiccollege.edu',
+        address: data.college_address || 'Academic Campus, Riyadh, Saudi Arabia',
+      });
+    }).catch(err => {
+      console.error('Failed to load contact CMS info:', err);
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,21 +88,21 @@ const Contact: React.FC = () => {
                   <Phone className="info-icon" />
                   <div>
                     <h4>Registrar Office Phone</h4>
-                    <p>+966 11 123 4567</p>
+                    <p>{contactInfo.phone}</p>
                   </div>
                 </div>
                 <div className="info-item-card">
                   <Mail className="info-icon" />
                   <div>
                     <h4>General Email Queries</h4>
-                    <p>info@arabiccollege.edu</p>
+                    <p>{contactInfo.email}</p>
                   </div>
                 </div>
                 <div className="info-item-card">
                   <MapPin className="info-icon" />
                   <div>
                     <h4>Academic Campus Address</h4>
-                    <p>Academic Campus, Riyadh, Saudi Arabia</p>
+                    <p>{contactInfo.address}</p>
                   </div>
                 </div>
               </div>

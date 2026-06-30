@@ -62,28 +62,6 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* Spatie Permissions */}
-          <div className="dashboard-card permissions-card">
-            <div className="card-header">
-              <Key size={20} className="icon-header" />
-              <h3>Granted Permissions</h3>
-            </div>
-            <div className="card-body">
-              <p className="card-desc">Spatie permissions synchronized to your current role:</p>
-              <div className="badge-container">
-                {user.permissions && user.permissions.length > 0 ? (
-                  user.permissions.map((perm, idx) => (
-                    <span key={idx} className="badge badge-permission">
-                      {perm}
-                    </span>
-                  ))
-                ) : (
-                  <span className="no-badge">No granted permissions</span>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Dynamic Panels based on Role */}

@@ -122,7 +122,7 @@ const ItemCard: React.FC<{ index: number; label: string; onRemove: () => void; c
   </div>
 );
 
-const card: React.CSSProperties = { background: 'rgba(17,24,39,.7)', backdropFilter: 'blur(20px)', borderRadius: 16, border: '1px solid rgba(255,255,255,.08)', padding: 28 };
+const card: React.CSSProperties = { background: 'var(--bg-card)', backdropFilter: 'blur(20px)', borderRadius: 16, border: '1px solid var(--border-glass)', padding: 28 };
 const g2: React.CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 };
 const g3: React.CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 };
 
@@ -279,7 +279,7 @@ const SystemSettings: React.FC = () => {
 
         {/* Sidebar nav */}
         <div style={{ position: 'sticky', top: 20 }}>
-          <div style={{ background: 'rgba(17,24,39,.7)', backdropFilter: 'blur(20px)', borderRadius: 16, border: '1px solid rgba(255,255,255,.08)', padding: 8 }}>
+          <div style={{ background: 'var(--bg-card)', backdropFilter: 'blur(20px)', borderRadius: 16, border: '1px solid var(--border-glass)', padding: 8 }}>
             {TABS.map(t => {
               const active = tab === t.id;
               return (
@@ -523,6 +523,19 @@ const SystemSettings: React.FC = () => {
                 </div>
               </div>
 
+              <div style={{ background: 'rgba(255,255,255,.025)', borderRadius: 14, border: '1px solid rgba(255,255,255,.07)', overflow: 'hidden' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,.06)', background: 'rgba(99,102,241,.06)' }}>
+                  <Edit3 size={16} style={{ color: '#818cf8' }} /><span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text-primary)' }}>Contact Page Information</span>
+                </div>
+                <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  <div style={g2}>
+                    <IField label="Public Phone Number" value={s.college_phone || ''} onChange={e => upd('college_phone', e.target.value)} required />
+                    <IField label="Public Email Address" value={s.college_email || ''} onChange={e => upd('college_email', e.target.value)} required />
+                  </div>
+                  <IField label="Public Campus Address" value={s.college_address || ''} onChange={e => upd('college_address', e.target.value)} required />
+                </div>
+              </div>
+
               <CmsSection icon={Layers} title="FAQ Items" count={faqs.length} onAdd={addFaq} addLabel="Add FAQ">
                 {faqs.length === 0 && <div style={{ textAlign: 'center', padding: 20, color: 'var(--text-secondary)', fontSize: 13 }}>No FAQ items yet.</div>}
                 {faqs.map((f, i) => (
@@ -634,7 +647,7 @@ const SystemSettings: React.FC = () => {
 
           {/* Sticky Save Bar */}
           {tab !== 'backup' && (
-            <div style={{ position: 'sticky', bottom: 16, zIndex: 50, background: 'rgba(15,23,42,.95)', backdropFilter: 'blur(20px)', borderRadius: 14, border: '1px solid rgba(99,102,241,.25)', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 8px 32px rgba(0,0,0,.4)', gap: 16 }}>
+            <div style={{ position: 'sticky', bottom: 16, zIndex: 50, background: 'var(--bg-card)', backdropFilter: 'blur(20px)', borderRadius: 14, border: '1px solid rgba(99,102,241,.25)', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 8px 32px rgba(0,0,0,.4)', gap: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div style={{ width: 8, height: 8, borderRadius: '50%', background: saving ? '#f59e0b' : '#10b981', animation: saving ? 'pulse 1s infinite' : 'none' }} />
                 <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{saving ? 'Saving changes...' : 'Editing: ' + (TABS.find(t => t.id === tab)?.label || '')}</span>

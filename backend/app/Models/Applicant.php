@@ -21,6 +21,10 @@ class Applicant extends Model
         'address',
     ];
 
+    protected $casts = [
+        'date_of_birth' => 'date',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

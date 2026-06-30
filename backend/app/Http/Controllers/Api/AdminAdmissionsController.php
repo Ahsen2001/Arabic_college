@@ -110,7 +110,11 @@ class AdminAdmissionsController extends Controller
             'application_number' => $applicantDetails ? $applicantDetails->application_number : 'N/A',
             'name' => $user ? $user->name : 'Anonymous',
             'email' => $user ? $user->email : 'N/A',
-            'date_of_birth' => $applicantDetails && $applicantDetails->date_of_birth ? $applicantDetails->date_of_birth->format('Y-m-d') : null,
+            'date_of_birth' => ($applicantDetails && $applicantDetails->date_of_birth)
+                ? ($applicantDetails->date_of_birth instanceof \Carbon\Carbon
+                    ? $applicantDetails->date_of_birth->format('Y-m-d')
+                    : date('Y-m-d', strtotime($applicantDetails->date_of_birth)))
+                : null,
             'contact_number' => $applicantDetails ? $applicantDetails->contact_number : 'N/A',
             'address' => $applicantDetails ? $applicantDetails->address : 'N/A',
             'program_id' => $application->program_id,
