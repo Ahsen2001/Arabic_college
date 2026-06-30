@@ -41,6 +41,10 @@ import TeacherHifzDashboard from './screens/portal/TeacherHifzDashboard';
 import StudentHifzDashboard from './screens/portal/StudentHifzDashboard';
 import HifzKhatmCertificate from './screens/portal/HifzKhatmCertificate';
 import AdminHifzReports from './screens/portal/AdminHifzReports';
+import AdminAttendanceAnalytics from './screens/portal/AdminAttendanceAnalytics';
+import AttendanceRosterManager from './screens/portal/AttendanceRosterManager';
+import LeaveRequestsManager from './screens/portal/LeaveRequestsManager';
+import AttendancePDFRoster from './screens/portal/AttendancePDFRoster';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -108,6 +112,10 @@ const App: React.FC = () => {
             <Route path="/portal/student-hifz/:studentId" element={<StudentHifzDashboard />} />
             <Route path="/portal/hifz-certificate/:studentId" element={<HifzKhatmCertificate />} />
             <Route path="/admin/hifz-reports" element={<AdminHifzReports />} />
+            <Route path="/admin/attendance-analytics" element={<AdminAttendanceAnalytics />} />
+            <Route path="/admin/attendance-roster" element={<AttendanceRosterManager />} />
+            <Route path="/portal/leave-requests" element={<LeaveRequestsManager />} />
+            <Route path="/portal/attendance-report" element={<AttendancePDFRoster />} />
           </Route>
 
           {/* Wildcard Fallback */}

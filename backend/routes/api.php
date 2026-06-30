@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\AdminStaffController;
 use App\Http\Controllers\Api\AdminAcademicStructureController;
 use App\Http\Controllers\Api\ShareeaAcademicController;
 use App\Http\Controllers\Api\HifzMemorizationController;
+use App\Http\Controllers\Api\AttendanceManagementController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -148,4 +149,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/hifz/milestones', [HifzMemorizationController::class, 'logMilestone']);
     Route::get('/hifz/student/{studentId}/progress', [HifzMemorizationController::class, 'getProgress']);
     Route::get('/hifz/reports', [HifzMemorizationController::class, 'getReports']);
+
+    // Attendance Management
+    Route::get('/attendance/students', [AttendanceManagementController::class, 'getStudentAttendance']);
+    Route::post('/attendance/students/bulk', [AttendanceManagementController::class, 'saveStudentAttendanceBulk']);
+    Route::post('/attendance/students/qr', [AttendanceManagementController::class, 'markQRStudentAttendance']);
+
+    Route::get('/attendance/staff', [AttendanceManagementController::class, 'getStaffAttendance']);
+    Route::post('/attendance/staff/bulk', [AttendanceManagementController::class, 'saveStaffAttendanceBulk']);
+    Route::post('/attendance/staff/qr', [AttendanceManagementController::class, 'markQRStaffAttendance']);
+
+    Route::get('/attendance/leaves', [AttendanceManagementController::class, 'getLeaveRequests']);
+    Route::post('/attendance/leaves', [AttendanceManagementController::class, 'storeLeaveRequest']);
+    Route::post('/attendance/leaves/{leaveId}/action', [AttendanceManagementController::class, 'approveLeaveRequest']);
+
+    Route::get('/attendance/analytics', [AttendanceManagementController::class, 'getAttendanceAnalytics']);
 });
