@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Staff extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, \App\Traits\Auditable;
 
     // Set custom table name since 'staff' is an irregular plural in English and Laravel infers 'staffs' by default
     protected $table = 'staff';

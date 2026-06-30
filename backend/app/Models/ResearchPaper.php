@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ResearchPaper extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, \App\Traits\Auditable;
 
     protected $table = 'research_papers';
 

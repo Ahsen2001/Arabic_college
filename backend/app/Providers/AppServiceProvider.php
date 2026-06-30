@@ -26,5 +26,23 @@ class AppServiceProvider extends ServiceProvider
             \App\Models\User::class,
             \App\Policies\UserPolicy::class
         );
+
+        // Register Spatie Permission Audit Event Listeners
+        \Illuminate\Support\Facades\Event::listen(
+            \Spatie\Permission\Events\RoleAttached::class,
+            [\App\Listeners\AuditPermissionsListener::class, 'handle']
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            \Spatie\Permission\Events\RoleDetached::class,
+            [\App\Listeners\AuditPermissionsListener::class, 'handle']
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            \Spatie\Permission\Events\PermissionAttached::class,
+            [\App\Listeners\AuditPermissionsListener::class, 'handle']
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            \Spatie\Permission\Events\PermissionDetached::class,
+            [\App\Listeners\AuditPermissionsListener::class, 'handle']
+        );
     }
 }

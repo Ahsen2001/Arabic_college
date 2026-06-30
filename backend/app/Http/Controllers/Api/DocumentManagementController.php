@@ -129,6 +129,17 @@ class DocumentManagementController extends Controller
             'css'  => ['nullable', 'string'],
         ]);
 
+        // Log generated document download
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'file_download',
+            'model_type' => \App\Models\GeneratedDocument::class,
+            'model_id' => null,
+            'new_values' => ['filename' => 'academic_document.pdf', 'type' => 'pdf_generation'],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         $fullHtml = "
 <html>
 <head>

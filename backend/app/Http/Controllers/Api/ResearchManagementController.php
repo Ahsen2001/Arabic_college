@@ -301,6 +301,17 @@ class ResearchManagementController extends Controller
             abort(404, 'Physical file not found in secure vault storage.');
         }
 
+        // Log research paper file download
+        \App\Models\AuditLog::create([
+            'user_id' => $user->id,
+            'action' => 'file_download',
+            'model_type' => ResearchPaperVersion::class,
+            'model_id' => $version->id,
+            'new_values' => ['filename' => $version->original_filename, 'type' => 'research_paper_download'],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         return response()->download(Storage::path($path), $version->original_filename);
     }
 }

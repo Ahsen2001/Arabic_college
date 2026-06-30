@@ -48,6 +48,14 @@ class AuthService
 
         $token = $user->createToken($device)->plainTextToken;
 
+        // Log successful login
+        \App\Models\AuditLog::create([
+            'user_id' => $user->id,
+            'action' => 'login',
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         return [
             'user' => $user,
             'token' => $token,
@@ -197,6 +205,12 @@ class AuthService
     public function logout(mixed $user): bool
     {
         if (method_exists($user, 'currentAccessToken') && $user->currentAccessToken()) {
+            \App\Models\AuditLog::create([
+                'user_id' => $user->id,
+                'action' => 'logout',
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
             return $user->currentAccessToken()->delete();
         }
         return false;

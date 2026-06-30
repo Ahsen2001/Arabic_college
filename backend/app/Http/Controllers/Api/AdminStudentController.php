@@ -383,6 +383,17 @@ class AdminStudentController extends Controller
     {
         $students = Student::with(['user', 'program'])->get();
 
+        // Log export file download
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'file_download',
+            'model_type' => Student::class,
+            'model_id' => null,
+            'new_values' => ['filename' => 'students_export_' . date('Ymd_His') . '.csv', 'type' => 'student_export'],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         $headers = [
             "Content-type" => "text/csv",
             "Content-Disposition" => "attachment; filename=students_export_" . date('Ymd_His') . ".csv",

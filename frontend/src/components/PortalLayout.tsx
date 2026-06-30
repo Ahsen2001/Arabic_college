@@ -7,7 +7,7 @@ import {
   LayoutDashboard, ClipboardCheck, Users, GraduationCap, 
   GitBranch, BookOpen, Layers, Calendar, CreditCard, 
   Bookmark, FileText, FileSignature, LogOut, ShieldAlert,
-  ClipboardList, Sun, Moon, Megaphone, Settings
+  ClipboardList, Sun, Moon, Megaphone, Settings, History
 } from 'lucide-react';
 
 const PortalLayout: React.FC = () => {
@@ -85,6 +85,7 @@ const PortalLayout: React.FC = () => {
         { name: 'Communication Desk', path: '/admin/communication', icon: Megaphone, permission: 'manage settings' },
         { name: 'Academic Calendar', path: '/portal/calendar', icon: Calendar, permission: null },
         { name: 'System Settings', path: '/admin/settings', icon: Settings, permission: 'manage settings' },
+        { name: 'Audit Logs', path: '/admin/audit-logs', icon: History, permission: 'view audit logs' },
       ]
     }
   ];

@@ -65,6 +65,7 @@ import DocumentVerify from './screens/portal/DocumentVerify';
 import CommunicationDashboard from './screens/portal/CommunicationDashboard';
 import { AcademicCalendarView } from './screens/portal/AcademicCalendarView';
 import SystemSettings from './screens/portal/SystemSettings';
+import { AdminAuditLogs } from './screens/portal/AdminAuditLogs';
 import PortalLayout from './components/PortalLayout';
 import './App.css';
 
@@ -160,6 +161,7 @@ const App: React.FC = () => {
               <Route path="/admin/communication" element={<CommunicationDashboard />} />
               <Route path="/portal/calendar" element={<AcademicCalendarView />} />
               <Route path="/admin/settings" element={<SystemSettings />} />
+              <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
             </Route>
           </Route>
 

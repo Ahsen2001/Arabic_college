@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\AdmissionsController;
 use App\Http\Controllers\Api\AdminAdmissionsController;
 use App\Http\Controllers\Api\AdminStudentController;
 use App\Http\Controllers\Api\StudentDashboardController;
+use App\Http\Controllers\Api\AuditLogController;
 
 use App\Http\Controllers\Api\AdminTeacherController;
 use App\Http\Controllers\Api\AdminStaffController;
@@ -287,6 +288,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/settings/backup', [SystemSettingsController::class, 'triggerBackup']);
     Route::get('/admin/settings/backup/{id}/download', [SystemSettingsController::class, 'downloadBackup']);
     Route::post('/admin/settings/backup/{id}/restore', [SystemSettingsController::class, 'restoreBackup']);
+
+    // Audit Logs
+    Route::get('/admin/audit-logs', [AuditLogController::class, 'index']);
 });
 
 

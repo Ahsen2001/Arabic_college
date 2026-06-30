@@ -174,6 +174,16 @@ class SystemSettingsController extends Controller
         $backup = Backup::findOrFail($id);
 
         if (Storage::disk('local')->exists($backup->file_path)) {
+            // Log backup file download
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'file_download',
+                'model_type' => Backup::class,
+                'model_id' => $backup->id,
+                'new_values' => ['filename' => $backup->file_name, 'type' => 'database_backup_download'],
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
             return Storage::disk('local')->download($backup->file_path, $backup->file_name);
         }
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GeneratedDocument extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\Auditable;
 
     protected $table = 'generated_documents';
 

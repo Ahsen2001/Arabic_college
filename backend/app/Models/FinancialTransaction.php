@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FinancialTransaction extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, \App\Traits\Auditable;
 
     protected $table = 'financial_transactions';
 
