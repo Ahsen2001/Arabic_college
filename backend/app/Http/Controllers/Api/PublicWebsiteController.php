@@ -160,4 +160,30 @@ class PublicWebsiteController extends Controller
 
         return ApiResponse::success(null, 'Your query has been submitted successfully. Our registrar team will reach out shortly.');
     }
+
+    /**
+     * Get CMS configuration content for public pages.
+     *
+     * @return JsonResponse
+     */
+    public function cms(): JsonResponse
+    {
+        $keys = [
+            'college_name', 'college_abbreviation', 'college_address', 'college_phone', 'college_email', 'college_logo',
+            'cms_home_hero', 'cms_about_content', 'cms_faq_list', 'cms_gallery_images', 'cms_news_bulletins', 'admission_status'
+        ];
+
+        $settings = \App\Models\Setting::whereIn('key', $keys)->get()->mapWithKeys(function ($setting) {
+            $value = $setting->value;
+            if ($setting->type === 'json' && $value) {
+                $decoded = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $value = $decoded;
+                }
+            }
+            return [$setting->key => $value];
+        });
+
+        return ApiResponse::success($settings, 'CMS settings fetched successfully.');
+    }
 }

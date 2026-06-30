@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             AcademicStructureSeeder::class,
             UserAndProfilesSeeder::class,
+            SystemSettingsSeeder::class,
         ]);
     }
 }

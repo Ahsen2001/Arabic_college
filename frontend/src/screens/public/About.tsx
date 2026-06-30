@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Target, Eye, Landmark, Compass } from 'lucide-react';
+import api from '../../api';
+
+interface AboutCms {
+  history?: string;
+  mission?: string;
+  vision?: string;
+}
 
 const About: React.FC = () => {
+  const [cms, setCms] = useState<AboutCms>({});
+
+  useEffect(() => {
+    api.get('/public/cms').then(res => {
+      const data = res.data.data;
+      if (data?.cms_about_content) setCms(data.cms_about_content);
+    }).catch(() => {/* fall back to static */});
+  }, []);
+
   return (
     <div className="public-subpage about-page">
       <header className="page-header">
@@ -17,11 +33,13 @@ const About: React.FC = () => {
           <div className="about-history-block">
             <h2>Our History</h2>
             <p>
-              Founded in 2012, the Arabic College of Sharia and Linguistic Sciences was established to address the growing need for high-caliber, academically structured education in classical Islamic subjects. Rather than relying on informal study circles, our founders designed a comprehensive university-level curriculum.
+              {cms.history || 'Founded in 2012, the Arabic College of Sharia and Linguistic Sciences was established to address the growing need for high-caliber, academically structured education in classical Islamic subjects. Rather than relying on informal study circles, our founders designed a comprehensive university-level curriculum.'}
             </p>
+            {!cms.history && (
             <p>
               Today, our campus serves as a leading institution in Sharia jurisprudence, Arabic morphology and syntax, and Hadith criticism. We blend time-tested textual learning of classical Islamic manuals with structured semester formats, coursework grading, and credit-hour criteria.
             </p>
+            )}
           </div>
 
           {/* Mission & Vision */}
@@ -32,7 +50,7 @@ const About: React.FC = () => {
                 <h3>Our Mission</h3>
               </div>
               <p>
-                To cultivate accomplished scholars and researchers in Sharia sciences and classical Arabic literature, empowering them with critical thinking, research skills, and authentic traditional insights to guide the contemporary community.
+                {cms.mission || 'To cultivate accomplished scholars and researchers in Sharia sciences and classical Arabic literature, empowering them with critical thinking, research skills, and authentic traditional insights to guide the contemporary community.'}
               </p>
             </div>
             <div className="about-card-info">
@@ -41,7 +59,7 @@ const About: React.FC = () => {
                 <h3>Our Vision</h3>
               </div>
               <p>
-                To be the premier global center of higher learning for traditional Sharia sciences and Arabic linguistic research, recognized for combining classical depth with academic integrity.
+                {cms.vision || 'To be the premier global center of higher learning for traditional Sharia sciences and Arabic linguistic research, recognized for combining classical depth with academic integrity.'}
               </p>
             </div>
           </div>

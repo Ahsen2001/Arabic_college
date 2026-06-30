@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Layers, BookOpen, Compass, Sparkles } from 'lucide-react';
+import api from '../../api';
 
 interface GalleryItem {
   id: number;
@@ -12,50 +13,25 @@ interface GalleryItem {
 const Gallery: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<'all' | 'library' | 'campus' | 'calligraphy' | 'lectures'>('all');
 
-  const items: GalleryItem[] = [
-    {
-      id: 1,
-      title: 'Classical Reference Library',
-      category: 'library',
-      image: '/assets/hero_sharia.png',
-      description: 'Housing over 20,000 classical text volumes and legal manuscripts.',
-    },
-    {
-      id: 2,
-      title: 'Arabic Calligraphy Research',
-      category: 'calligraphy',
-      image: '/assets/hero_linguistics.png',
-      description: 'Study of Thuluth and Naskh scripts under master calligraphers.',
-    },
-    {
-      id: 3,
-      title: 'Academic Campus Grounds',
-      category: 'campus',
-      image: '/assets/college_campus.png',
-      description: 'The exterior modern facades of the central college library.',
-    },
-    {
-      id: 4,
-      title: 'Jurisprudence Comparative Lecture',
-      category: 'lectures',
-      image: '/assets/hero_sharia.png',
-      description: 'Students discussing traditional fiqh rulings in small seminars.',
-    },
-    {
-      id: 5,
-      title: 'Linguistic Rhetoric Workshop',
-      category: 'calligraphy',
-      image: '/assets/hero_linguistics.png',
-      description: 'Exploring grammatical syntax structures of classical poetry.',
-    },
-    {
-      id: 6,
-      title: 'Faculty Administration Wings',
-      category: 'campus',
-      image: '/assets/college_campus.png',
-      description: 'Academic offices where professors hold student advice hours.',
-    }
+  const defaultItems: GalleryItem[] = [
+    { id: 1, title: 'Classical Reference Library', category: 'library', image: '/assets/hero_sharia.png', description: 'Housing over 20,000 classical text volumes and legal manuscripts.' },
+    { id: 2, title: 'Arabic Calligraphy Research', category: 'calligraphy', image: '/assets/hero_linguistics.png', description: 'Study of Thuluth and Naskh scripts under master calligraphers.' },
+    { id: 3, title: 'Academic Campus Grounds', category: 'campus', image: '/assets/college_campus.png', description: 'The exterior modern facades of the central college library.' },
+    { id: 4, title: 'Jurisprudence Comparative Lecture', category: 'lectures', image: '/assets/hero_sharia.png', description: 'Students discussing traditional fiqh rulings in small seminars.' },
+    { id: 5, title: 'Linguistic Rhetoric Workshop', category: 'calligraphy', image: '/assets/hero_linguistics.png', description: 'Exploring grammatical syntax structures of classical poetry.' },
+    { id: 6, title: 'Faculty Administration Wings', category: 'campus', image: '/assets/college_campus.png', description: 'Academic offices where professors hold student advice hours.' }
   ];
+
+  const [items, setItems] = useState<GalleryItem[]>(defaultItems);
+
+  useEffect(() => {
+    api.get('/public/cms').then(res => {
+      const data = res.data.data;
+      if (data?.cms_gallery_images && Array.isArray(data.cms_gallery_images) && data.cms_gallery_images.length > 0) {
+        setItems(data.cms_gallery_images);
+      }
+    }).catch(() => {/* fall back to defaults */});
+  }, []);
 
   const filteredItems = activeCategory === 'all'
     ? items

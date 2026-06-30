@@ -64,6 +64,7 @@ import DocumentGenerator from './screens/portal/DocumentGenerator';
 import DocumentVerify from './screens/portal/DocumentVerify';
 import CommunicationDashboard from './screens/portal/CommunicationDashboard';
 import { AcademicCalendarView } from './screens/portal/AcademicCalendarView';
+import SystemSettings from './screens/portal/SystemSettings';
 import PortalLayout from './components/PortalLayout';
 import './App.css';
 
@@ -158,6 +159,7 @@ const App: React.FC = () => {
               <Route path="/admin/documents" element={<DocumentGenerator />} />
               <Route path="/admin/communication" element={<CommunicationDashboard />} />
               <Route path="/portal/calendar" element={<AcademicCalendarView />} />
+              <Route path="/admin/settings" element={<SystemSettings />} />
             </Route>
           </Route>
 

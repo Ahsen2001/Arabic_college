@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\LibraryManagementController;
 use App\Http\Controllers\Api\ResearchManagementController;
 use App\Http\Controllers\Api\DocumentManagementController;
 use App\Http\Controllers\Api\CommunicationController;
+use App\Http\Controllers\Api\SystemSettingsController;
 
 
 
@@ -42,6 +43,7 @@ Route::prefix('public')->group(function () {
     Route::get('/news-events', [PublicWebsiteController::class, 'newsEvents']);
     Route::get('/downloads', [PublicWebsiteController::class, 'downloads']);
     Route::post('/contact', [PublicWebsiteController::class, 'contact']);
+    Route::get('/cms', [PublicWebsiteController::class, 'cms']);
 });
 
 Route::get('/verify-document/{token}', [DocumentManagementController::class, 'verifyDocument']);
@@ -277,6 +279,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/communication/calendar/{id}', [CommunicationController::class, 'destroyCalendar']);
 
     Route::post('/communication/sms/test', [CommunicationController::class, 'testSmsGateway']);
+
+    // System Settings & CMS Operations
+    Route::get('/admin/settings', [SystemSettingsController::class, 'index']);
+    Route::post('/admin/settings', [SystemSettingsController::class, 'update']);
+    Route::post('/admin/settings/logo', [SystemSettingsController::class, 'uploadLogo']);
+    Route::post('/admin/settings/backup', [SystemSettingsController::class, 'triggerBackup']);
+    Route::get('/admin/settings/backup/{id}/download', [SystemSettingsController::class, 'downloadBackup']);
+    Route::post('/admin/settings/backup/{id}/restore', [SystemSettingsController::class, 'restoreBackup']);
 });
 
 

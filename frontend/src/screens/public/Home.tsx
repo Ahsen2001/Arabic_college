@@ -24,8 +24,10 @@ const Home: React.FC = () => {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [collegeName, setCollegeName] = useState('Arabic College of Sharia Sciences');
+  const [admissionOpen, setAdmissionOpen] = useState(true);
 
-  const slides = [
+  const defaultSlides = [
     {
       title: 'Excellence in Islamic Sharia Jurisprudence',
       description: 'Preserving classical legal traditions with rigorous scientific analysis and contemporary contexts.',
@@ -48,46 +50,42 @@ const Home: React.FC = () => {
       link: '/admissions',
     },
   ];
+  const [slides, setSlides] = useState(defaultSlides);
 
   useEffect(() => {
-    const fetchNewsEvents = async () => {
+    const fetchData = async () => {
+      try {
+        // Fetch CMS settings for dynamic content
+        const cmsResponse = await api.get('/public/cms');
+        const cms = cmsResponse.data.data;
+        if (cms.college_name) setCollegeName(cms.college_name);
+        if (cms.admission_status !== undefined) setAdmissionOpen(cms.admission_status === '1' || cms.admission_status === true);
+        if (cms.cms_home_hero && Array.isArray(cms.cms_home_hero) && cms.cms_home_hero.length > 0) {
+          setSlides(cms.cms_home_hero);
+        }
+      } catch {
+        // silently fall back to defaults
+      }
+
       try {
         const response = await api.get('/public/news-events');
         setAnnouncements(response.data.data.announcements);
         setEvents(response.data.data.events);
       } catch (error) {
-        console.error("Failed to load public website news/events. Falling back to static placeholders.", error);
-        // Placeholders in case API is offline
+        console.error('Failed to load public website news/events. Falling back to static placeholders.', error);
         setAnnouncements([
-          {
-            id: 1,
-            title: 'Fall Semester 2026 Admissions Open',
-            content: 'Applications are now being accepted for all degree tracks.',
-            date: '2026-06-25',
-          },
-          {
-            id: 2,
-            title: 'Digital Library Services Active',
-            content: 'Search references, renew borrows, and access catalog assets online.',
-            date: '2026-06-28',
-          }
+          { id: 1, title: 'Fall Semester 2026 Admissions Open', content: 'Applications are now being accepted for all degree tracks.', date: '2026-06-25' },
+          { id: 2, title: 'Digital Library Services Active', content: 'Search references, renew borrows, and access catalog assets online.', date: '2026-06-28' }
         ]);
         setEvents([
-          {
-            id: 1,
-            title: 'Arabic Calligraphy Masterclass',
-            description: 'A workshop covering Thuluth and Naskh scripts.',
-            date: '2026-07-10',
-            time: '10:00 AM - 01:00 PM',
-            location: 'Main Academic Hall B',
-          }
+          { id: 1, title: 'Arabic Calligraphy Masterclass', description: 'A workshop covering Thuluth and Naskh scripts.', date: '2026-07-10', time: '10:00 AM - 01:00 PM', location: 'Main Academic Hall B' }
         ]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchNewsEvents();
+    fetchData();
   }, []);
 
   // Automatic slider interval
@@ -234,15 +232,17 @@ const Home: React.FC = () => {
       </section>
 
       {/* Admissions Call to Action */}
+      {admissionOpen && (
       <section className="cta-admissions-section">
         <div className="cta-container">
           <h2>Apply for Admissions 2026/2027</h2>
-          <p>Join the next generation of scholars. Public registration portals are open. Complete your online registration form today.</p>
+          <p>Join the next generation of scholars at <strong>{collegeName}</strong>. Public registration portals are open. Complete your online registration form today.</p>
           <Link to="/register" className="btn btn-primary btn-lg">
             Start Application Online <ArrowRight size={18} />
           </Link>
         </div>
       </section>
+      )}
     </div>
   );
 };
