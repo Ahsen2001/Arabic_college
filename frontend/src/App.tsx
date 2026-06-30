@@ -21,6 +21,9 @@ import Gallery from './screens/public/Gallery';
 import Downloads from './screens/public/Downloads';
 import FAQ from './screens/public/FAQ';
 import Contact from './screens/public/Contact';
+import ApplicantAdmissions from './screens/portal/ApplicantAdmissions';
+import AdminAdmissionsList from './screens/portal/AdminAdmissionsList';
+import AdminApplicationDetail from './screens/portal/AdminApplicationDetail';
 import './App.css';
 
 const PublicLayout: React.FC = () => {
@@ -66,6 +69,9 @@ const App: React.FC = () => {
           {/* Secure Protected Portal Route */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/portal/admissions" element={<ApplicantAdmissions />} />
+            <Route path="/admin/admissions" element={<AdminAdmissionsList />} />
+            <Route path="/admin/admissions/:id" element={<AdminApplicationDetail />} />
           </Route>
 
           {/* Wildcard Fallback */}

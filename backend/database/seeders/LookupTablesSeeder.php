@@ -29,7 +29,7 @@ class LookupTablesSeeder extends Seeder
         $seedSimpleLookup('genders', ['Male', 'Female', 'Other']);
 
         // 3. Applicant Statuses
-        $seedSimpleLookup('applicant_statuses', ['Submitted', 'Under Review', 'Approved', 'Rejected']);
+        $seedSimpleLookup('applicant_statuses', ['Draft', 'Submitted', 'Under Review', 'Interview', 'Selected', 'Rejected', 'Enrolled']);
 
         // 4. Student Statuses
         $seedSimpleLookup('student_statuses', ['Active', 'Graduated', 'Suspended', 'Withdrawn']);

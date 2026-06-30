@@ -2099,6 +2099,264 @@ body::after {
   font-size: 12.5px;
 }
 
+/* ==========================================================================
+   ADMISSIONS MANAGEMENT WIZARD & TIMELINE STYLES
+   ========================================================================== */
+
+.wizard-container {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.wizard-header {
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 20px;
+}
+
+.wizard-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.app-ref-tag {
+  display: inline-block;
+  margin-top: 10px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Steps Indicators */
+.wizard-steps-indicators {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.wizard-steps-indicators::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 1;
+}
+
+.step-ind-item {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  cursor: pointer;
+  outline: none;
+  flex: 1;
+}
+
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #1e293b;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.step-label {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.step-ind-item.active .step-num {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.step-ind-item.active .step-label {
+  color: white;
+  font-weight: 600;
+}
+
+.step-ind-item.completed .step-num {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+/* Program choice cards */
+.radio-card-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  width: 100%;
+}
+
+.radio-card-wrapper:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.radio-card-wrapper.selected {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.05);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.radio-card-icon {
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.radio-card-wrapper.selected .radio-card-icon {
+  color: var(--primary);
+}
+
+.radio-card-text h4 {
+  font-size: 15px;
+  color: white;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.radio-card-text p {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Upload styles */
+.upload-row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  gap: 16px;
+}
+
+.upload-row-item h4 {
+  font-size: 15px;
+  color: white;
+  margin-bottom: 4px;
+}
+
+/* Timeline horizontal design */
+.timeline-step-node {
+  position: relative;
+}
+
+.timeline-step-node.completed .step-circle {
+  background: var(--success) !important;
+}
+
+.timeline-step-node.active .step-circle {
+  background: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3) !important;
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fde047;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-success-glow {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+}
+
+/* PRINT LAYOUT OVERRIDES */
+.print-only {
+  display: none !important;
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .printable-admission-wrapper {
+    background: #ffffff !important;
+    color: #000000 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .dashboard-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .printable-summary-sheet, .printable-offer-letter {
+    box-shadow: none !important;
+    border: 1px solid #cbd5e0 !important;
+    margin: 0 auto !important;
+    page-break-after: always;
+  }
+
+  .printable-offer-letter {
+    border: 8px double #d4af37 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
 /* Responsiveness adjustments for Public website */
 @media (max-width: 1024px) {
   .nav-links-desktop {
