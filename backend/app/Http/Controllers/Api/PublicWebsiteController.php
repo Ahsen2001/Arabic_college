@@ -28,9 +28,10 @@ class PublicWebsiteController extends Controller
                     'code' => $program->code,
                     'name_ar' => $program->name_ar,
                     'name_en' => $program->name_en,
-                    'duration' => $program->duration_years . ' Years',
-                    'credits' => $program->total_credits . ' Credits',
-                    'department' => $program->department ? $program->department->name_en : 'General',
+                    'name' => $program->translated_name,
+                    'duration' => $program->duration_years . ' ' . __('messages.years'),
+                    'credits' => $program->total_credits . ' ' . __('messages.credits'),
+                    'department' => $program->department ? $program->department->translated_name : __('messages.general'),
                 ];
             });
 
@@ -50,20 +51,20 @@ class PublicWebsiteController extends Controller
             ->map(function ($teacher) {
                 // Determine designation text
                 $designations = [
-                    1 => 'Professor',
-                    2 => 'Associate Professor',
-                    3 => 'Assistant Professor',
-                    4 => 'Lecturer',
-                    5 => 'Teaching Assistant',
+                    1 => __('messages.professor'),
+                    2 => __('messages.associate_professor'),
+                    3 => __('messages.assistant_professor'),
+                    4 => __('messages.lecturer'),
+                    5 => __('messages.teaching_assistant'),
                 ];
-                $designation = $designations[$teacher->designation_id] ?? 'Faculty Member';
+                $designation = $designations[$teacher->designation_id] ?? __('messages.faculty_member');
 
                 return [
                     'id' => $teacher->id,
-                    'name' => $teacher->user ? $teacher->user->name : 'Anonymous Professor',
+                    'name' => $teacher->user ? $teacher->user->name : __('messages.anonymous_professor'),
                     'email' => $teacher->user ? $teacher->user->email : '',
-                    'department' => $teacher->department ? $teacher->department->name_en : 'General',
-                    'specialization' => $teacher->specialization ?? 'Islamic Sciences',
+                    'department' => $teacher->department ? $teacher->department->translated_name : __('messages.general'),
+                    'specialization' => $teacher->specialization ?? __('messages.islamic_sciences'),
                     'designation' => $designation,
                 ];
             });
@@ -81,15 +82,15 @@ class PublicWebsiteController extends Controller
         $announcements = [
             [
                 'id' => 1,
-                'title' => 'Fall Semester 2026 Registrations Open',
-                'content' => 'Applications are now being accepted for B-Sharia, B-Arabic, and B-Hadith programs for the academic year 2026/2027. Apply online through our admissions portal.',
+                'title' => __('messages.announcement_1_title'),
+                'content' => __('messages.announcement_1_content'),
                 'date' => '2026-06-25',
                 'type' => 'announcement',
             ],
             [
                 'id' => 2,
-                'title' => 'Digital Library Catalog Launch',
-                'content' => 'We are pleased to introduce our digital catalog system. Students can now search books, renew loans, and inspect reference availability online.',
+                'title' => __('messages.announcement_2_title'),
+                'content' => __('messages.announcement_2_content'),
                 'date' => '2026-06-28',
                 'type' => 'announcement',
             ],
@@ -98,20 +99,20 @@ class PublicWebsiteController extends Controller
         $events = [
             [
                 'id' => 1,
-                'title' => 'Arabic Calligraphy Masterclass',
-                'description' => 'A workshop covering Thuluth and Naskh scripts, hosted by Sheikh Dr. Bilal Al-Madani.',
+                'title' => __('messages.event_1_title'),
+                'description' => __('messages.event_1_description'),
                 'date' => '2026-07-10',
                 'time' => '10:00 AM - 01:00 PM',
-                'location' => 'Main Academic Hall B',
+                'location' => __('messages.event_1_location'),
                 'type' => 'event',
             ],
             [
                 'id' => 2,
-                'title' => 'Symposium on Hadith Methodology',
-                'description' => 'A classical research paper discussion regarding narrator critic analysis in modern database compilation.',
+                'title' => __('messages.event_2_title'),
+                'description' => __('messages.event_2_description'),
                 'date' => '2026-07-20',
                 'time' => '09:00 AM - 04:00 PM',
-                'location' => 'Library Conference Hall',
+                'location' => __('messages.event_2_location'),
                 'type' => 'event',
             ],
         ];
@@ -130,11 +131,11 @@ class PublicWebsiteController extends Controller
     public function downloads(): JsonResponse
     {
         $downloads = [
-            ['title' => 'College Prospectus 2026-2027', 'file_name' => 'college_prospectus_2026.pdf', 'file_size' => '4.2 MB'],
-            ['title' => 'Syllabus: Bachelor of Sharia (Islamic Fiqh)', 'file_name' => 'syllabus_b_sharia.pdf', 'file_size' => '1.8 MB'],
-            ['title' => 'Syllabus: Bachelor of Arabic Language', 'file_name' => 'syllabus_b_arabic.pdf', 'file_size' => '1.5 MB'],
-            ['title' => 'Syllabus: Bachelor of Hadith Sciences', 'file_name' => 'syllabus_b_hadith.pdf', 'file_size' => '1.9 MB'],
-            ['title' => 'Academic Calendar 2026/2027', 'file_name' => 'academic_calendar_2026.pdf', 'file_size' => '850 KB'],
+            ['title' => __('messages.download_1_title'), 'file_name' => 'college_prospectus_2026.pdf', 'file_size' => '4.2 MB'],
+            ['title' => __('messages.download_2_title'), 'file_name' => 'syllabus_b_sharia.pdf', 'file_size' => '1.8 MB'],
+            ['title' => __('messages.download_3_title'), 'file_name' => 'syllabus_b_arabic.pdf', 'file_size' => '1.5 MB'],
+            ['title' => __('messages.download_4_title'), 'file_name' => 'syllabus_b_hadith.pdf', 'file_size' => '1.9 MB'],
+            ['title' => __('messages.download_5_title'), 'file_name' => 'academic_calendar_2026.pdf', 'file_size' => '850 KB'],
         ];
 
         return ApiResponse::success($downloads, 'Downloads listed successfully.');
@@ -182,6 +183,51 @@ class PublicWebsiteController extends Controller
                     $value = $decoded;
                 }
             }
+
+            // Translate CMS keys if they are defined in localization files
+            if ($setting->key === 'college_name') {
+                $value = __('messages.college_name');
+            } elseif ($setting->key === 'college_address') {
+                $value = __('messages.college_address');
+            } elseif ($setting->key === 'college_abbreviation') {
+                $value = __('messages.college_abbreviation');
+            } elseif ($setting->key === 'cms_footer_desc') {
+                $value = __('messages.cms_footer_desc');
+            } elseif ($setting->key === 'cms_about_content') {
+                $translated = __('messages.cms_about_content');
+                if (is_array($translated)) {
+                    $value = $translated;
+                }
+            } elseif ($setting->key === 'cms_home_hero' && is_array($value)) {
+                // translate slide titles, descriptions and cta dynamically
+                foreach ($value as $idx => &$slide) {
+                    $titleKey = 'messages.hero_slides.' . $idx . '.title';
+                    $descKey = 'messages.hero_slides.' . $idx . '.description';
+                    $ctaKey = 'messages.hero_slides.' . $idx . '.cta';
+                    if (\Illuminate\Support\Facades\Lang::has($titleKey)) {
+                        $slide['title'] = __($titleKey);
+                    }
+                    if (\Illuminate\Support\Facades\Lang::has($descKey)) {
+                        $slide['description'] = __($descKey);
+                    }
+                    if (\Illuminate\Support\Facades\Lang::has($ctaKey)) {
+                        $slide['cta'] = __($ctaKey);
+                    }
+                }
+            } elseif ($setting->key === 'cms_faq_list' && is_array($value)) {
+                // translate faq categories, questions, and answers dynamically
+                foreach ($value as $idx => &$faq) {
+                    $qKey = 'messages.faq.' . $idx . '.question';
+                    $aKey = 'messages.faq.' . $idx . '.answer';
+                    if (\Illuminate\Support\Facades\Lang::has($qKey)) {
+                        $faq['question'] = __($qKey);
+                    }
+                    if (\Illuminate\Support\Facades\Lang::has($aKey)) {
+                        $faq['answer'] = __($aKey);
+                    }
+                }
+            }
+
             return [$setting->key => $value];
         });
 

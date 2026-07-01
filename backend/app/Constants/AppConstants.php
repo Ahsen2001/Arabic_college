@@ -20,7 +20,7 @@ class AppConstants
 
     // Default Localization Settings
     public const DEFAULT_LOCALE = 'ar';
-    public const SUPPORTED_LOCALES = ['ar', 'en'];
+    public const SUPPORTED_LOCALES = ['ar', 'en', 'ta', 'si'];
 
     // HTTP Headers
     public const LOCALE_HEADER = 'X-Locale';

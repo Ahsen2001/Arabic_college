@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "home": "முகப்பு",
+    "about": "எங்களைப் பற்றி",
+    "programs": "பாடநெறிகள்",
+    "admissions": "சேர்க்கை",
+    "teachers": "ஆசிரியர்கள்",
+    "news": "செய்திகள்",
+    "gallery": "புகைப்பட தொகுப்பு",
+    "downloads": "பதிவிறக்கங்கள்",
+    "faq": "அடிக்கடி கேட்கப்படும் கேள்விகள்",
+    "contact": "தொடர்பு",
+    "dashboard": "டாஷ்போர்டு",
+    "portal_login": "போர்டல் உள்நுழைவு",
+    "select_language": "மொழியைத் தேர்ந்தெடுக்கவும்"
+  },
+  "menu": {
+    "core_operations": "முக்கிய செயல்பாடுகள்",
+    "academics_timetable": "கல்வி மற்றும் கால அட்டவணை",
+    "examinations": "தேர்வுகள்",
+    "operations_services": "செயல்பாடுகள் மற்றும் சேவைகள்",
+    "dashboard": "டாஷ்போர்டு",
+    "admissions_desk": "சேர்க்கை மேசை",
+    "student_directory": "மாணவர் அடைவு",
+    "faculty_dossier": "ஆசிரியர் கோப்பு",
+    "academic_layout": "கல்வி அமைப்பு",
+    "curriculum_syllabi": "பாடத்திட்டம் & பாடநெறிகள்",
+    "course_allocations": "பாட ஒதுக்கீடுகள்",
+    "timetable_builder": "கால அட்டவணை உருவாக்குபவர்",
+    "my_schedule": "எனது கால அட்டவணை",
+    "exam_schedules": "தேர்வு அட்டவணைகள்",
+    "marks_entry_ledger": "மதிப்பெண் உள்ளீட்டு பதிவேடு",
+    "recheck_auditing": "மறுமதிப்பீட்டு தணிக்கை",
+    "cohort_ranks": "மாணவர் தரவரிசை",
+    "finance_invoices": "நிதி & இன்வாய்ஸ்கள்",
+    "library_registry": "நூலக பதிவேடு",
+    "research_desk": "ஆராய்ச்சி மேசை",
+    "document_vault": "ஆவண பெட்டகம்",
+    "communication_desk": "தொடர்பு மேசை",
+    "academic_calendar": "கல்வி நாட்காட்டி",
+    "system_settings": "அமைப்பு அமைப்புகள்",
+    "audit_logs": "தணிக்கை பதிவுகள்",
+    "global_search": "உலகளாவிய தேடல்",
+    "logout": "வெளியேறு"
+  },
+  "common": {
+    "sharia_portal": "ஷரியா போர்டல்",
+    "quick_search": "விரைவான தேடல்...",
+    "theme_light": "ஒளி தீம்",
+    "theme_dark": "இருண்ட தீம்",
+    "select_language": "மொழியைத் தேர்வுசெய்க"
+  }
+}

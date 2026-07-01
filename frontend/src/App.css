@@ -2450,7 +2450,7 @@ body::after {
 .portal-sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
   color: white;
   font-weight: 700;
   font-size: 17px;
@@ -2460,6 +2460,88 @@ body::after {
 
 .portal-sidebar-logo .logo-icon {
   color: var(--primary);
+}
+
+.portal-sidebar-logo-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.portal-sidebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portal-language-select {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-glass);
+  border-radius: 6px;
+  padding: 4px;
+  font-size: 11px;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  max-width: 65px;
+}
+
+.portal-language-select option {
+  color: #0f172a;
+}
+
+.btn-theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-sidebar-search-container {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.portal-sidebar-search-form {
+  position: relative;
+}
+
+.portal-sidebar-search-input {
+  width: 100%;
+  padding: 8px 10px 8px 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 12px;
+  outline: none;
+}
+
+.portal-sidebar-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  color: var(--text-secondary);
+}
+
+.portal-sidebar-footer button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.portal-sidebar-item.portal-logout-btn {
+  color: var(--error);
+}
+
+.portal-sidebar-item.portal-logout-btn:hover {
+  color: var(--error);
+  background: rgba(239, 68, 68, 0.08);
 }
 
 .portal-sidebar-user {
@@ -2918,6 +3000,72 @@ body.light-theme .badge-permission {
   color: #059669 !important;
   border: 1px solid rgba(16, 185, 129, 0.2) !important;
 }
+
+/* --- RTL Support --- */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .portal-sidebar {
+  border-right: none !important;
+  border-left: 1px solid var(--border-glass) !important;
+}
+
+[dir="rtl"] .input-icon {
+  left: auto !important;
+  right: 14px !important;
+}
+
+[dir="rtl"] .input-wrapper input {
+  padding: 14px 44px 14px 14px !important;
+}
+
+[dir="rtl"] .btn {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .portal-sidebar-item {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .portal-sidebar-logo {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .mobile-actions-container {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-links-desktop {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-container {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .portal-sidebar-footer button {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .portal-sidebar-logo-text {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .portal-sidebar-actions {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .portal-sidebar-search-input {
+  padding: 8px 30px 8px 10px !important;
+}
+
+[dir="rtl"] .portal-sidebar-search-icon {
+  left: auto !important;
+  right: 10px !important;
+}
+
 
 
 

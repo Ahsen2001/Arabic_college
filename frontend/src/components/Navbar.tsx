@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { Menu, X, BookOpen, User, Sun, Moon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../api';
 
 const Navbar: React.FC = () => {
@@ -11,7 +12,8 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [logo, setLogo] = useState<string | null>(null);
   const [abbreviation, setAbbreviation] = useState('Arabic College');
-
+  
+  const { t, i18n } = useTranslation();
   const { isLightTheme, toggleTheme } = useTheme();
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -30,21 +32,48 @@ const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Programs', path: '/programs' },
-    { name: 'Admissions', path: '/admissions' },
-    { name: 'Teachers', path: '/teachers' },
-    { name: 'News', path: '/news' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Downloads', path: '/downloads' },
-    { name: 'FAQ', path: '/faq' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('nav.home'), path: '/' },
+    { name: t('nav.about'), path: '/about' },
+    { name: t('nav.programs'), path: '/programs' },
+    { name: t('nav.admissions'), path: '/admissions' },
+    { name: t('nav.teachers'), path: '/teachers' },
+    { name: t('nav.news'), path: '/news' },
+    { name: t('nav.gallery'), path: '/gallery' },
+    { name: t('nav.downloads'), path: '/downloads' },
+    { name: t('nav.faq'), path: '/faq' },
+    { name: t('nav.contact'), path: '/contact' },
   ];
 
   const isActive = (path: string) => {
     return location.pathname === path;
   };
+
+  const renderLanguageSelector = (style: React.CSSProperties = {}) => (
+    <select 
+      value={i18n.language} 
+      onChange={(e) => i18n.changeLanguage(e.target.value)}
+      className="lang-selector-select"
+      aria-label={t('nav.select_language')}
+      title={t('nav.select_language')}
+      style={{
+        background: 'rgba(15, 23, 42, 0.8)',
+        color: 'white',
+        border: '1px solid var(--border-glass)',
+        borderRadius: '8px',
+        padding: '6px 10px',
+        fontSize: '13px',
+        outline: 'none',
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+        ...style
+      }}
+    >
+      <option value="en" style={{ color: '#0f172a' }}>English</option>
+      <option value="ar" style={{ color: '#0f172a' }}>العربية (Arabic)</option>
+      <option value="ta" style={{ color: '#0f172a' }}>தமிழ் (Tamil)</option>
+      <option value="si" style={{ color: '#0f172a' }}>සිංහල (Sinhala)</option>
+    </select>
+  );
 
   return (
     <nav className="public-navbar">
@@ -59,7 +88,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         {/* Desktop Links */}
-        <div className="nav-links-desktop">
+        <div className="nav-links-desktop" style={{ display: 'flex', alignItems: 'center' }}>
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -70,18 +99,19 @@ const Navbar: React.FC = () => {
             </Link>
           ))}
           {user ? (
-            <Link to="/dashboard" className="btn btn-primary btn-sm nav-btn">
-              <User size={14} /> Dashboard
+            <Link to="/dashboard" className="btn btn-primary btn-sm nav-btn" style={{ marginLeft: '10px' }}>
+              <User size={14} /> {t('nav.dashboard')}
             </Link>
           ) : (
-            <Link to="/login" className="btn btn-outline btn-sm nav-btn">
-              Portal Login
+            <Link to="/login" className="btn btn-outline btn-sm nav-btn" style={{ marginLeft: '10px' }}>
+              {t('nav.portal_login')}
             </Link>
           )}
+          {renderLanguageSelector({ marginLeft: '10px', marginRight: '10px' })}
           <button 
             onClick={toggleTheme} 
             className="btn btn-outline btn-sm"
-            style={{ padding: '8px', marginLeft: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             title="Toggle Light/Dark Theme"
           >
             {isLightTheme ? <Sun size={14} /> : <Moon size={14} />}
@@ -89,7 +119,8 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Actions Container */}
-        <div className="mobile-actions-container">
+        <div className="mobile-actions-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {renderLanguageSelector({ padding: '4px 6px', fontSize: '12px' })}
           <button 
             onClick={toggleTheme} 
             style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -118,11 +149,11 @@ const Navbar: React.FC = () => {
           ))}
           {user ? (
             <Link to="/dashboard" onClick={toggleMenu} className="btn btn-primary btn-sm drawer-btn">
-              <User size={14} /> Dashboard
+              <User size={14} /> {t('nav.dashboard')}
             </Link>
           ) : (
             <Link to="/login" onClick={toggleMenu} className="btn btn-outline btn-sm drawer-btn">
-              Portal Login
+              {t('nav.portal_login')}
             </Link>
           )}
         </div>

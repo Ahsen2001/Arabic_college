@@ -55,7 +55,7 @@ class AdminAdmissionsController extends Controller
                 'application_number' => $app->applicant ? $app->applicant->application_number : 'N/A',
                 'name' => $app->applicant && $app->applicant->user ? $app->applicant->user->name : 'Anonymous',
                 'email' => $app->applicant && $app->applicant->user ? $app->applicant->user->email : 'N/A',
-                'program' => $app->program ? $app->program->name_en : 'N/A',
+                'program' => $app->program ? $app->program->translated_name : 'N/A',
                 'academic_year' => $app->academicYear ? $app->academicYear->name : 'N/A',
                 'status_id' => $app->status_id,
                 'status_name' => $statusName,
@@ -118,7 +118,7 @@ class AdminAdmissionsController extends Controller
             'contact_number' => $applicantDetails ? $applicantDetails->contact_number : 'N/A',
             'address' => $applicantDetails ? $applicantDetails->address : 'N/A',
             'program_id' => $application->program_id,
-            'program' => $application->program ? $application->program->name_en : 'N/A',
+            'program' => $application->program ? $application->program->translated_name : 'N/A',
             'academic_year' => $application->academicYear ? $application->academicYear->name : 'N/A',
             'status_id' => $application->status_id,
             'status_name' => $statuses[$application->status_id] ?? 'Unknown',
@@ -201,7 +201,7 @@ class AdminAdmissionsController extends Controller
                 $user->name,
                 $request->interview_date,
                 $request->interview_time,
-                $application->program ? $application->program->name_en : 'General Studies'
+                $application->program ? $application->program->translated_name : 'General Studies'
             ));
 
             $notif = SystemNotification::create([
@@ -240,7 +240,7 @@ class AdminAdmissionsController extends Controller
             // Send offer letter mailable
             Mail::to($user->email)->send(new SendOfferLetterMail(
                 $user->name,
-                $application->program ? $application->program->name_en : 'Islamic Studies Track',
+                $application->program ? $application->program->translated_name : 'Islamic Studies Track',
                 $application->applicant->application_number
             ));
 

@@ -51,7 +51,7 @@ class StudentDashboardController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'program' => $student->program ? $student->program->name_en : 'N/A',
+            'program' => $student->program ? $student->program->translated_name : 'N/A',
             'admission_semester' => $student->admissionSemester ? $student->admissionSemester->name : 'N/A',
             'admission_date' => $student->admission_date ? $student->admission_date->format('Y-m-d') : null,
             'metrics' => [
@@ -81,20 +81,20 @@ class StudentDashboardController extends Controller
         if ($student->admission_date) {
             $events->push([
                 'title' => 'Admission Enrolled',
-                'description' => "Matriculated into the " . ($student->program ? $student->program->name_en : 'Arabic College') . " program.",
+                'description' => __('messages.matriculated_into') . " " . ($student->program ? $student->program->translated_name : __('messages.general')),
                 'date' => $student->admission_date->format('Y-m-d'),
                 'type' => 'academic',
             ]);
         }
 
         // 2. Add Course Enrollments events
-        $enrollments = StudentCourseEnrollment::with('course')
+        $enrollments = StudentCourseEnrollment::with('course.subject')
             ->where('student_id', $student->id)
             ->get();
         foreach ($enrollments as $enrollment) {
             $events->push([
                 'title' => 'Course Enrolled',
-                'description' => "Successfully registered for " . ($enrollment->course ? $enrollment->course->name_en : 'Course Code ' . $enrollment->course_id),
+                'description' => __('messages.registered_for') . " " . ($enrollment->course ? $enrollment->course->translated_name : 'Course Code ' . $enrollment->course_id),
                 'date' => $enrollment->created_at->format('Y-m-d'),
                 'type' => 'course',
             ]);
@@ -107,7 +107,7 @@ class StudentDashboardController extends Controller
         foreach ($examResults as $result) {
             $events->push([
                 'title' => 'Exam Graded',
-                'description' => "Scored {$result->marks_obtained} marks in " . ($result->examination ? $result->examination->name : 'Examination') . ".",
+                'description' => __('messages.scored_marks', ['marks' => $result->marks_obtained]) . " " . ($result->examination ? $result->examination->name : __('messages.examination')) . ".",
                 'date' => $result->created_at->format('Y-m-d'),
                 'type' => 'exam',
             ]);

@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "programs": "البرامج الأكاديمية",
+    "admissions": "القبول والتسجيل",
+    "teachers": "أعضاء هيئة التدريس",
+    "news": "الأخبار والفعاليات",
+    "gallery": "معرض الصور",
+    "downloads": "التحميلات",
+    "faq": "الأسئلة الشائعة",
+    "contact": "اتصل بنا",
+    "dashboard": "لوحة التحكم",
+    "portal_login": "تسجيل دخول البوابة",
+    "select_language": "اختر اللغة"
+  },
+  "menu": {
+    "core_operations": "العمليات الأساسية",
+    "academics_timetable": "الأكاديميا والجدول الزمني",
+    "examinations": "الاختبارات",
+    "operations_services": "العمليات والخدمات",
+    "dashboard": "لوحة التحكم",
+    "admissions_desk": "مكتب القبول",
+    "student_directory": "دليل الطلاب",
+    "faculty_dossier": "ملف أعضاء هيئة التدريس",
+    "academic_layout": "الهيكل الأكاديمي",
+    "curriculum_syllabi": "المناهج والدراسات",
+    "course_allocations": "توزيع المقررات",
+    "timetable_builder": "بناء الجدول الدراسي",
+    "my_schedule": "جدولي الدراسي",
+    "exam_schedules": "جداول الاختبارات",
+    "marks_entry_ledger": "سجل إدخال الدرجات",
+    "recheck_auditing": "تدقيق إعادة التصحيح",
+    "cohort_ranks": "رتب الدفعة",
+    "finance_invoices": "المالية والفواتير",
+    "library_registry": "سجل المكتبة",
+    "research_desk": "مكتب البحوث",
+    "document_vault": "خزينة المستندات",
+    "communication_desk": "مكتب التواصل",
+    "academic_calendar": "التقويم الأكاديمي",
+    "system_settings": "إعدادات النظام",
+    "audit_logs": "سجلات التدقيق",
+    "global_search": "البحث الشامل",
+    "logout": "تسجيل الخروج"
+  },
+  "common": {
+    "sharia_portal": "بوابة الشريعة",
+    "quick_search": "بحث سريع...",
+    "theme_light": "المظهر الفاتح",
+    "theme_dark": "المظهر الداكن",
+    "select_language": "اختر اللغة"
+  }
+}

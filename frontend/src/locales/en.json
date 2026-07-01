@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "programs": "Programs",
+    "admissions": "Admissions",
+    "teachers": "Teachers",
+    "news": "News",
+    "gallery": "Gallery",
+    "downloads": "Downloads",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "dashboard": "Dashboard",
+    "portal_login": "Portal Login",
+    "select_language": "Select Language"
+  },
+  "menu": {
+    "core_operations": "Core Operations",
+    "academics_timetable": "Academics & Timetable",
+    "examinations": "Examinations",
+    "operations_services": "Operations & Services",
+    "dashboard": "Dashboard",
+    "admissions_desk": "Admissions Desk",
+    "student_directory": "Student Directory",
+    "faculty_dossier": "Faculty Dossier",
+    "academic_layout": "Academic Layout",
+    "curriculum_syllabi": "Curriculum & Syllabi",
+    "course_allocations": "Course Allocations",
+    "timetable_builder": "Timetable Builder",
+    "my_schedule": "My Schedule",
+    "exam_schedules": "Exam Schedules",
+    "marks_entry_ledger": "Marks Entry Ledger",
+    "recheck_auditing": "Recheck Auditing",
+    "cohort_ranks": "Cohort Ranks",
+    "finance_invoices": "Finance & Invoices",
+    "library_registry": "Library Registry",
+    "research_desk": "Research Desk",
+    "document_vault": "Document Vault",
+    "communication_desk": "Communication Desk",
+    "academic_calendar": "Academic Calendar",
+    "system_settings": "System Settings",
+    "audit_logs": "Audit Logs",
+    "global_search": "Global Search",
+    "logout": "Log Out"
+  },
+  "common": {
+    "sharia_portal": "Sharia Portal",
+    "quick_search": "Quick search...",
+    "theme_light": "Light Theme",
+    "theme_dark": "Dark Theme",
+    "select_language": "Select Language"
+  }
+}

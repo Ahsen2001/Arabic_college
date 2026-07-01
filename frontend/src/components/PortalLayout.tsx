@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { 
   LayoutDashboard, ClipboardCheck, Users, GraduationCap, 
@@ -17,6 +18,7 @@ const PortalLayout: React.FC = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [sidebarSearch, setSidebarSearch] = useState('');
 
+  const { t, i18n } = useTranslation();
   const { isLightTheme, toggleTheme } = useTheme();
 
   if (!user) return null;
@@ -49,45 +51,45 @@ const PortalLayout: React.FC = () => {
   // Spatie configuration maps for sidebar links
   const menuConfig: { heading: string; links: LinkItem[] }[] = [
     {
-      heading: 'Core Operations',
+      heading: t('menu.core_operations'),
       links: [
-        { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, permission: null },
-        { name: 'Admissions Desk', path: '/admin/admissions', icon: ClipboardCheck, permission: 'process applications' },
-        { name: 'Student Directory', path: '/admin/students', icon: Users, permission: 'view users' },
-        { name: 'Faculty Dossier', path: '/admin/teachers-staff', icon: GraduationCap, permission: 'view users' },
+        { name: t('menu.dashboard'), path: '/dashboard', icon: LayoutDashboard, permission: null },
+        { name: t('menu.admissions_desk'), path: '/admin/admissions', icon: ClipboardCheck, permission: 'process applications' },
+        { name: t('menu.student_directory'), path: '/admin/students', icon: Users, permission: 'view users' },
+        { name: t('menu.faculty_dossier'), path: '/admin/teachers-staff', icon: GraduationCap, permission: 'view users' },
       ]
     },
     {
-      heading: 'Academics & Timetable',
+      heading: t('menu.academics_timetable'),
       links: [
-        { name: 'Academic Layout', path: '/admin/academic-structure', icon: GitBranch, permission: 'manage programs' },
-        { name: 'Curriculum & Syllabi', path: '/admin/subjects-curriculum', icon: BookOpen, permission: 'manage subjects' },
-        { name: 'Course Allocations', path: '/admin/course-allocation', icon: Layers, permission: 'manage courses' },
-        { name: 'Timetable Builder', path: '/admin/timetable', icon: Calendar, permission: 'manage courses' },
-        { name: 'My Schedule', path: '/portal/timetable-calendar', icon: Calendar, permission: null, excludeAdmin: true },
+        { name: t('menu.academic_layout'), path: '/admin/academic-structure', icon: GitBranch, permission: 'manage programs' },
+        { name: t('menu.curriculum_syllabi'), path: '/admin/subjects-curriculum', icon: BookOpen, permission: 'manage subjects' },
+        { name: t('menu.course_allocations'), path: '/admin/course-allocation', icon: Layers, permission: 'manage courses' },
+        { name: t('menu.timetable_builder'), path: '/admin/timetable', icon: Calendar, permission: 'manage courses' },
+        { name: t('menu.my_schedule'), path: '/portal/timetable-calendar', icon: Calendar, permission: null, excludeAdmin: true },
       ]
     },
     {
-      heading: 'Examinations',
+      heading: t('menu.examinations'),
       links: [
-        { name: 'Exam Schedules', path: '/admin/exam-schedules', icon: ClipboardList, permission: 'grade examinations' },
-        { name: 'Marks Entry Ledger', path: '/portal/marks-entry', icon: FileSignature, permission: 'edit academic records' },
-        { name: 'Recheck Auditing', path: '/portal/exam-rechecks', icon: ShieldAlert, permission: 'edit academic records' },
-        { name: 'Cohort Ranks', path: '/admin/exam-ranks', icon: LayoutDashboard, permission: 'view exam results' },
+        { name: t('menu.exam_schedules'), path: '/admin/exam-schedules', icon: ClipboardList, permission: 'grade examinations' },
+        { name: t('menu.marks_entry_ledger'), path: '/portal/marks-entry', icon: FileSignature, permission: 'edit academic records' },
+        { name: t('menu.recheck_auditing'), path: '/portal/exam-rechecks', icon: ShieldAlert, permission: 'edit academic records' },
+        { name: t('menu.cohort_ranks'), path: '/admin/exam-ranks', icon: LayoutDashboard, permission: 'view exam results' },
       ]
     },
     {
-      heading: 'Operations & Services',
+      heading: t('menu.operations_services'),
       links: [
-        { name: 'Finance & Invoices', path: '/admin/finance', icon: CreditCard, permission: 'manage financial transactions' },
-        { name: 'Library Registry', path: '/admin/library', icon: Bookmark, permission: 'issue books' },
-        { name: 'Research Desk', path: '/admin/research', icon: FileText, permission: 'view research' },
-        { name: 'Document Vault', path: '/admin/documents', icon: FileSignature, permission: 'manage settings' },
-        { name: 'Communication Desk', path: '/admin/communication', icon: Megaphone, permission: 'manage settings' },
-        { name: 'Academic Calendar', path: '/portal/calendar', icon: Calendar, permission: null },
-        { name: 'System Settings', path: '/admin/settings', icon: Settings, permission: 'manage settings' },
-        { name: 'Audit Logs', path: '/admin/audit-logs', icon: History, permission: 'view audit logs' },
-        { name: 'Global Search', path: '/admin/search', icon: Search, permission: null },
+        { name: t('menu.finance_invoices'), path: '/admin/finance', icon: CreditCard, permission: 'manage financial transactions' },
+        { name: t('menu.library_registry'), path: '/admin/library', icon: Bookmark, permission: 'issue books' },
+        { name: t('menu.research_desk'), path: '/admin/research', icon: FileText, permission: 'view research' },
+        { name: t('menu.document_vault'), path: '/admin/documents', icon: FileSignature, permission: 'manage settings' },
+        { name: t('menu.communication_desk'), path: '/admin/communication', icon: Megaphone, permission: 'manage settings' },
+        { name: t('menu.academic_calendar'), path: '/portal/calendar', icon: Calendar, permission: null },
+        { name: t('menu.system_settings'), path: '/admin/settings', icon: Settings, permission: 'manage settings' },
+        { name: t('menu.audit_logs'), path: '/admin/audit-logs', icon: History, permission: 'view audit logs' },
+        { name: t('menu.global_search'), path: '/admin/search', icon: Search, permission: null },
       ]
     }
   ];
@@ -96,19 +98,34 @@ const PortalLayout: React.FC = () => {
     <div className="portal-layout-container">
       {/* Sidebar navigation */}
       <aside className="portal-sidebar no-print">
-        <div className="portal-sidebar-logo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="portal-sidebar-logo">
+          <div className="portal-sidebar-logo-text">
             <BookOpen className="logo-icon" size={20} />
-            <span>Sharia Portal</span>
+            <span>{t('common.sharia_portal')}</span>
           </div>
-          <button 
-            onClick={toggleTheme} 
-            className="btn-theme-toggle" 
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            title="Toggle Light/Dark Theme"
-          >
-            {isLightTheme ? <Sun size={15} /> : <Moon size={15} />}
-          </button>
+          <div className="portal-sidebar-actions">
+            {/* Language dropdown switcher */}
+            <select
+              value={i18n.language}
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              title={t('common.select_language')}
+              aria-label={t('common.select_language')}
+              className="portal-language-select"
+            >
+              <option value="en">EN</option>
+              <option value="ar">AR</option>
+              <option value="ta">TA</option>
+              <option value="si">SI</option>
+            </select>
+
+            <button 
+              onClick={toggleTheme} 
+              className="btn-theme-toggle" 
+              title="Toggle Light/Dark Theme"
+            >
+              {isLightTheme ? <Sun size={15} /> : <Moon size={15} />}
+            </button>
+          </div>
         </div>
 
         {/* User Card */}
@@ -118,31 +135,25 @@ const PortalLayout: React.FC = () => {
         </div>
 
         {/* Quick Search */}
-        <div style={{ padding: '0 16px', marginBottom: '16px' }}>
+        <div className="portal-sidebar-search-container">
           <form onSubmit={(e) => {
             e.preventDefault();
             if (sidebarSearch.trim()) {
               navigate(`/admin/search?q=${encodeURIComponent(sidebarSearch)}`);
               setSidebarSearch('');
             }
-          }} style={{ position: 'relative' }}>
+          }} className="portal-sidebar-search-form">
             <input
               type="text"
-              placeholder="Quick search..."
+              placeholder={t('common.quick_search')}
               value={sidebarSearch}
               onChange={(e) => setSidebarSearch(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '8px 10px 8px 30px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid var(--border-glass)',
-                borderRadius: '8px',
-                color: 'var(--text-primary)',
-                fontSize: '12px',
-                outline: 'none',
-              }}
+              className="portal-sidebar-search-input"
             />
-            <Search size={12} style={{ position: 'absolute', left: '10px', top: '12px', color: 'var(--text-secondary)' }} />
+            <Search 
+              size={12} 
+              className="portal-sidebar-search-icon" 
+            />
           </form>
         </div>
 
@@ -180,12 +191,11 @@ const PortalLayout: React.FC = () => {
         <div className="portal-sidebar-footer">
           <button 
             onClick={handleLogout} 
-            className="portal-sidebar-item" 
-            style={{ width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+            className="portal-sidebar-item portal-logout-btn" 
             disabled={isLoggingOut}
           >
-            <LogOut size={16} style={{ color: 'var(--error)' }} />
-            <span style={{ color: 'var(--error)' }}>Log Out</span>
+            <LogOut size={16} />
+            <span>{t('menu.logout')}</span>
           </button>
         </div>
       </aside>

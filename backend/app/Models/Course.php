@@ -21,6 +21,13 @@ class Course extends Model
         'capacity',
     ];
 
+    protected $appends = ['translated_name'];
+
+    public function getTranslatedNameAttribute(): string
+    {
+        return $this->subject ? $this->subject->translated_name : 'N/A';
+    }
+
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);

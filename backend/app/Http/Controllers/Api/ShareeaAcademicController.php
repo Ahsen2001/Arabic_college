@@ -416,7 +416,7 @@ class ShareeaAcademicController extends Controller
 
                 $courseList[] = [
                     'code' => $subject ? $subject->code : 'N/A',
-                    'name' => $subject ? $subject->name_en : 'N/A',
+                    'name' => $subject ? $subject->translated_name : 'N/A',
                     'credits' => $credits,
                     'grade' => $letterGrade,
                     'gpa_point' => $gpaVal,
@@ -463,7 +463,7 @@ class ShareeaAcademicController extends Controller
             'student_id_number' => $student->student_id_number,
             'name' => $student->user ? $student->user->name : 'N/A',
             'email' => $student->user ? $student->user->email : 'N/A',
-            'program' => $student->program ? $student->program->name_en : 'N/A',
+            'program' => $student->program ? $student->program->translated_name : 'N/A',
             'status' => $statuses[$student->status_id] ?? 'Active',
             'semesters' => $transcriptList,
             'cgpa' => round($cgpa, 2),

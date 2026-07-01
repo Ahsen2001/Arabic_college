@@ -71,7 +71,7 @@ class AdminTeacherController extends Controller
                 'teacher_id_number' => $teacher->teacher_id_number,
                 'name' => $teacher->user ? $teacher->user->name : 'N/A',
                 'email' => $teacher->user ? $teacher->user->email : 'N/A',
-                'department' => $teacher->department ? $teacher->department->name_en : 'N/A',
+                'department' => $teacher->department ? $teacher->department->translated_name : 'N/A',
                 'designation_id' => $teacher->designation_id,
                 'designation' => $designations[$teacher->designation_id] ?? 'Unknown',
                 'status_id' => $teacher->status_id,
@@ -140,7 +140,7 @@ class AdminTeacherController extends Controller
                 'course_id' => $c->id,
                 'course_code' => $c->code,
                 'section' => $c->section,
-                'subject_name' => $c->subject ? $c->subject->name_en : 'N/A',
+                'subject_name' => $c->subject ? $c->subject->translated_name : 'N/A',
                 'schedules' => $c->timetableAllocations->map(function ($t) {
                     return [
                         'id' => $t->id,
@@ -160,7 +160,7 @@ class AdminTeacherController extends Controller
             'email' => $teacher->user ? $teacher->user->email : 'N/A',
             'phone' => $teacher->user ? $teacher->user->phone : 'N/A',
             'department_id' => $teacher->department_id,
-            'department_name' => $teacher->department ? $teacher->department->name_en : 'N/A',
+            'department_name' => $teacher->department ? $teacher->department->translated_name : 'N/A',
             'designation_id' => $teacher->designation_id,
             'designation' => $designations[$teacher->designation_id] ?? 'Unknown',
             'status_id' => $teacher->status_id,

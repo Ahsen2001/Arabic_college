@@ -181,7 +181,7 @@ class HifzMemorizationController extends Controller
             'student_id_number' => $student->student_id_number,
             'name' => $student->user ? $student->user->name : 'N/A',
             'email' => $student->user ? $student->user->email : 'N/A',
-            'program' => $student->program ? $student->program->name_en : 'N/A',
+            'program' => $student->program ? $student->program->translated_name : 'N/A',
             
             // Progress parameters
             'progress' => $progress ?: [

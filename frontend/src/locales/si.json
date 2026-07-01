@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "home": "මුල් පිටුව",
+    "about": "අපි ගැන",
+    "programs": "වැඩසටහන්",
+    "admissions": "ඇතුළත් කිරීම්",
+    "teachers": "ගුරුවරුන්",
+    "news": "පුවත්",
+    "gallery": "ඡායාරූප එකතුව",
+    "downloads": "බාගැනීම්",
+    "faq": "නිති අසන පැන",
+    "contact": "සම්බන්ධතා",
+    "dashboard": "පාලක පුවරුව",
+    "portal_login": "ද්වාර පිවිසුම",
+    "select_language": "භාෂාව තෝරන්න"
+  },
+  "menu": {
+    "core_operations": "මූලික මෙහෙයුම්",
+    "academics_timetable": "අධ්‍යයන සහ කාලසටහන",
+    "examinations": "විභาග",
+    "operations_services": "මෙහෙයුම් සහ සේවා",
+    "dashboard": "පාලක පුවරුව",
+    "admissions_desk": "ඇතුළත් වීමේ මේසය",
+    "student_directory": "ශිෂ්‍ය නาමාවලිය",
+    "faculty_dossier": "ගුරු ලේඛනාගාරය",
+    "academic_layout": "අධ්‍යයන ව්‍යුහය",
+    "curriculum_syllabi": "විෂය මාලාව සහ විෂය නිර්දේශ",
+    "course_allocations": "විෂය වෙන් කිරීම්",
+    "timetable_builder": "කාලසටහන නිර්මාණය",
+    "my_schedule": "මගේ කාලසටහන",
+    "exam_schedules": "විභාග කාලසටහන්",
+    "marks_entry_ledger": "ලකුණු ඇතුළත් කිරීමේ ලේඛනය",
+    "recheck_auditing": "නැවත පරීක්ෂණ විගණනය",
+    "cohort_ranks": "කණ්ඩායම් ශ්‍රේණිගත කිරීම්",
+    "finance_invoices": "මූල්‍ය සහ ඉන්වොයිසි",
+    "library_registry": "පුස්තකාල ලේඛනය",
+    "research_desk": "පර්යේෂණ අංශය",
+    "document_vault": "ලේඛන ගබඩාව",
+    "communication_desk": "සන්නිවේදන මේසය",
+    "academic_calendar": "අධ්‍යයන දින දර්ශනය",
+    "system_settings": "පද්ධති සැකසුම්",
+    "audit_logs": "විගණන සටහන්",
+    "global_search": "ගෝලීය සෙවුම",
+    "logout": "ලොග් අවුට් වන්න"
+  },
+  "common": {
+    "sharia_portal": "ෂරියා ද්වාරය",
+    "quick_search": "ඉක්මන් සෙවුම...",
+    "theme_light": "ලා වර්ණ තේමාව",
+    "theme_dark": "තද වර්ණ තේමාව",
+    "select_language": "භාෂාව තෝරන්න"
+  }
+}

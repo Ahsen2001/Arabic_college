@@ -8,12 +8,16 @@ const api = axios.create({
   },
 });
 
-// Interceptor to attach Sanctum bearer token to every request
+// Interceptor to attach Sanctum bearer token and language locale to every request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('auth_token');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    const locale = localStorage.getItem('i18nextLng') || 'ar';
+    if (locale && config.headers) {
+      config.headers['X-Locale'] = locale;
     }
     return config;
   },

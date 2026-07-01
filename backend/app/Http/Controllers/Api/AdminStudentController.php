@@ -79,7 +79,7 @@ class AdminStudentController extends Controller
                 'student_id_number' => $student->student_id_number,
                 'name' => $student->user ? $student->user->name : 'N/A',
                 'email' => $student->user ? $student->user->email : 'N/A',
-                'program' => $student->program ? $student->program->name_en : 'N/A',
+                'program' => $student->program ? $student->program->translated_name : 'N/A',
                 'status_id' => $student->status_id,
                 'status_name' => $statuses[$student->status_id] ?? 'Unknown',
                 'admission_date' => $student->admission_date ? $student->admission_date->format('Y-m-d') : null,
@@ -142,7 +142,7 @@ class AdminStudentController extends Controller
             'email' => $student->user ? $student->user->email : 'N/A',
             'phone' => $student->user ? $student->user->phone : 'N/A',
             'program_id' => $student->program_id,
-            'program_name' => $student->program ? $student->program->name_en : 'N/A',
+            'program_name' => $student->program ? $student->program->translated_name : 'N/A',
             'admission_semester_id' => $student->admission_semester_id,
             'admission_semester' => $student->admissionSemester ? $student->admissionSemester->name : 'N/A',
             'status_id' => $student->status_id,
@@ -413,7 +413,7 @@ class AdminStudentController extends Controller
                     $stu->user ? $stu->user->name : '',
                     $stu->user ? $stu->user->email : '',
                     $stu->user ? $stu->user->phone : '',
-                    $stu->program ? $stu->program->name_en : '',
+                    $stu->program ? $stu->program->translated_name : '',
                     $stu->admission_date ? $stu->admission_date->format('Y-m-d') : '',
                     $stu->status_id
                 ]);

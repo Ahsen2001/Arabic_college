@@ -19,6 +19,24 @@ class Department extends Model
         'head_teacher_id',
     ];
 
+    protected $appends = ['translated_name'];
+
+    public function getTranslatedNameAttribute(): string
+    {
+        $locale = app()->getLocale();
+        if ($locale === 'ar') {
+            return $this->name_ar;
+        }
+        if ($locale === 'en') {
+            return $this->name_en;
+        }
+
+        $key = 'messages.departments.' . $this->code;
+        $translated = __($key);
+
+        return $translated !== $key ? $translated : ($this->name_en ?: $this->name_ar);
+    }
+
     public function headTeacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class, 'head_teacher_id');
