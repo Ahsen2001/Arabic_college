@@ -104,9 +104,8 @@ const PortalLayout: React.FC = () => {
             <span>{t('common.sharia_portal')}</span>
           </div>
           <div className="portal-sidebar-actions">
-            {/* Language dropdown switcher */}
             <select
-              value={i18n.language}
+              value={i18n.language ? i18n.language.split('-')[0].split('_')[0] : 'ar'}
               onChange={(e) => i18n.changeLanguage(e.target.value)}
               title={t('common.select_language')}
               aria-label={t('common.select_language')}

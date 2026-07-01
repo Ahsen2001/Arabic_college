@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { Mail, Lock, LogIn } from 'lucide-react';
 
 const Login: React.FC = () => {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -45,12 +47,12 @@ const Login: React.FC = () => {
     <div className="auth-wrapper">
       <div className="auth-card">
         <div className="auth-header">
-          <h2>Welcome Back</h2>
-          <p>Login to your Arabic College portal</p>
+          <h2>{t('login.welcome_back')}</h2>
+          <p>{t('login.login_desc')}</p>
         </div>
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email">{t('login.email_address')}</label>
             <div className="input-wrapper">
               <Mail className="input-icon" size={18} />
               <input
@@ -67,9 +69,9 @@ const Login: React.FC = () => {
 
           <div className="input-group">
             <div className="label-row">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">{t('login.password')}</label>
               <Link to="/forgot-password" className="forgot-link">
-                Forgot Password?
+                {t('login.forgot_password')}
               </Link>
             </div>
             <div className="input-wrapper">
@@ -95,24 +97,24 @@ const Login: React.FC = () => {
                 disabled={isSubmitting}
               />
               <span className="checkmark"></span>
-              Remember Me
+              {t('login.remember_me')}
             </label>
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
             {isSubmitting ? (
               <span className="btn-loading">
-                <span className="spinner-mini"></span> Authenticating...
+                <span className="spinner-mini"></span> {t('login.authenticating')}
               </span>
             ) : (
               <>
-                <LogIn size={18} /> Login
+                <LogIn size={18} /> {t('login.login_btn')}
               </>
             )}
           </button>
         </form>
         <div className="auth-footer">
-          Don't have an account? <Link to="/register">Register here</Link>
+          {t('login.no_account')} <Link to="/register">{t('login.register_here')}</Link>
         </div>
       </div>
     </div>

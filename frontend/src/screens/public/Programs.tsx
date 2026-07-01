@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import { Clock, Layers, Award } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Program {
   id: number;
@@ -13,6 +14,7 @@ interface Program {
 }
 
 const Programs: React.FC = () => {
+  const { t } = useTranslation();
   const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,12 +62,16 @@ const Programs: React.FC = () => {
     fetchPrograms();
   }, []);
 
+  const getCleanCode = (code: string) => {
+    return code.toLowerCase().replace('-', '_');
+  };
+
   return (
     <div className="public-subpage programs-page">
       <header className="page-header">
         <div className="header-container">
-          <h1>Academic Programs</h1>
-          <p>Explore our accredited undergraduate degree programs</p>
+          <h1>{t('programs.title')}</h1>
+          <p>{t('programs.subtitle')}</p>
         </div>
       </header>
 
@@ -74,33 +80,33 @@ const Programs: React.FC = () => {
           {loading ? (
             <div className="spinner-center">
               <div className="spinner"></div>
-              <p>Loading programs...</p>
+              <p>{t('programs.loading')}</p>
             </div>
           ) : (
             <div className="programs-grid">
               {programs.map((program) => (
                 <div key={program.id} className="program-card">
                   <div className="program-card-header">
-                    <span className="dept-badge">{program.department}</span>
+                    <span className="dept-badge">{t(`programs.dept_${getCleanCode(program.code)}`) || program.department}</span>
                     <span className="code-badge">{program.code}</span>
                   </div>
                   <div className="program-card-body">
-                    <h3>{program.name_en}</h3>
+                    <h3>{t(`programs.name_${getCleanCode(program.code)}`) || program.name_en}</h3>
                     <h4 className="arabic-text">{program.name_ar}</h4>
                     <div className="program-details">
                       <div className="detail-pill">
                         <Clock size={16} />
-                        <span>{program.duration}</span>
+                        <span>{t('programs.duration_label')}</span>
                       </div>
                       <div className="detail-pill">
                         <Layers size={16} />
-                        <span>{program.credits}</span>
+                        <span>{t(`programs.credits_${getCleanCode(program.code)}`) || program.credits}</span>
                       </div>
                     </div>
                   </div>
                   <div className="program-card-footer">
                     <span className="accreditation-tag">
-                      <Award size={14} /> Full Accreditation
+                      <Award size={14} /> {t('programs.acred') || t('programs.accreditation')}
                     </span>
                   </div>
                 </div>

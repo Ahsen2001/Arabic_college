@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Layers, BookOpen, Compass, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../../api';
 
 interface GalleryItem {
@@ -11,27 +12,30 @@ interface GalleryItem {
 }
 
 const Gallery: React.FC = () => {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<'all' | 'library' | 'campus' | 'calligraphy' | 'lectures'>('all');
 
   const defaultItems: GalleryItem[] = [
-    { id: 1, title: 'Classical Reference Library', category: 'library', image: '/assets/hero_sharia.png', description: 'Housing over 20,000 classical text volumes and legal manuscripts.' },
-    { id: 2, title: 'Arabic Calligraphy Research', category: 'calligraphy', image: '/assets/hero_linguistics.png', description: 'Study of Thuluth and Naskh scripts under master calligraphers.' },
-    { id: 3, title: 'Academic Campus Grounds', category: 'campus', image: '/assets/college_campus.png', description: 'The exterior modern facades of the central college library.' },
-    { id: 4, title: 'Jurisprudence Comparative Lecture', category: 'lectures', image: '/assets/hero_sharia.png', description: 'Students discussing traditional fiqh rulings in small seminars.' },
-    { id: 5, title: 'Linguistic Rhetoric Workshop', category: 'calligraphy', image: '/assets/hero_linguistics.png', description: 'Exploring grammatical syntax structures of classical poetry.' },
-    { id: 6, title: 'Faculty Administration Wings', category: 'campus', image: '/assets/college_campus.png', description: 'Academic offices where professors hold student advice hours.' }
+    { id: 1, title: t('gallery.t1'), category: 'library', image: '/assets/hero_sharia.png', description: t('gallery.d1') },
+    { id: 2, title: t('gallery.t2'), category: 'calligraphy', image: '/assets/hero_linguistics.png', description: t('gallery.d2') },
+    { id: 3, title: t('gallery.t3'), category: 'campus', image: '/assets/college_campus.png', description: t('gallery.d3') },
+    { id: 4, title: t('gallery.t4'), category: 'lectures', image: '/assets/hero_sharia.png', description: t('gallery.d4') },
+    { id: 5, title: t('gallery.t5'), category: 'calligraphy', image: '/assets/hero_linguistics.png', description: t('gallery.d5') },
+    { id: 6, title: t('gallery.t6'), category: 'campus', image: '/assets/college_campus.png', description: t('gallery.d6') }
   ];
 
-  const [items, setItems] = useState<GalleryItem[]>(defaultItems);
+  const [items, setItems] = useState<GalleryItem[]>([]);
 
   useEffect(() => {
+    setItems(defaultItems);
+
     api.get('/public/cms').then(res => {
       const data = res.data.data;
       if (data?.cms_gallery_images && Array.isArray(data.cms_gallery_images) && data.cms_gallery_images.length > 0) {
         setItems(data.cms_gallery_images);
       }
     }).catch(() => {/* fall back to defaults */});
-  }, []);
+  }, [t]);
 
   const filteredItems = activeCategory === 'all'
     ? items
@@ -41,8 +45,8 @@ const Gallery: React.FC = () => {
     <div className="public-subpage gallery-page">
       <header className="page-header">
         <div className="header-container">
-          <h1>Campus Gallery</h1>
-          <p>Explore highlights of our libraries, study halls, and calligraphy workshops</p>
+          <h1>{t('gallery.title')}</h1>
+          <p>{t('gallery.subtitle')}</p>
         </div>
       </header>
 
@@ -54,31 +58,31 @@ const Gallery: React.FC = () => {
               onClick={() => setActiveCategory('all')}
               className={`filter-btn ${activeCategory === 'all' ? 'active' : ''}`}
             >
-              <Layers size={14} style={{ marginRight: '6px' }} /> All Photos
+              <Layers size={14} style={{ marginRight: '6px' }} /> {t('gallery.filter_all')}
             </button>
             <button
               onClick={() => setActiveCategory('library')}
               className={`filter-btn ${activeCategory === 'library' ? 'active' : ''}`}
             >
-              <BookOpen size={14} style={{ marginRight: '6px' }} /> Library
+              <BookOpen size={14} style={{ marginRight: '6px' }} /> {t('gallery.filter_library')}
             </button>
             <button
               onClick={() => setActiveCategory('calligraphy')}
               className={`filter-btn ${activeCategory === 'calligraphy' ? 'active' : ''}`}
             >
-              <Sparkles size={14} style={{ marginRight: '6px' }} /> Calligraphy
+              <Sparkles size={14} style={{ marginRight: '6px' }} /> {t('gallery.filter_calligraphy')}
             </button>
             <button
               onClick={() => setActiveCategory('campus')}
               className={`filter-btn ${activeCategory === 'campus' ? 'active' : ''}`}
             >
-              <Compass size={14} style={{ marginRight: '6px' }} /> Campus
+              <Compass size={14} style={{ marginRight: '6px' }} /> {t('gallery.filter_campus')}
             </button>
             <button
               onClick={() => setActiveCategory('lectures')}
               className={`filter-btn ${activeCategory === 'lectures' ? 'active' : ''}`}
             >
-              <Image size={14} style={{ marginRight: '6px' }} /> Lectures
+              <Image size={14} style={{ marginRight: '6px' }} /> {t('gallery.filter_lectures')}
             </button>
           </div>
 
@@ -89,12 +93,12 @@ const Gallery: React.FC = () => {
                 <div className="gallery-img-wrapper">
                   <img src={item.image} alt={item.title} />
                   <div className="gallery-overlay">
-                    <span className="gallery-tag">{item.category.toUpperCase()}</span>
+                    <span className="gallery-tag">{t(`gallery.filter_${item.category}`).toUpperCase()}</span>
                   </div>
                 </div>
                 <div className="gallery-body">
-                  <h4>{item.title}</h4>
-                  <p>{item.description}</p>
+                  <h4>{t(`gallery.t${item.id}`) || item.title}</h4>
+                  <p>{t(`gallery.d${item.id}`) || item.description}</p>
                 </div>
               </div>
             ))}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import toast from 'react-hot-toast';
 import { FileDown, DownloadCloud, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface DownloadItem {
   title: string;
@@ -10,6 +11,7 @@ interface DownloadItem {
 }
 
 const Downloads: React.FC = () => {
+  const { t } = useTranslation();
   const [downloads, setDownloads] = useState<DownloadItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,11 +23,11 @@ const Downloads: React.FC = () => {
       } catch (error) {
         console.error("Failed to fetch downloads list. Using fallback.", error);
         setDownloads([
-          { title: 'College Prospectus 2026-2027', file_name: 'college_prospectus_2026.pdf', file_size: '4.2 MB' },
-          { title: 'Syllabus: Bachelor of Sharia (Islamic Fiqh)', file_name: 'syllabus_b_sharia.pdf', file_size: '1.8 MB' },
-          { title: 'Syllabus: Bachelor of Arabic Language', file_name: 'syllabus_b_arabic.pdf', file_size: '1.5 MB' },
-          { title: 'Syllabus: Bachelor of Hadith Sciences', file_name: 'syllabus_b_hadith.pdf', file_size: '1.9 MB' },
-          { title: 'Academic Calendar 2026/2027', file_name: 'academic_calendar_2026.pdf', file_size: '850 KB' },
+          { title: t('downloads.fallback_1'), file_name: 'college_prospectus_2026.pdf', file_size: '4.2 MB' },
+          { title: t('downloads.fallback_2'), file_name: 'syllabus_b_sharia.pdf', file_size: '1.8 MB' },
+          { title: t('downloads.fallback_3'), file_name: 'syllabus_b_arabic.pdf', file_size: '1.5 MB' },
+          { title: t('downloads.fallback_4'), file_name: 'syllabus_b_hadith.pdf', file_size: '1.9 MB' },
+          { title: t('downloads.fallback_5'), file_name: 'academic_calendar_2026.pdf', file_size: '850 KB' },
         ]);
       } finally {
         setLoading(false);
@@ -33,10 +35,10 @@ const Downloads: React.FC = () => {
     };
 
     fetchDownloads();
-  }, []);
+  }, [t]);
 
   const handleDownload = (title: string, fileName: string) => {
-    toast.success(`Starting download: ${title}`);
+    toast.success(t('downloads.toast_start', { title }));
     // Simulate file download trigger in production
     const link = document.createElement('a');
     link.href = `#`; // Mock link or pointing to storage
@@ -48,8 +50,8 @@ const Downloads: React.FC = () => {
     <div className="public-subpage downloads-page">
       <header className="page-header">
         <div className="header-container">
-          <h1>Downloads Center</h1>
-          <p>Access official prospectus documents, registration templates, and syllabus brochures</p>
+          <h1>{t('downloads.title')}</h1>
+          <p>{t('downloads.subtitle')}</p>
         </div>
       </header>
 
@@ -58,14 +60,14 @@ const Downloads: React.FC = () => {
           {loading ? (
             <div className="spinner-center">
               <div className="spinner"></div>
-              <p>Loading files index...</p>
+              <p>{t('downloads.loading')}</p>
             </div>
           ) : (
             <div className="downloads-wrapper">
               <div className="notice-banner">
                 <AlertCircle className="notice-icon" />
                 <p>
-                  Documents are distributed in standard PDF format. If you require specialized print brochures, please contact the registrar team.
+                  {t('downloads.notice')}
                 </p>
               </div>
 
@@ -73,10 +75,10 @@ const Downloads: React.FC = () => {
                 <table className="downloads-table">
                   <thead>
                     <tr>
-                      <th>Document Title</th>
-                      <th>File Name</th>
-                      <th>File Size</th>
-                      <th style={{ textAlign: 'center' }}>Action</th>
+                      <th>{t('downloads.table_title')}</th>
+                      <th>{t('downloads.table_name')}</th>
+                      <th>{t('downloads.table_size')}</th>
+                      <th style={{ textAlign: 'center' }}>{t('downloads.table_action')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -94,7 +96,7 @@ const Downloads: React.FC = () => {
                             className="btn btn-outline btn-sm flex-center"
                             style={{ margin: '0 auto' }}
                           >
-                            <DownloadCloud size={14} style={{ marginRight: '6px' }} /> Download
+                            <DownloadCloud size={14} style={{ marginRight: '6px' }} /> {t('downloads.download_btn')}
                           </button>
                         </td>
                       </tr>

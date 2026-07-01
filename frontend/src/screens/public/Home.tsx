@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import api from '../../api';
 import { ArrowRight, ChevronLeft, ChevronRight, Bell, Calendar, Award, BookMarked, Users } from 'lucide-react';
 
@@ -20,12 +21,14 @@ interface Event {
 }
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   const [activeSlide, setActiveSlide] = useState(0);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [collegeName, setCollegeName] = useState('Arabic College of Sharia Sciences');
   const [admissionOpen, setAdmissionOpen] = useState(true);
+  const [hasCustomSlides, setHasCustomSlides] = useState(false);
 
   const defaultSlides = [
     {
@@ -52,6 +55,33 @@ const Home: React.FC = () => {
   ];
   const [slides, setSlides] = useState(defaultSlides);
 
+  const activeSlides = useMemo(() => {
+    if (hasCustomSlides) return slides;
+    return [
+      {
+        title: t('home.hero_slide1_title'),
+        description: t('home.hero_slide1_desc'),
+        image: '/assets/hero_sharia.png',
+        cta: t('home.hero_slide1_cta'),
+        link: '/programs',
+      },
+      {
+        title: t('home.hero_slide2_title'),
+        description: t('home.hero_slide2_desc'),
+        image: '/assets/hero_linguistics.png',
+        cta: t('home.hero_slide2_cta'),
+        link: '/teachers',
+      },
+      {
+        title: t('home.hero_slide3_title'),
+        description: t('home.hero_slide3_desc'),
+        image: '/assets/college_campus.png',
+        cta: t('home.hero_slide3_cta'),
+        link: '/admissions',
+      },
+    ];
+  }, [hasCustomSlides, slides, t]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,6 +92,7 @@ const Home: React.FC = () => {
         if (cms.admission_status !== undefined) setAdmissionOpen(cms.admission_status === '1' || cms.admission_status === true);
         if (cms.cms_home_hero && Array.isArray(cms.cms_home_hero) && cms.cms_home_hero.length > 0) {
           setSlides(cms.cms_home_hero);
+          setHasCustomSlides(true);
         }
       } catch {
         // silently fall back to defaults
@@ -91,17 +122,17 @@ const Home: React.FC = () => {
   // Automatic slider interval
   useEffect(() => {
     const slideInterval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % slides.length);
+      setActiveSlide((prev) => (prev + 1) % activeSlides.length);
     }, 6000);
     return () => clearInterval(slideInterval);
-  }, [slides.length]);
+  }, [activeSlides.length]);
 
   const prevSlide = () => {
-    setActiveSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setActiveSlide((prev) => (prev === 0 ? activeSlides.length - 1 : prev - 1));
   };
 
   const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % slides.length);
+    setActiveSlide((prev) => (prev + 1) % activeSlides.length);
   };
 
   return (
@@ -109,7 +140,7 @@ const Home: React.FC = () => {
       {/* Hero Slider Section */}
       <section className="hero-slider-section">
         <div className="slider-wrapper">
-          {slides.map((slide, idx) => (
+          {activeSlides.map((slide, idx) => (
             <div
               key={idx}
               className={`slide-item ${idx === activeSlide ? 'active' : ''}`}
@@ -136,7 +167,7 @@ const Home: React.FC = () => {
 
         {/* Slide Dots */}
         <div className="slider-dots">
-          {slides.map((_, idx) => (
+          {activeSlides.map((_, idx) => (
             <button
               key={idx}
               className={`dot-item ${idx === activeSlide ? 'active' : ''}`}
@@ -152,18 +183,18 @@ const Home: React.FC = () => {
         <div className="section-container grid-3">
           <div className="stat-card">
             <Award size={36} className="stat-icon" />
-            <h3>Qualified Faculty</h3>
-            <p>Taught by renowned Sheikhs holding doctorate titles from international centers.</p>
+            <h3>{t('home.qualified_faculty')}</h3>
+            <p>{t('home.qualified_faculty_desc')}</p>
           </div>
           <div className="stat-card">
             <BookMarked size={36} className="stat-icon" />
-            <h3>Academic Excellence</h3>
-            <p>Accredited Bachelor tracks merging classical Islamic roots with modern metrics.</p>
+            <h3>{t('home.academic_excellence')}</h3>
+            <p>{t('home.academic_excellence_desc')}</p>
           </div>
           <div className="stat-card">
             <Users size={36} className="stat-icon" />
-            <h3>Rich Student Life</h3>
-            <p>Diverse student body sharing campus housing, research grants, and library catalogs.</p>
+            <h3>{t('home.rich_student_life')}</h3>
+            <p>{t('home.rich_student_life_desc')}</p>
           </div>
         </div>
       </section>
@@ -176,11 +207,11 @@ const Home: React.FC = () => {
             <div className="announcements-column">
               <div className="column-title">
                 <Bell className="title-icon" />
-                <h3>Latest Announcements</h3>
+                <h3>{t('home.latest_announcements')}</h3>
               </div>
               <div className="announcements-list">
                 {loading ? (
-                  <div className="spinner-center"><div className="spinner-mini"></div> Loading...</div>
+                  <div className="spinner-center"><div className="spinner-mini"></div> {t('home.loading')}</div>
                 ) : announcements.length > 0 ? (
                   announcements.map((ann) => (
                     <div key={ann.id} className="news-card">
@@ -190,7 +221,7 @@ const Home: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="no-data">No announcements at this time.</p>
+                  <p className="no-data">{t('home.no_announcements')}</p>
                 )}
               </div>
             </div>
@@ -199,11 +230,11 @@ const Home: React.FC = () => {
             <div className="events-column">
               <div className="column-title">
                 <Calendar className="title-icon" />
-                <h3>Upcoming Events</h3>
+                <h3>{t('home.upcoming_events')}</h3>
               </div>
               <div className="events-list">
                 {loading ? (
-                  <div className="spinner-center"><div className="spinner-mini"></div> Loading...</div>
+                  <div className="spinner-center"><div className="spinner-mini"></div> {t('home.loading')}</div>
                 ) : events.length > 0 ? (
                   events.map((evt) => (
                     <div key={evt.id} className="event-card">
@@ -223,7 +254,7 @@ const Home: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="no-data">No upcoming events scheduled.</p>
+                  <p className="no-data">{t('home.no_events')}</p>
                 )}
               </div>
             </div>
@@ -235,10 +266,10 @@ const Home: React.FC = () => {
       {admissionOpen && (
       <section className="cta-admissions-section">
         <div className="cta-container">
-          <h2>Apply for Admissions 2026/2027</h2>
-          <p>Join the next generation of scholars at <strong>{collegeName}</strong>. Public registration portals are open. Complete your online registration form today.</p>
+          <h2>{t('home.apply_admissions')}</h2>
+          <p>{t('home.apply_desc', { collegeName })}</p>
           <Link to="/register" className="btn btn-primary btn-lg">
-            Start Application Online <ArrowRight size={18} />
+            {t('home.start_application')} <ArrowRight size={18} />
           </Link>
         </div>
       </section>

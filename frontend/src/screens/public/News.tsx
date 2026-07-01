@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import { Bell, Calendar, MapPin, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Announcement {
   id: number;
@@ -21,6 +22,7 @@ interface Event {
 }
 
 const News: React.FC = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'all' | 'announcements' | 'events'>('all');
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
@@ -37,15 +39,15 @@ const News: React.FC = () => {
         setAnnouncements([
           {
             id: 1,
-            title: 'Fall Semester 2026 Registrations Open',
-            content: 'Applications are now being accepted for B-Sharia, B-Arabic, and B-Hadith programs for the academic year 2026/2027. Apply online through our admissions portal.',
+            title: t('news.ann_title_1'),
+            content: t('news.ann_content_1'),
             date: '2026-06-25',
             type: 'announcement',
           },
           {
             id: 2,
-            title: 'Digital Library Catalog Launch',
-            content: 'We are pleased to introduce our digital catalog system. Students can now search books, renew loans, and inspect reference availability online.',
+            title: t('news.ann_title_2'),
+            content: t('news.ann_content_2'),
             date: '2026-06-28',
             type: 'announcement',
           },
@@ -53,20 +55,20 @@ const News: React.FC = () => {
         setEvents([
           {
             id: 1,
-            title: 'Arabic Calligraphy Masterclass',
-            description: 'A workshop covering Thuluth and Naskh scripts, hosted by Sheikh Dr. Bilal Al-Madani.',
+            title: t('news.evt_title_1'),
+            description: t('news.evt_desc_1'),
             date: '2026-07-10',
             time: '10:00 AM - 01:00 PM',
-            location: 'Main Academic Hall B',
+            location: t('news.evt_loc_1'),
             type: 'event',
           },
           {
             id: 2,
-            title: 'Symposium on Hadith Methodology',
-            description: 'A classical research paper discussion regarding narrator critic analysis in modern database compilation.',
+            title: t('news.evt_title_2'),
+            description: t('news.evt_desc_2'),
             date: '2026-07-20',
             time: '09:00 AM - 04:00 PM',
-            location: 'Library Conference Hall',
+            location: t('news.evt_loc_2'),
             type: 'event',
           },
         ]);
@@ -76,14 +78,14 @@ const News: React.FC = () => {
     };
 
     fetchNewsEvents();
-  }, []);
+  }, [t]);
 
   return (
     <div className="public-subpage news-page">
       <header className="page-header">
         <div className="header-container">
-          <h1>News & Events</h1>
-          <p>Stay up to date with the latest activities, timetables, and academic bulletins</p>
+          <h1>{t('news.title')}</h1>
+          <p>{t('news.subtitle')}</p>
         </div>
       </header>
 
@@ -95,26 +97,26 @@ const News: React.FC = () => {
               onClick={() => setActiveTab('all')}
               className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
             >
-              All Updates
+              {t('news.tab_all')}
             </button>
             <button
               onClick={() => setActiveTab('announcements')}
               className={`tab-btn ${activeTab === 'announcements' ? 'active' : ''}`}
             >
-              <Bell size={14} style={{ marginRight: '6px' }} /> Announcements
+              <Bell size={14} style={{ marginRight: '6px' }} /> {t('news.tab_announcements')}
             </button>
             <button
               onClick={() => setActiveTab('events')}
               className={`tab-btn ${activeTab === 'events' ? 'active' : ''}`}
             >
-              <Calendar size={14} style={{ marginRight: '6px' }} /> Events
+              <Calendar size={14} style={{ marginRight: '6px' }} /> {t('news.tab_events')}
             </button>
           </div>
 
           {loading ? (
             <div className="spinner-center">
               <div className="spinner"></div>
-              <p>Loading news bulletin...</p>
+              <p>{t('news.loading')}</p>
             </div>
           ) : (
             <div className="bulletin-list">
@@ -124,7 +126,7 @@ const News: React.FC = () => {
                   <div key={`ann-${ann.id}`} className="bulletin-card announcement-card">
                     <div className="bulletin-card-header">
                       <span className="bulletin-tag tag-announcement">
-                        <Bell size={12} /> Announcement
+                        <Bell size={12} /> {t('news.tag_announcement')}
                       </span>
                       <span className="bulletin-date">{ann.date}</span>
                     </div>
@@ -139,7 +141,7 @@ const News: React.FC = () => {
                   <div key={`evt-${evt.id}`} className="bulletin-card event-detail-card">
                     <div className="bulletin-card-header">
                       <span className="bulletin-tag tag-event">
-                        <Calendar size={12} /> Event
+                        <Calendar size={12} /> {t('news.tag_event')}
                       </span>
                       <span className="bulletin-date">
                         {new Date(evt.date).toLocaleDateString('en-US', {

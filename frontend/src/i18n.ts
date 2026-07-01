@@ -23,6 +23,8 @@ i18n
   .init({
     resources,
     fallbackLng: 'ar',
+    supportedLngs: ['en', 'ar', 'ta', 'si'],
+    load: 'languageOnly',
     debug: false,
     interpolation: {
       escapeValue: false
@@ -35,9 +37,11 @@ i18n
 
 // Handle text direction on language changes
 const handleLangChange = (lng: string) => {
-  const isRtl = lng === 'ar';
+  if (!lng) return;
+  const shortLang = lng.split('-')[0].split('_')[0].toLowerCase();
+  const isRtl = shortLang === 'ar';
   document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
-  document.documentElement.lang = lng;
+  document.documentElement.lang = shortLang;
 };
 
 // Initial run

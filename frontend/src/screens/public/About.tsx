@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Target, Eye, Landmark, Compass } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../../api';
 
 interface AboutCms {
@@ -10,6 +11,7 @@ interface AboutCms {
 
 const About: React.FC = () => {
   const [cms, setCms] = useState<AboutCms>({});
+  const { t } = useTranslation();
 
   useEffect(() => {
     api.get('/public/cms').then(res => {
@@ -22,8 +24,8 @@ const About: React.FC = () => {
     <div className="public-subpage about-page">
       <header className="page-header">
         <div className="header-container">
-          <h1>About the College</h1>
-          <p>Rooted in Classical Tradition, Committed to Contemporary Academic Standards</p>
+          <h1>{t('about.title')}</h1>
+          <p>{t('about.subtitle')}</p>
         </div>
       </header>
 
@@ -31,13 +33,13 @@ const About: React.FC = () => {
         <div className="section-container">
           {/* History */}
           <div className="about-history-block">
-            <h2>Our History</h2>
+            <h2>{t('about.our_history')}</h2>
             <p>
-              {cms.history || 'Founded in 2012, the Arabic College of Sharia and Linguistic Sciences was established to address the growing need for high-caliber, academically structured education in classical Islamic subjects. Rather than relying on informal study circles, our founders designed a comprehensive university-level curriculum.'}
+              {cms.history || t('about.history_p1')}
             </p>
             {!cms.history && (
             <p>
-              Today, our campus serves as a leading institution in Sharia jurisprudence, Arabic morphology and syntax, and Hadith criticism. We blend time-tested textual learning of classical Islamic manuals with structured semester formats, coursework grading, and credit-hour criteria.
+              {t('about.history_p2')}
             </p>
             )}
           </div>
@@ -47,41 +49,41 @@ const About: React.FC = () => {
             <div className="about-card-info">
               <div className="card-info-title">
                 <Target size={24} className="info-icon" />
-                <h3>Our Mission</h3>
+                <h3>{t('about.our_mission')}</h3>
               </div>
               <p>
-                {cms.mission || 'To cultivate accomplished scholars and researchers in Sharia sciences and classical Arabic literature, empowering them with critical thinking, research skills, and authentic traditional insights to guide the contemporary community.'}
+                {cms.mission || t('about.mission_desc')}
               </p>
             </div>
             <div className="about-card-info">
               <div className="card-info-title">
                 <Eye size={24} className="info-icon" />
-                <h3>Our Vision</h3>
+                <h3>{t('about.our_vision')}</h3>
               </div>
               <p>
-                {cms.vision || 'To be the premier global center of higher learning for traditional Sharia sciences and Arabic linguistic research, recognized for combining classical depth with academic integrity.'}
+                {cms.vision || t('about.vision_desc')}
               </p>
             </div>
           </div>
 
           {/* Core Values */}
           <div className="core-values-block">
-            <h2>Core Pillars</h2>
+            <h2>{t('about.core_pillars')}</h2>
             <div className="grid-3 values-grid">
               <div className="value-card">
                 <Landmark className="value-icon" />
-                <h4>Authenticity (Asalah)</h4>
-                <p>Upholding chains of narration and classical understandings of early Sharia scholars.</p>
+                <h4>{t('about.authenticity_title')}</h4>
+                <p>{t('about.authenticity_desc')}</p>
               </div>
               <div className="value-card">
                 <Compass className="value-icon" />
-                <h4>Critical Thinking</h4>
-                <p>Equipping students with comparative analysis methodologies in comparative Fiqh.</p>
+                <h4>{t('about.critical_thinking_title')}</h4>
+                <p>{t('about.critical_thinking_desc')}</p>
               </div>
               <div className="value-card">
                 <Target className="value-icon" />
-                <h4>Relevance</h4>
-                <p>Bridging traditional texts to answer modern, legal, and financial queries.</p>
+                <h4>{t('about.relevance_title')}</h4>
+                <p>{t('about.relevance_desc')}</p>
               </div>
             </div>
           </div>

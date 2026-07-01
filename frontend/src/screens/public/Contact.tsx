@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import toast from 'react-hot-toast';
 import { Mail, Phone, MapPin, Send, Clock, User, HelpCircle, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Contact: React.FC = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
@@ -35,12 +37,12 @@ const Contact: React.FC = () => {
     e.preventDefault();
 
     if (!name || !email || !subject || !message) {
-      toast.error('Please fill out all fields.');
+      toast.error(t('contact.toast_fill_fields'));
       return;
     }
 
     setIsSubmitting(true);
-    const toastId = toast.loading('Submitting query...');
+    const toastId = toast.loading(t('contact.toast_submitting'));
 
     try {
       const response = await api.post('/public/contact', {
@@ -70,8 +72,8 @@ const Contact: React.FC = () => {
     <div className="public-subpage contact-page">
       <header className="page-header">
         <div className="header-container">
-          <h1>Contact Us</h1>
-          <p>Get in touch with the Arabic College administration team</p>
+          <h1>{t('contact.title')}</h1>
+          <p>{t('contact.subtitle')}</p>
         </div>
       </header>
 
@@ -80,28 +82,28 @@ const Contact: React.FC = () => {
           <div className="contact-split-layout">
             {/* Info panel */}
             <div className="contact-info-panel">
-              <h2>Contact Information</h2>
-              <p>For immediate registrar help, syllabus questions, or general campus guidance, reach out to us directly:</p>
+              <h2>{t('contact.info_title')}</h2>
+              <p>{t('contact.info_desc')}</p>
 
               <div className="contact-info-cards">
                 <div className="info-item-card">
                   <Phone className="info-icon" />
                   <div>
-                    <h4>Registrar Office Phone</h4>
+                    <h4>{t('contact.phone_label')}</h4>
                     <p>{contactInfo.phone}</p>
                   </div>
                 </div>
                 <div className="info-item-card">
                   <Mail className="info-icon" />
                   <div>
-                    <h4>General Email Queries</h4>
+                    <h4>{t('contact.email_label')}</h4>
                     <p>{contactInfo.email}</p>
                   </div>
                 </div>
                 <div className="info-item-card">
                   <MapPin className="info-icon" />
                   <div>
-                    <h4>Academic Campus Address</h4>
+                    <h4>{t('contact.address_label')}</h4>
                     <p>{contactInfo.address}</p>
                   </div>
                 </div>
@@ -111,16 +113,16 @@ const Contact: React.FC = () => {
               <div className="operational-hours-card">
                 <div className="operational-hours-title">
                   <Clock size={16} />
-                  <span>Campus Operational Hours</span>
+                  <span>{t('contact.hours_title')}</span>
                 </div>
                 <div className="operational-hours-list">
                   <div className="operational-hours-row">
-                    <span>Sunday - Thursday:</span>
+                    <span>{t('contact.days_week')}</span>
                     <span>8:00 AM - 4:00 PM</span>
                   </div>
                   <div className="operational-hours-row">
-                    <span>Friday - Saturday:</span>
-                    <span style={{ color: 'var(--error)' }}>Closed</span>
+                    <span>{t('contact.days_weekend')}</span>
+                    <span style={{ color: 'var(--error)' }}>{t('contact.closed')}</span>
                   </div>
                 </div>
               </div>
@@ -136,30 +138,30 @@ const Contact: React.FC = () => {
               {submittedSuccess ? (
                 <div className="dashboard-card text-center" style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', animation: 'fadeIn 0.3s ease-out' }}>
                   <CheckCircle size={48} style={{ color: 'var(--success)' }} />
-                  <h3 style={{ fontWeight: '700' }}>Message Submitted!</h3>
+                  <h3 style={{ fontWeight: '700' }}>{t('contact.msg_submitted')}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: '1.5', maxWidth: '360px', margin: '0 auto', textAlign: 'center' }}>
-                    Thank you. We have successfully received your query parameters. Our registrar administration team will review and reply to <strong>{submittedEmail}</strong> shortly.
+                    {t('contact.msg_success_desc', { email: submittedEmail })}
                   </p>
                   <button 
                     onClick={() => setSubmittedSuccess(false)} 
                     className="btn btn-outline btn-sm"
                     style={{ marginTop: '10px' }}
                   >
-                    Send Another Message
+                    {t('contact.send_another')}
                   </button>
                 </div>
               ) : (
                 <>
-                  <h2>Send a Query Message</h2>
+                  <h2>{t('contact.send_msg_title')}</h2>
                   <form onSubmit={handleSubmit} className="auth-form contact-form">
                     <div className="input-group">
-                      <label htmlFor="name">Your Name</label>
+                      <label htmlFor="name">{t('contact.form_name')}</label>
                       <div className="input-wrapper">
                         <User className="input-icon" size={16} />
                         <input
                           id="name"
                           type="text"
-                          placeholder="Enter your name"
+                          placeholder={t('contact.placeholder_name')}
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           disabled={isSubmitting}
@@ -170,7 +172,7 @@ const Contact: React.FC = () => {
                     </div>
 
                     <div className="input-group">
-                      <label htmlFor="email">Email Address</label>
+                      <label htmlFor="email">{t('contact.form_email')}</label>
                       <div className="input-wrapper">
                         <Mail className="input-icon" size={16} />
                         <input
@@ -187,13 +189,13 @@ const Contact: React.FC = () => {
                     </div>
 
                     <div className="input-group">
-                      <label htmlFor="subject">Subject Topic</label>
+                      <label htmlFor="subject">{t('contact.form_subject')}</label>
                       <div className="input-wrapper">
                         <HelpCircle className="input-icon" size={16} />
                         <input
                           id="subject"
                           type="text"
-                          placeholder="e.g. Placement exam criteria"
+                          placeholder={t('contact.placeholder_subject')}
                           value={subject}
                           onChange={(e) => setSubject(e.target.value)}
                           disabled={isSubmitting}
@@ -204,13 +206,13 @@ const Contact: React.FC = () => {
                     </div>
 
                     <div className="input-group">
-                      <label htmlFor="message">Your Message</label>
+                      <label htmlFor="message">{t('contact.form_message')}</label>
                       <div style={{ position: 'relative' }}>
                         <textarea
                           id="message"
                           rows={5}
                           maxLength={1000}
-                          placeholder="Type your message guidelines here..."
+                          placeholder={t('contact.placeholder_message')}
                           value={message}
                           onChange={(e) => setMessage(e.target.value)}
                           disabled={isSubmitting}
@@ -229,7 +231,7 @@ const Contact: React.FC = () => {
                           }}
                         />
                         <div style={{ textAlign: 'right', fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                          {message.length} / 1000 characters
+                          {t('contact.char_counter', { length: message.length })}
                         </div>
                       </div>
                     </div>
@@ -237,11 +239,11 @@ const Contact: React.FC = () => {
                     <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ width: '100%', marginTop: '10px' }}>
                       {isSubmitting ? (
                         <span className="btn-loading" style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-                          <span className="spinner-mini"></span> Submitting Query...
+                          <span className="spinner-mini"></span> {t('contact.submitting')}
                         </span>
                       ) : (
                         <>
-                          <Send size={16} /> Submit Query Message
+                          <Send size={16} /> {t('contact.submit_btn')}
                         </>
                       )}
                     </button>

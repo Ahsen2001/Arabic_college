@@ -31,56 +31,55 @@ const Navbar: React.FC = () => {
     });
   }, []);
 
-  const navLinks = [
+  const primaryLinks = [
     { name: t('nav.home'), path: '/' },
     { name: t('nav.about'), path: '/about' },
+    { name: t('nav.news'), path: '/news' },
+    { name: t('nav.downloads'), path: '/downloads' },
+    { name: t('nav.contact'), path: '/contact' },
+  ];
+
+  const remainingLinks = [
     { name: t('nav.programs'), path: '/programs' },
     { name: t('nav.admissions'), path: '/admissions' },
     { name: t('nav.teachers'), path: '/teachers' },
-    { name: t('nav.news'), path: '/news' },
     { name: t('nav.gallery'), path: '/gallery' },
-    { name: t('nav.downloads'), path: '/downloads' },
     { name: t('nav.faq'), path: '/faq' },
-    { name: t('nav.contact'), path: '/contact' },
   ];
 
   const isActive = (path: string) => {
     return location.pathname === path;
   };
 
-  const renderLanguageSelector = (style: React.CSSProperties = {}) => (
-    <select 
-      value={i18n.language} 
-      onChange={(e) => i18n.changeLanguage(e.target.value)}
-      className="lang-selector-select"
-      aria-label={t('nav.select_language')}
-      title={t('nav.select_language')}
-      style={{
-        background: 'rgba(15, 23, 42, 0.8)',
-        color: 'white',
-        border: '1px solid var(--border-glass)',
-        borderRadius: '8px',
-        padding: '6px 10px',
-        fontSize: '13px',
-        outline: 'none',
-        cursor: 'pointer',
-        fontFamily: 'inherit',
-        ...style
-      }}
-    >
-      <option value="en" style={{ color: '#0f172a' }}>English</option>
-      <option value="ar" style={{ color: '#0f172a' }}>العربية (Arabic)</option>
-      <option value="ta" style={{ color: '#0f172a' }}>தமிழ் (Tamil)</option>
-      <option value="si" style={{ color: '#0f172a' }}>සිංහල (Sinhala)</option>
-    </select>
-  );
+  const renderLanguageSelector = () => {
+    const currentLang = i18n.language ? i18n.language.split('-')[0].split('_')[0] : 'ar';
+    return (
+      <select 
+        value={currentLang} 
+        onChange={(e) => i18n.changeLanguage(e.target.value)}
+        className="lang-selector-select"
+        aria-label={t('nav.select_language')}
+        title={t('nav.select_language')}
+      >
+        <option value="en">English</option>
+        <option value="ar">العربية (Arabic)</option>
+        <option value="ta">தமிழ் (Tamil)</option>
+        <option value="si">සිංහල (Sinhala)</option>
+      </select>
+    );
+  };
 
   return (
     <nav className="public-navbar">
       <div className="nav-container">
         <Link to="/" className="navbar-logo">
           {logo ? (
-            <img src={logo} alt="Logo" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+            <img 
+              src={logo} 
+              alt="Logo" 
+              className="navbar-logo-img" 
+              onError={() => setLogo(null)}
+            />
           ) : (
             <BookOpen className="logo-icon" />
           )}
@@ -88,8 +87,8 @@ const Navbar: React.FC = () => {
         </Link>
 
         {/* Desktop Links */}
-        <div className="nav-links-desktop" style={{ display: 'flex', alignItems: 'center' }}>
-          {navLinks.map((link) => (
+        <div className="nav-links-desktop">
+          {primaryLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
@@ -99,31 +98,33 @@ const Navbar: React.FC = () => {
             </Link>
           ))}
           {user ? (
-            <Link to="/dashboard" className="btn btn-primary btn-sm nav-btn" style={{ marginLeft: '10px' }}>
+            <Link to="/dashboard" className="btn btn-primary btn-sm nav-btn">
               <User size={14} /> {t('nav.dashboard')}
             </Link>
           ) : (
-            <Link to="/login" className="btn btn-outline btn-sm nav-btn" style={{ marginLeft: '10px' }}>
+            <Link to="/login" className="btn btn-outline btn-sm nav-btn">
               {t('nav.portal_login')}
             </Link>
           )}
-          {renderLanguageSelector({ marginLeft: '10px', marginRight: '10px' })}
+          {renderLanguageSelector()}
           <button 
             onClick={toggleTheme} 
-            className="btn btn-outline btn-sm"
-            style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            className="btn btn-outline btn-sm btn-theme-toggle-desktop"
             title="Toggle Light/Dark Theme"
           >
             {isLightTheme ? <Sun size={14} /> : <Moon size={14} />}
           </button>
+          <button onClick={toggleMenu} className="nav-toggle-desktop" aria-label="Toggle menu">
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
 
         {/* Mobile Actions Container */}
-        <div className="mobile-actions-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {renderLanguageSelector({ padding: '4px 6px', fontSize: '12px' })}
+        <div className="mobile-actions-container">
+          {renderLanguageSelector()}
           <button 
             onClick={toggleTheme} 
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            className="btn-theme-toggle-mobile"
             title="Toggle Light/Dark Theme"
           >
             {isLightTheme ? <Sun size={20} /> : <Moon size={20} />}
@@ -134,10 +135,25 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile/Desktop Drawer */}
       <div className={`nav-drawer-mobile ${isOpen ? 'open' : ''}`}>
         <div className="drawer-links">
-          {navLinks.map((link) => (
+          {/* Main links visible in drawer on mobile, hidden on desktop */}
+          <div className="drawer-main-links-only-mobile">
+            {primaryLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={toggleMenu}
+                className={`drawer-link-item ${isActive(link.path) ? 'active' : ''}`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* Remaining links always visible in the drawer */}
+          {remainingLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}

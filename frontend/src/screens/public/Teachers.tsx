@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import { Mail, GraduationCap, Award, Landmark } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Teacher {
   id: number;
@@ -12,6 +13,7 @@ interface Teacher {
 }
 
 const Teachers: React.FC = () => {
+  const { t } = useTranslation();
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,8 +62,8 @@ const Teachers: React.FC = () => {
     <div className="public-subpage teachers-page">
       <header className="page-header">
         <div className="header-container">
-          <h1>Faculty & Scholars</h1>
-          <p>Learn from internationally recognized scholars holding authentic academic lineages</p>
+          <h1>{t('teachers.title')}</h1>
+          <p>{t('teachers.subtitle')}</p>
         </div>
       </header>
 
@@ -70,7 +72,7 @@ const Teachers: React.FC = () => {
           {loading ? (
             <div className="spinner-center">
               <div className="spinner"></div>
-              <p>Loading faculty directory...</p>
+              <p>{t('teachers.loading')}</p>
             </div>
           ) : (
             <div className="teachers-grid">
@@ -80,25 +82,25 @@ const Teachers: React.FC = () => {
                     <GraduationCap className="avatar-icon" />
                   </div>
                   <div className="teacher-card-body">
-                    <h3>{teacher.name}</h3>
+                    <h3>{t(`teachers.t${teacher.id}_name`) || teacher.name}</h3>
                     <span className="teacher-designation-badge">
-                      <Award size={13} /> {teacher.designation}
+                      <Award size={13} /> {t(`teachers.t${teacher.id}_desig`) || teacher.designation}
                     </span>
                     
                     <div className="teacher-meta-items">
                       <div className="meta-item">
                         <Landmark size={14} className="meta-icon" />
-                        <span>{teacher.department}</span>
+                        <span>{t(`teachers.t${teacher.id}_dept`) || teacher.department}</span>
                       </div>
                       <div className="meta-item">
                         <GraduationCap size={14} className="meta-icon" />
-                        <span>Specialization: <strong>{teacher.specialization}</strong></span>
+                        <span>{t('teachers.spec_label')} <strong>{t(`teachers.t${teacher.id}_spec`) || teacher.specialization}</strong></span>
                       </div>
                     </div>
                   </div>
                   <div className="teacher-card-footer">
                     <a href={`mailto:${teacher.email}`} className="btn-link flex-center">
-                      <Mail size={14} style={{ marginRight: '6px' }} /> Contact Professor
+                      <Mail size={14} style={{ marginRight: '6px' }} /> {t('teachers.contact_prof')}
                     </a>
                   </div>
                 </div>
