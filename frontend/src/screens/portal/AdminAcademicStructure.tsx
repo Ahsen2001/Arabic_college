@@ -423,16 +423,16 @@ const AdminAcademicStructure: React.FC = () => {
                 {activeSubTab === 'depts' && (
                   <>
                     <div className="input-group">
-                      <label>Department Code</label>
-                      <input type="text" placeholder="e.g. SHAR" value={dCode} onChange={(e) => setDCode(e.target.value)} required />
+                      <label htmlFor="dept-code">Department Code</label>
+                      <input id="dept-code" type="text" placeholder="e.g. SHAR" value={dCode} onChange={(e) => setDCode(e.target.value)} required />
                     </div>
                     <div className="input-group">
-                      <label>English Name</label>
-                      <input type="text" placeholder="e.g. Sharia Science" value={dNameEn} onChange={(e) => setDNameEn(e.target.value)} required />
+                      <label htmlFor="dept-name-en">English Name</label>
+                      <input id="dept-name-en" type="text" placeholder="e.g. Sharia Science" value={dNameEn} onChange={(e) => setDNameEn(e.target.value)} required />
                     </div>
                     <div className="input-group">
-                      <label>Arabic Name</label>
-                      <input type="text" placeholder="e.g. قسم الشريعة" value={dNameAr} onChange={(e) => setDNameAr(e.target.value)} required style={{ textAlign: 'right', direction: 'rtl', fontFamily: 'amiri, serif' }} />
+                      <label htmlFor="dept-name-ar">Arabic Name</label>
+                      <input id="dept-name-ar" type="text" placeholder="e.g. قسم الشريعة" value={dNameAr} onChange={(e) => setDNameAr(e.target.value)} required style={{ textAlign: 'right', direction: 'rtl', fontFamily: 'amiri, serif' }} />
                     </div>
                   </>
                 )}
@@ -442,34 +442,39 @@ const AdminAcademicStructure: React.FC = () => {
                   <>
                     <div className="grid-2">
                       <div className="input-group">
-                        <label>Department</label>
-                        <select value={pDeptId} onChange={(e) => setPDeptId(parseInt(e.target.value))}>
+                        <label htmlFor="program-dept-select">Department</label>
+                        <select
+                          id="program-dept-select"
+                          title="Department"
+                          value={pDeptId}
+                          onChange={(e) => setPDeptId(parseInt(e.target.value))}
+                        >
                           {depts.map((d) => (
                             <option key={d.id} value={d.id}>{d.name_en}</option>
                           ))}
                         </select>
                       </div>
                       <div className="input-group">
-                        <label>Program Code</label>
-                        <input type="text" placeholder="e.g. BSHAR" value={pCode} onChange={(e) => setPCode(e.target.value)} required />
+                        <label htmlFor="program-code">Program Code</label>
+                        <input id="program-code" type="text" placeholder="e.g. BSHAR" value={pCode} onChange={(e) => setPCode(e.target.value)} required />
                       </div>
                     </div>
                     <div className="input-group">
-                      <label>English Name</label>
-                      <input type="text" placeholder="e.g. Bachelor in Sharia Studies" value={pNameEn} onChange={(e) => setPNameEn(e.target.value)} required />
+                      <label htmlFor="program-name-en">English Name</label>
+                      <input id="program-name-en" type="text" placeholder="e.g. Bachelor in Sharia Studies" value={pNameEn} onChange={(e) => setPNameEn(e.target.value)} required />
                     </div>
                     <div className="input-group">
-                      <label>Arabic Name</label>
-                      <input type="text" placeholder="e.g. بكالوريوس الشريعة" value={pNameAr} onChange={(e) => setPNameAr(e.target.value)} required style={{ textAlign: 'right', direction: 'rtl', fontFamily: 'amiri, serif' }} />
+                      <label htmlFor="program-name-ar">Arabic Name</label>
+                      <input id="program-name-ar" type="text" placeholder="e.g. بكالوريوس الشريعة" value={pNameAr} onChange={(e) => setPNameAr(e.target.value)} required style={{ textAlign: 'right', direction: 'rtl', fontFamily: 'amiri, serif' }} />
                     </div>
                     <div className="grid-2">
                       <div className="input-group">
-                        <label>Duration (Years)</label>
-                        <input type="number" value={pDuration} onChange={(e) => setPDuration(parseInt(e.target.value) || 4)} required />
+                        <label htmlFor="program-duration">Duration (Years)</label>
+                        <input id="program-duration" type="number" placeholder="4" value={pDuration} onChange={(e) => setPDuration(parseInt(e.target.value) || 4)} required />
                       </div>
                       <div className="input-group">
-                        <label>Total Credits Required</label>
-                        <input type="number" value={pCredits} onChange={(e) => setPCredits(parseInt(e.target.value) || 120)} required />
+                        <label htmlFor="program-credits">Total Credits Required</label>
+                        <input id="program-credits" type="number" placeholder="120" value={pCredits} onChange={(e) => setPCredits(parseInt(e.target.value) || 120)} required />
                       </div>
                     </div>
                   </>
@@ -479,23 +484,23 @@ const AdminAcademicStructure: React.FC = () => {
                 {activeSubTab === 'years' && (
                   <>
                     <div className="input-group">
-                      <label>Academic Year Term</label>
-                      <input type="text" placeholder="e.g. 2026/2027" value={yName} onChange={(e) => setYName(e.target.value)} required />
+                      <label htmlFor="year-name">Academic Year Term</label>
+                      <input id="year-name" type="text" placeholder="e.g. 2026/2027" value={yName} onChange={(e) => setYName(e.target.value)} required />
                     </div>
                     <div className="grid-2">
                       <div className="input-group">
-                        <label>Start Date</label>
-                        <input type="date" value={yStart} onChange={(e) => setYStart(e.target.value)} required />
+                        <label htmlFor="year-start">Start Date</label>
+                        <input id="year-start" type="date" placeholder="YYYY-MM-DD" value={yStart} onChange={(e) => setYStart(e.target.value)} required />
                       </div>
                       <div className="input-group">
-                        <label>End Date</label>
-                        <input type="date" value={yEnd} onChange={(e) => setYEnd(e.target.value)} required />
+                        <label htmlFor="year-end">End Date</label>
+                        <input id="year-end" type="date" placeholder="YYYY-MM-DD" value={yEnd} onChange={(e) => setYEnd(e.target.value)} required />
                       </div>
                     </div>
                     <div className="row-spaced" style={{ marginTop: '10px' }}>
-                      <label className="checkbox-container">
+                      <label htmlFor="year-active" className="checkbox-container">
                         Set as Active College Calendar
-                        <input type="checkbox" checked={yActive} onChange={(e) => setYActive(e.target.checked)} />
+                        <input id="year-active" type="checkbox" checked={yActive} onChange={(e) => setYActive(e.target.checked)} />
                         <span className="checkmark"></span>
                       </label>
                     </div>
@@ -507,36 +512,41 @@ const AdminAcademicStructure: React.FC = () => {
                   <>
                     <div className="grid-2">
                       <div className="input-group">
-                        <label>Academic Year</label>
-                        <select value={sYearId} onChange={(e) => setSYearId(parseInt(e.target.value))}>
+                        <label htmlFor="semester-year-select">Academic Year</label>
+                        <select
+                          id="semester-year-select"
+                          title="Academic Year"
+                          value={sYearId}
+                          onChange={(e) => setSYearId(parseInt(e.target.value))}
+                        >
                           {years.map((y) => (
                             <option key={y.id} value={y.id}>{y.name}</option>
                           ))}
                         </select>
                       </div>
                       <div className="input-group">
-                        <label>Semester Code</label>
-                        <input type="text" placeholder="e.g. 2026-S1" value={sCode} onChange={(e) => setSCode(e.target.value)} required />
+                        <label htmlFor="semester-code">Semester Code</label>
+                        <input id="semester-code" type="text" placeholder="e.g. 2026-S1" value={sCode} onChange={(e) => setSCode(e.target.value)} required />
                       </div>
                     </div>
                     <div className="input-group">
-                      <label>Semester Name</label>
-                      <input type="text" placeholder="e.g. Semester 1" value={sName} onChange={(e) => setSName(e.target.value)} required />
+                      <label htmlFor="semester-name">Semester Name</label>
+                      <input id="semester-name" type="text" placeholder="e.g. Semester 1" value={sName} onChange={(e) => setSName(e.target.value)} required />
                     </div>
                     <div className="grid-2">
                       <div className="input-group">
-                        <label>Start Date</label>
-                        <input type="date" value={sStart} onChange={(e) => setSStart(e.target.value)} required />
+                        <label htmlFor="semester-start">Start Date</label>
+                        <input id="semester-start" type="date" placeholder="YYYY-MM-DD" value={sStart} onChange={(e) => setSStart(e.target.value)} required />
                       </div>
                       <div className="input-group">
-                        <label>End Date</label>
-                        <input type="date" value={sEnd} onChange={(e) => setSEnd(e.target.value)} required />
+                        <label htmlFor="semester-end">End Date</label>
+                        <input id="semester-end" type="date" placeholder="YYYY-MM-DD" value={sEnd} onChange={(e) => setSEnd(e.target.value)} required />
                       </div>
                     </div>
                     <div className="row-spaced" style={{ marginTop: '10px' }}>
-                      <label className="checkbox-container">
+                      <label htmlFor="semester-active" className="checkbox-container">
                         Set as Active Current Semester
-                        <input type="checkbox" checked={sActive} onChange={(e) => setSActive(e.target.checked)} />
+                        <input id="semester-active" type="checkbox" checked={sActive} onChange={(e) => setSActive(e.target.checked)} />
                         <span className="checkmark"></span>
                       </label>
                     </div>
