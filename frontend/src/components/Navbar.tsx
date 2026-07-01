@@ -18,17 +18,27 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    api.get('/public/cms').then(res => {
-      const data = res.data.data;
-      if (data.college_logo) {
-        setLogo(data.college_logo.startsWith('http') ? data.college_logo : `http://localhost:8000${data.college_logo}`);
-      }
-      if (data.college_abbreviation) {
-        setAbbreviation(data.college_abbreviation);
-      }
-    }).catch(err => {
-      console.error('Navbar failed to load branding:', err);
-    });
+    const fetchBranding = () => {
+      api.get('/public/cms').then(res => {
+        const data = res.data.data;
+        if (data.college_logo) {
+          setLogo(data.college_logo.startsWith('http') ? data.college_logo : `http://localhost:8000${data.college_logo}`);
+        } else {
+          setLogo(null);
+        }
+        if (data.college_abbreviation) {
+          setAbbreviation(data.college_abbreviation);
+        }
+      }).catch(err => {
+        console.error('Navbar failed to load branding:', err);
+      });
+    };
+
+    fetchBranding();
+    window.addEventListener('branding-updated', fetchBranding);
+    return () => {
+      window.removeEventListener('branding-updated', fetchBranding);
+    };
   }, []);
 
   const primaryLinks = [

@@ -155,8 +155,8 @@ const SystemSettings: React.FC = () => {
       const ay = (r.data.academic_years || []).find((y: AcademicYear) => y.is_active);
       if (ay) {
         setActiveYear(ay.id.toString());
-        setAyStart(ay.start_date || '');
-        setAyEnd(ay.end_date || '');
+        setAyStart(ay.start_date ? ay.start_date.substring(0, 10) : '');
+        setAyEnd(ay.end_date ? ay.end_date.substring(0, 10) : '');
       }
     } catch { toast.error('Failed to load settings.'); }
     finally { setLoading(false); }
@@ -184,7 +184,9 @@ const SystemSettings: React.FC = () => {
         academic_year_start_date: ayStart || null,
         academic_year_end_date: ayEnd || null,
       });
-      toast.success('Settings saved!', { id: tid }); load();
+      toast.success('Settings saved!', { id: tid });
+      window.dispatchEvent(new Event('branding-updated'));
+      load();
     } catch { toast.error('Save failed.', { id: tid }); }
     finally { setSaving(false); }
   };
@@ -195,7 +197,9 @@ const SystemSettings: React.FC = () => {
     setLogoLoading(true); const tid = toast.loading('Uploading...');
     try {
       const r = await api.post('/admin/settings/logo', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-      upd('college_logo', r.data.logo_url); toast.success('Logo updated!', { id: tid });
+      upd('college_logo', r.data.logo_url);
+      toast.success('Logo updated!', { id: tid });
+      window.dispatchEvent(new Event('branding-updated'));
     } catch { toast.error('Upload failed. Max 4MB.', { id: tid }); }
     finally { setLogoLoading(false); }
   };
@@ -334,7 +338,7 @@ const SystemSettings: React.FC = () => {
               <SecHead icon={Info} title="College Identity & Branding" desc="Core information displayed on documents, certificates, and the public website" />
               <div style={{ background: 'rgba(99,102,241,.06)', border: '1.5px dashed rgba(99,102,241,.3)', borderRadius: 14, padding: 24, display: 'flex', alignItems: 'center', gap: 24, marginBottom: 28 }}>
                 <div style={{ width: 96, height: 96, borderRadius: 16, background: 'rgba(15,23,42,.8)', border: '1px solid rgba(99,102,241,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
-                  {s.college_logo ? <img src={s.college_logo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <BookOpen size={36} style={{ color: 'rgba(99,102,241,.5)' }} />}
+                  {s.college_logo ? <img src={s.college_logo.startsWith('http') ? s.college_logo : `http://localhost:8000${s.college_logo}`} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <BookOpen size={36} style={{ color: 'rgba(99,102,241,.5)' }} />}
                 </div>
                 <div>
                   <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>Institution Logo</p>
@@ -404,8 +408,8 @@ const SystemSettings: React.FC = () => {
                 setActiveYear(targetId);
                 const yr = years.find(y => y.id.toString() === targetId);
                 if (yr) {
-                  setAyStart(yr.start_date || '');
-                  setAyEnd(yr.end_date || '');
+                  setAyStart(yr.start_date ? yr.start_date.substring(0, 10) : '');
+                  setAyEnd(yr.end_date ? yr.end_date.substring(0, 10) : '');
                 }
               }} required>
                 <option value="">Select Active Year</option>
@@ -619,7 +623,7 @@ const SystemSettings: React.FC = () => {
                 <Database size={16} style={{ color: '#818cf8', flexShrink: 0, marginTop: 2 }} />
                 <p style={{ fontSize: 13, color: '#a5b4fc', margin: 0, lineHeight: 1.6 }}>Backups include all table data — students, Spatie roles, research, academic structure, finance, and settings — compiled into a queryable SQL archive.</p>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 24 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 24 }}>
                 {[
                   { label: 'Total Backups', val: backups.length, color: '#818cf8' },
                   { label: 'Successful', val: backups.filter(b => b.backup_status_id === 1).length, color: '#34d399' },
@@ -638,25 +642,25 @@ const SystemSettings: React.FC = () => {
                   <p style={{ color: 'var(--text-secondary)', fontSize: 12 }}>Click Create New Backup to generate your first archive</p>
                 </div>
               ) : (
-                <div style={{ borderRadius: 12, overflowX: 'auto', border: '1px solid var(--border-glass)' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <div style={{ borderRadius: 12, overflowX: 'auto', border: '1px solid var(--border-glass)', width: '100%' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '850px' }}>
                     <thead>
                       <tr style={{ background: 'rgba(99,102,241,.1)', borderBottom: '1px solid rgba(255,255,255,.08)' }}>
                         {['Created', 'File Name', 'Size', 'Status', 'Initiator', 'Actions'].map(h => (
-                          <th key={h} style={{ padding: '12px 16px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#a5b4fc', textAlign: h === 'Actions' ? 'right' : 'left' }}>{h}</th>
+                          <th key={h} style={{ padding: '12px 16px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#a5b4fc', textAlign: h === 'Actions' ? 'right' : 'left', verticalAlign: 'middle' }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {backups.map((b, i) => (
                         <tr key={b.id} style={{ borderBottom: '1px solid rgba(255,255,255,.04)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,.015)' }}>
-                          <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>{new Date(b.created_at).toLocaleString()}</td>
-                          <td style={{ padding: '14px 16px', fontFamily: 'monospace', fontSize: 12, color: '#a5b4fc', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{b.file_name}</td>
-                          <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>{(b.file_size_bytes / 1024).toFixed(2)} KB</td>
-                          <td style={{ padding: '14px 16px' }}>{statusBadge(b.backup_status_id)}</td>
-                          <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-secondary)' }}>{b.initiator?.name || 'System'}</td>
-                          <td style={{ padding: '14px 16px' }}>
-                            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                          <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-secondary)', whiteSpace: 'nowrap', verticalAlign: 'middle' }}>{new Date(b.created_at).toLocaleString()}</td>
+                          <td style={{ padding: '14px 16px', fontFamily: 'monospace', fontSize: 12, color: '#a5b4fc', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', verticalAlign: 'middle' }}>{b.file_name}</td>
+                          <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-secondary)', whiteSpace: 'nowrap', verticalAlign: 'middle' }}>{(b.file_size_bytes / 1024).toFixed(2)} KB</td>
+                          <td style={{ padding: '14px 16px', verticalAlign: 'middle' }}>{statusBadge(b.backup_status_id)}</td>
+                          <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-secondary)', verticalAlign: 'middle' }}>{b.initiator?.name || 'System'}</td>
+                          <td style={{ padding: '14px 16px', verticalAlign: 'middle', textAlign: 'right' }}>
+                            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', alignItems: 'center' }}>
                               <button type="button" onClick={() => dlBackup(b.id, b.file_name)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', background: 'rgba(99,102,241,.1)', border: '1px solid rgba(99,102,241,.3)', borderRadius: 7, color: '#a5b4fc', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>
                                 <Download size={11} />Download
                               </button>

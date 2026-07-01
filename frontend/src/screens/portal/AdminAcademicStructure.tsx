@@ -145,15 +145,15 @@ const AdminAcademicStructure: React.FC = () => {
       setPCredits(item.total_credits);
     } else if (activeSubTab === 'years') {
       setYName(item.name);
-      setYStart(item.start_date);
-      setYEnd(item.end_date);
+      setYStart(item.start_date ? item.start_date.substring(0, 10) : '');
+      setYEnd(item.end_date ? item.end_date.substring(0, 10) : '');
       setYActive(item.is_active);
     } else if (activeSubTab === 'semesters') {
       setSYearId(item.academic_year_id);
       setSName(item.name);
       setSCode(item.code);
-      setSStart(item.start_date);
-      setSEnd(item.end_date);
+      setSStart(item.start_date ? item.start_date.substring(0, 10) : '');
+      setSEnd(item.end_date ? item.end_date.substring(0, 10) : '');
       setSActive(item.is_active);
     }
   };

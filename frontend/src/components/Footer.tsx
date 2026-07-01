@@ -14,25 +14,35 @@ const Footer: React.FC = () => {
   });
 
   useEffect(() => {
-    api.get('/public/cms').then(res => {
-      const data = res.data.data;
-      if (data.college_logo) {
-        setLogo(data.college_logo.startsWith('http') ? data.college_logo : `http://localhost:8000${data.college_logo}`);
-      }
-      if (data.college_name) {
-        setBrandName(data.college_name);
-      }
-      if (data.cms_footer_desc) {
-        setDesc(data.cms_footer_desc);
-      }
-      setContact({
-        address: data.college_address || 'Ibnu Abbas Arabic College, Galle, Sri Lanka',
-        email: data.college_email || 'info@arabiccollege.edu',
-        phone: data.college_phone || '+94 75460 3008',
+    const fetchBranding = () => {
+      api.get('/public/cms').then(res => {
+        const data = res.data.data;
+        if (data.college_logo) {
+          setLogo(data.college_logo.startsWith('http') ? data.college_logo : `http://localhost:8000${data.college_logo}`);
+        } else {
+          setLogo(null);
+        }
+        if (data.college_name) {
+          setBrandName(data.college_name);
+        }
+        if (data.cms_footer_desc) {
+          setDesc(data.cms_footer_desc);
+        }
+        setContact({
+          address: data.college_address || 'Ibnu Abbas Arabic College, Galle, Sri Lanka',
+          email: data.college_email || 'info@arabiccollege.edu',
+          phone: data.college_phone || '+94 75460 3008',
+        });
+      }).catch(err => {
+        console.error('Footer failed to load branding:', err);
       });
-    }).catch(err => {
-      console.error('Footer failed to load branding:', err);
-    });
+    };
+
+    fetchBranding();
+    window.addEventListener('branding-updated', fetchBranding);
+    return () => {
+      window.removeEventListener('branding-updated', fetchBranding);
+    };
   }, []);
 
   return (
